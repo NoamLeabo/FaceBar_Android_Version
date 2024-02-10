@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:baselineAligned="false"
-            android:weightSum="4">
+            android:weightSum="5">
 
 
             <Switch
@@ -111,6 +111,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <Button
+                android:id="@+id/videos_Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/videos_sign"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <Button
                 android:id="@+id/home_Btn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -150,10 +163,124 @@
         <!-- Feed - posts list  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:orientation="vertical">
 
-            <!-- Include the post from another XML post file -->
-            <include layout="@layout/post" />
+            <!-- Top of the post => profile Img + Name + date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <!-- profImg -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/feed_post_profile_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@mipmap/ic_launcher_round" />
+
+                </LinearLayout>
+
+                <!-- Name + date -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Name"
+                        android:textSize="20sp"
+                        />
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="date"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- post's text + img -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="8dp">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:text="sdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdfsdf fsd"/>
+
+                <ImageView
+                    android:paddingRight="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="318dp"
+                    android:src="@mipmap/cake" />
+
+            </LinearLayout>
+
+            <!-- post's bottom line => like + comment + share -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/like_Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/like_sign"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                <Button
+                    android:id="@+id/comment_Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/comment_sign"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                <Button
+                    android:id="@+id/share_Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/share_sign"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            </LinearLayout>
 
         </LinearLayout>
 
