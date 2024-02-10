@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E9F7F8"
+    tools:context=".SubscribeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FaceBar"
+        android:textColor="#4800ff"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:ems="10"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:background="@drawable/input_style"
+            android:layout_marginBottom="10dp"
+            android:hint="First Name"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/lName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textSize="20dp"
+            android:background="@drawable/input_style"
+            android:layout_marginBottom="10dp"
+            android:hint="Last Name"
+            android:inputType="text"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"/>
+
+        <EditText
+            android:id="@+id/match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:background="@drawable/input_style"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:hint="UserName"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:background="@drawable/input_style"
+            android:hint="Password"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:textSize="20dp"
+
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/passwordCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:background="@drawable/input_style"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:hint="Verify Password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:backgroundTint="#4800ff"
+            android:id="@+id/subscribeBtn"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subscribe" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
