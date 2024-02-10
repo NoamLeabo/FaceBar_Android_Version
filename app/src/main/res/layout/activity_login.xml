@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#E9F7F8"
-    tools:context=".SubscribeActivity">
+    tools:context=".LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -30,35 +28,6 @@
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/firstName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:ems="10"
-            android:backgroundTint="@color/white"
-            android:padding="20dp"
-            android:background="@drawable/input_style"
-            android:layout_marginBottom="10dp"
-            android:hint="First Name"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/lName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:textSize="20sp"
-            android:background="@drawable/input_style"
-            android:layout_marginBottom="10dp"
-            android:hint="Last Name"
-            android:inputType="text"
-            android:backgroundTint="@color/white"
-            android:padding="20dp"/>
-
         <EditText
             android:id="@+id/match_parent"
             android:layout_width="match_parent"
@@ -81,33 +50,29 @@
             android:ems="10"
             android:background="@drawable/input_style"
             android:hint="@string/password"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/white"
             android:padding="20dp"
             android:textSize="20sp"
             android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/passwordCheck"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:background="@drawable/input_style"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/white"
-            android:padding="20dp"
-            android:hint="@string/verify_password"
-            android:inputType="textPassword" />
-
         <Button
             android:backgroundTint="#4800ff"
             android:id="@+id/subscribeBtn"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/subscribe" />
+            android:text="@string/log_in" />
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/createAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#C2EEF1"
+        android:text="@string/create_new_account"
+        android:textColor="#2857AA"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
