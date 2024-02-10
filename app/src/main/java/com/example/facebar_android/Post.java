@@ -1,53 +1,60 @@
 package com.example.facebar_android;
 
 public class Post {
-    String author;
-    String date;
-    String postText;
-    int profileImage;
-    int postImg;
 
-    public Post(String author, String postText, String date, int profileImage, int postImg) {
-        this.author = author;
-        this.date = date;
-        this.profileImage = profileImage;
-        this.postImg = postImg;
-        this.postText = postText;
+    private int id;
+    private String author;
+    private String content;
+    private int likes;
+    private int pic;
+
+    public Post() {
+        this.pic = R.drawable.pic1;
     }
 
-    public String getPostText() {
-        return postText;
+    public Post(String author, String content, int pic) {
+        this.author = author;
+        this.content = content;
+        this.pic = pic;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public String getDate() {
-        return date;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public int getProfileImage() {
-        return profileImage;
+    public String getContent() {
+        return content;
     }
 
-    public int getPostImg() {
-        return postImg;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public void select() {
-        author = author + " selected";
+    public int getLikes() {
+        return likes;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
-    public void setPostImg(int postImg) {
-        this.postImg = postImg;
+    public int getPic() {
+        return pic;
     }
 
-    public void setPostText(String postText) {
-        this.postText = postText;
+    public void setPic(int pic) {
+        this.pic = pic;
     }
 }

@@ -40,102 +40,64 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.008" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/search_Btn"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/search_sign"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                android:adjustViewBounds="true"
+                android:src="@drawable/search_sign" />
 
         </LinearLayout>
 
         <!-- Home icons  -->
+
+
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/TOP_START"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:baselineAligned="false"
-            android:weightSum="5">
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal"
+            app:layout_constraintVertical_bias="1.0">
 
-
-            <Switch
-                android:id="@+id/settings_Btn"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-            <Button
-                android:id="@+id/notification_Btn"
+            <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/notifications_sign"
-                android:shadowColor="#BF2C2C"
-                android:textColor="#C82020"
-                android:textColorHighlight="#B12929"
-                android:textColorHint="#C81B1B"
-                android:textColorLink="#9C1E1E"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:rippleColor="#CC1F1F"
-                app:strokeColor="#F32020" />
+                android:clickable="true"
+                android:src="@drawable/night_sign" />
 
-            <Button
-                android:id="@+id/friends_Btn"
+            <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/friends_sign"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                android:clickable="true"
+                android:src="@drawable/notifications_sign" />
 
-            <Button
-                android:id="@+id/videos_Btn"
+            <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/videos_sign"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                android:clickable="true"
+                android:src="@drawable/friends_sign" />
 
-            <Button
-                android:id="@+id/home_Btn"
+            <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/home_sign"
-                android:padding="50dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                android:clickable="true"
+                android:src="@drawable/videos_sign" />
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/home_sign" />
         </LinearLayout>
 
         <!-- "Add post row" => what's on your mind? -->
@@ -199,6 +161,7 @@
                     android:orientation="vertical"
                     android:padding="8dp">
                     <TextView
+                        android:id="@+id/tvAuthor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -223,13 +186,14 @@
                 android:paddingLeft="8dp">
 
                 <TextView
+                    android:id="@+id/tvContent"
                     android:layout_gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:text="sdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdsdfdsfdsf dfsdf sdfdsf sddsf dsfsdd dd ddddd ddddd ddsfdsf sdfsdfsdf fsd"/>
+                    android:textSize="17sp"/>
 
                 <ImageView
+                    android:id="@+id/ivPic"
                     android:paddingRight="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="318dp"
@@ -239,52 +203,38 @@
 
             <!-- post's bottom line => like + comment + share -->
             <LinearLayout
+                android:id="@+id/BOTTOM_END"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="2dp"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                app:layout_constraintVertical_bias="1.0">
 
-                <Button
-                    android:id="@+id/like_Btn"
+                <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/like_sign"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-                <Button
-                    android:id="@+id/comment_Btn"
+                    android:src="@drawable/like_sign"
+                    />
+
+                <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/comment_sign"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-                <Button
-                    android:id="@+id/share_Btn"
+                    android:src="@drawable/comment_sign"
+                    />
+                <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/share_sign"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                    android:src="@drawable/share_sign"
+                    />
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
