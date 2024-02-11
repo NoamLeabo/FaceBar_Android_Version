@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/firstName"
+            android:id="@+id/fName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,7 +60,7 @@
             android:padding="20dp"/>
 
         <EditText
-            android:id="@+id/match_parent"
+            android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -104,14 +104,16 @@
             android:drawableLeft="@drawable/open_camera"
             android:layout_width="wrap_content"
             android:backgroundTint="@color/blue"
-            android:text="Open camera"
+            android:text="@string/open_camera"
+            android:id="@+id/openCameraBtn"
             android:tooltipText="Profile Picture"
             android:layout_height="wrap_content"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose from gallery"
+            android:text="@string/choose_from_gallery"
+            android:id="@+id/galleryBtn"
             android:drawableLeft="@drawable/galler_pic"
             android:backgroundTint="@color/blue"/>
         <Button
@@ -131,7 +133,7 @@
             <ImageView
                 android:layout_gravity="center"
                 android:layout_width="90dp"
-                android:src="@color/black"
+                android:id="@+id/profilePic"
                 android:layout_height="70dp"/>
         </LinearLayout>
 
