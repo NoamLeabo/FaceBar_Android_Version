@@ -16,4 +16,6 @@
     <string name="subscribe">Subscribe</string>
     <string name="log_in">Log in</string>
     <string name="create_new_account">Create New Account</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
 </resources>
