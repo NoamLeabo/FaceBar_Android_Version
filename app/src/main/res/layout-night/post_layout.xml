@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="13dp"
-    android:background="#e7d6d6"
+    android:background="#404040"
     >
 
     <LinearLayout
@@ -104,7 +104,7 @@
 
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:background="#B8A2A2"
+            android:background="#808080"
             android:orientation="horizontal">
 
             <TextView
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/color_button_selector"
-                android:src="@drawable/try_sign"
+                android:src="@drawable/comment_sign"
                 android:layout_margin="10dp"
                 />
 

@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="13dp"
-    android:background="#e7d6d6"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="6dp"
+    android:background="#404040"
     >
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,6 +18,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <!-- Top of the post => profile Img + Name + date -->
+
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
@@ -48,7 +50,6 @@
 
             <!-- Name + date -->
             <LinearLayout
-                android:id="@+id/post_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -64,7 +65,6 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -74,14 +74,18 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvContent"
+
+        <EditText
+            android:id="@+id/tvWrite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="serif"
-            android:text="sdvsv"
+            android:hint="@string/add_post_text"
+            android:inputType="textMultiLine"
+            android:maxLength="100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -89,90 +93,57 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
             app:layout_constraintVertical_bias="0.0" />
 
+        <Button
+            android:id="@+id/add_ivPic_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="20sp"
+            android:layout_marginRight="100dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="serif"
+            android:text="Add Image" />
+
         <ImageView
             android:id="@+id/ivPic"
             android:layout_width="match_parent"
-            android:layout_height="340dp"
+            android:layout_height="350dp"
             android:background="@color/black"
-            android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/BOTTOM_END"
             app:layout_constraintTop_toBottomOf="@+id/tvContent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    </LinearLayout>
 
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="#B8A2A2"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/BOTTOM_END"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.95">
 
-            <TextView
-                android:id="@+id/likes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:fontFamily="serif"
-                android:text="45 likes"
-                android:textSize="20sp" />
+        <ImageButton
+            android:id="@+id/delete_post_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/color_button_selector"
+            android:src="@drawable/delete_post_sign" />
 
-            <TextView
-                android:id="@+id/comments"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:fontFamily="serif"
-                android:text="12 comments"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/BOTTOM_END"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="2dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivPic"
-            app:layout_constraintVertical_bias="1.0">
-
-            <ImageButton
-                android:id="@+id/like_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/like_sign"
-                android:background="@drawable/rounded_button"
-                android:layout_margin="10dp"
-                />
-
-            <ImageButton
-                android:id="@+id/comment_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/color_button_selector"
-                android:src="@drawable/try_sign"
-                android:layout_margin="10dp"
-                />
-
-            <ImageButton
-                android:id="@+id/share_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/color_button_selector"
-                android:layout_margin="10dp"
-                android:src="@drawable/share_sign"
-                />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/post_post_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/color_button_selector"
+            android:src="@drawable/add_post_sign" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

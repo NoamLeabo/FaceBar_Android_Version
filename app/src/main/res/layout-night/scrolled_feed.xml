@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="#e7d6d6"
+            android:background="#404040"
             android:orientation="vertical"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/app_name"
-                    android:textColor="#FF6750A3"
+                    android:textColor="#c0c0c0"
                     android:textSize="40sp"
                     android:textStyle="bold|italic"
                     app:layout_constraintVertical_bias="0.008" />
@@ -96,13 +96,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/color_button_selector"
                         android:hint="What would you like to share?"
+                        android:background="@drawable/color_button_selector"
                         android:textColor="#FFFFFF"
                         android:textColorHighlight="#FFFFFF"
                         android:textColorHint="#FFFFFF"
-                        android:textStyle="bold|italic"
-                        app:strokeColor="#6750A3" />
+                        android:textStyle="bold|italic" />
 
                 </LinearLayout>
 
