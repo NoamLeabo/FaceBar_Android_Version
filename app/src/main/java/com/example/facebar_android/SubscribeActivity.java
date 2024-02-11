@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 public class SubscribeActivity extends AppCompatActivity {
 
+    final int EMPTY=0;
+
      EditText fName,lName,password,userName,passwordCheck;
      Button openCameraBtn,subscribeBtn,galleryBtn;
      ImageView profilePic;
@@ -33,9 +35,8 @@ public class SubscribeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscribe);
 
-
         userName=findViewById(R.id.userName);
-        profilePic=findViewById(R.id.profilePic);
+        profilePic=null;
         fName=findViewById(R.id.fName);
         lName=findViewById(R.id.lName);
         password=findViewById(R.id.password);
@@ -44,6 +45,7 @@ public class SubscribeActivity extends AppCompatActivity {
         subscribeBtn=findViewById(R.id.subscribeBtn);
         galleryBtn=findViewById(R.id.galleryBtn);
         registerResult();
+
         // onclick for opening gallery
         galleryBtn.setOnClickListener(view ->  {
             // launch open gallery
@@ -51,11 +53,40 @@ public class SubscribeActivity extends AppCompatActivity {
             launcher.launch(intent);
         });
 
+        // onclick for opening camera
         openCameraBtn.setOnClickListener(view -> {
             Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             launcher.launch(intent);
         });
+
+        // onclick for subscribing
+        subscribeBtn.setOnClickListener(view -> {
+            if(checkValidInput()) {
+                Toast.makeText(this, "nicee", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+    //chcek if user inputed all fields and they're correct
+    private boolean checkValidInput(){
+        
+        // check if everything is not left empty
+        if(userName.length()==EMPTY || fName.length()==EMPTY || lName.length()==EMPTY || password.length()==EMPTY || passwordCheck.length()==EMPTY) {
+            Toast.makeText(this, "not inputted", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(profilePic==null) {
+            Toast.makeText(this, "no profile picture", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!password.getText().toString().equals(passwordCheck.getText().toString())){
+            Toast.makeText(this, "passwords don't match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    // handling getting the picture to screen
     private void registerResult(){
         launcher=registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -63,6 +94,7 @@ public class SubscribeActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         try {
+                            profilePic=findViewById(R.id.profilePic);
                             // get picture from gallery
                             Uri image=result.getData().getData();
                             profilePic.setImageURI(image);
