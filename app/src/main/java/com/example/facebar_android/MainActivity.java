@@ -23,15 +23,23 @@ public class MainActivity extends AppCompatActivity {
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post("Alice1", "Hello World1", R.drawable.pic1));
-        posts.add(new Post("Alice2", "Hello World2", R.drawable.pic1));
-        posts.add(new Post("Alice3", "Hello World3", R.drawable.pic1));
-        posts.add(new Post("Alice4", "Hello World4", R.drawable.pic1));
-
+        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1Hello World1", R.drawable.pic1));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", R.drawable.pic1));
+        posts.add(new Post("Alice3", "Hello Hello World3  World3 Hello World3Hello World3Hello World3", R.drawable.pic1));
+        posts.add(new Post("Alice4", "Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1));
+        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1Hello World1", R.drawable.pic1));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", R.drawable.pic1));
+        posts.add(new Post("Alice3", "Hello Hello World3  World3 Hello World3Hello World3Hello World3", R.drawable.pic1));
+        posts.add(new Post("Alice4", "Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1));
+        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1Hello World1", R.drawable.pic1));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", R.drawable.pic1));
+        posts.add(new Post("Alice3", "Hello Hello World3  World3 Hello World3Hello World3Hello World3", R.drawable.pic1));
+        posts.add(new Post("Alice4", "Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1));
+        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1Hello World1", R.drawable.pic1));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", R.drawable.pic1));
+        posts.add(new Post("Alice3", "Hello Hello World3  World3 Hello World3Hello World3Hello World3", R.drawable.pic1));
+        posts.add(new Post("Alice4", "Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1));
 
         adapter.setPosts(posts);
     }
-
-
-
 }
