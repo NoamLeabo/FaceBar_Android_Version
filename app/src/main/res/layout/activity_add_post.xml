@@ -102,6 +102,7 @@
             android:layout_marginRight="100dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="serif"
+            android:backgroundTint="@color/body_pressed"
             android:text="Add Image" />
 
         <ImageView

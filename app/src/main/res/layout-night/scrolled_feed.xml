@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:hint="What would you like to share?"
-                        android:background="@drawable/color_button_selector"
+                        android:backgroundTint="@color/body_pressed"
                         android:textColor="#FFFFFF"
                         android:textColorHighlight="#FFFFFF"
                         android:textColorHint="#FFFFFF"

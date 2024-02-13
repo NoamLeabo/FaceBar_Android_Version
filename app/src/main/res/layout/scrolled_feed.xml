@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="#e7d6d6"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/app_name"
-                    android:textColor="#FF6750A3"
+                    android:textColor="#4800ff"
                     android:textSize="40sp"
                     android:textStyle="bold|italic"
                     app:layout_constraintVertical_bias="0.008" />
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/color_button_selector"
+                        android:backgroundTint="@color/body_pressed"
                         android:hint="What would you like to share?"
                         android:textColor="#FFFFFF"
                         android:textColorHighlight="#FFFFFF"
@@ -137,7 +137,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/night_sign" />
+                    android:src="@drawable/post_adder_sign" />
 
                 <ImageButton
                     android:id="@+id/notifications_btn"

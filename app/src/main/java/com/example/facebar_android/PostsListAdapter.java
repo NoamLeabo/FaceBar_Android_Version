@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +29,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         private final ImageButton likeBtn;
         private boolean liked = false;
         private final ImageButton commentBtn;
-
+        private final ImageButton shareBtn;
+        private final TextView tvDate;
+        private final FloatingActionButton editBtn;
+        private final EditText teContent;
+        private boolean editTMode = false;
+        private boolean shareMode = false;
+        private LinearLayout share_feed;
 
 
         private PostViewHolder(View itemView) {
@@ -38,6 +48,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             comments = itemView.findViewById(R.id.comments);
             likeBtn = itemView.findViewById(R.id.like_btn); // Initialize the like button
             commentBtn = itemView.findViewById(R.id.comment_btn);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            editBtn = itemView.findViewById(R.id.editBtn);
+            teContent = itemView.findViewById(R.id.teContent);
+            shareBtn = itemView.findViewById(R.id.share_btn);
+            share_feed = itemView.findViewById(R.id.share_feed);
         }
     }
 
@@ -60,6 +75,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             final Post current = posts.get(position);
             holder.tvAuthor.setText(current.getAuthor());
             holder.tvContent.setText(current.getContent());
+            if (holder.tvDate.getText().equals("date")) {
+                holder.tvDate.setText(MainActivity.getCurrentTime());
+            }
             if (current.getPic() != 0) {
                 holder.ivPic.setImageResource(current.getPic());
                 holder.ivPic.setVisibility(View.VISIBLE); // Show the ImageView if an image is chosen
@@ -67,7 +85,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 holder.ivPic.setVisibility(View.GONE); // Hide the ImageView if no image is chosen
             }
             holder.likes.setText(current.getLikes() + " Likes");
-            holder.comments.setText(current.getNumOfComments() + " Comments");
+            holder.comments.setText(current.getComments().size() + " Comments");
 
             // Set OnClickListener for like button
             holder.likeBtn.setOnClickListener(v -> {
@@ -85,6 +103,23 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     holder.liked = false;
                 }
             });
+            holder.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!holder.editTMode){
+                        holder.teContent.setText(holder.tvContent.getText());
+                        holder.teContent.setVisibility(View.VISIBLE);
+                        holder.tvContent.setVisibility(View.GONE);
+                        holder.editTMode = true;
+                    } else {
+                        holder.tvContent.setText(holder.teContent.getText());
+                        holder.teContent.setVisibility(View.GONE);
+                        holder.tvContent.setVisibility(View.VISIBLE);
+                        holder.editTMode = false;
+                        holder.tvDate.setText(MainActivity.getCurrentTime() + " edited");
+                    }
+                }
+            });
 
             holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,6 +133,19 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     // Pass the ArrayList to the intent
                     intent.putParcelableArrayListExtra("comments", commentsArrayList);
                     v.getContext().startActivity(intent);
+                }
+            });
+
+            holder.shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!holder.shareMode){
+                        holder.share_feed.setVisibility(View.VISIBLE);
+                        holder.shareMode = true;
+                    } else {
+                        holder.share_feed.setVisibility(View.GONE);
+                        holder.shareMode = false;
+                    }
                 }
             });
 

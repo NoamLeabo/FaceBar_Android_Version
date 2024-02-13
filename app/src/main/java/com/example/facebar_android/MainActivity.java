@@ -9,20 +9,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.scrolled_feed);
+    public static String getCurrentTime(){
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        // Get the current date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM", Locale.getDefault());
+        String date = dateFormat.format(calendar.getTime());
 
-        // username
-        String user = "Noam";
-        // current dayTime
+        // Construct the time string
+        String time = String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
+        return time;
+    }
+
+    public String getWelcome(String username) {
         String time;
 
         // Get the current hour of the day
@@ -37,13 +46,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             time = "Good evening";
         }
+        return time + ",  " + username + "!";
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.scrolled_feed);
+
+        // username
+        String username = "Noam";
 
         // we get the RecyclerView
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
 
         // we append the welcome msg
         TextView textView = findViewById(R.id.con_user);
-        textView.append(time + ",  " + user + "!");
+        textView.append(getWelcome(username));
 
         // we create a new adapter for the RecyclerView
         final PostsListAdapter adapter = new PostsListAdapter(this);
@@ -79,18 +97,18 @@ public class MainActivity extends AppCompatActivity {
 
         // we create a new posts list
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1H34g34g 34 g34 3geg dgfe rgergello World1", 0, 244));
+        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1H34g34g 34 g34 3geg dgfe rgergello World1", R.drawable.pic1, 244));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24 ));
-        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic3, 247));
+        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 247));
         posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 32));
-        posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic4, 24));
+        posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
-        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic3, 24));
-        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic5, 24));
+        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 24));
+        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
         posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
-        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic3, 24));
-        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic4, 24));
+        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 24));
+        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
         posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
 
         for (int i = 0; i < posts.size(); i++) {
