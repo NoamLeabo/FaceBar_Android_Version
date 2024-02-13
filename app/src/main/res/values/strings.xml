@@ -20,4 +20,8 @@
     <string name="first_name">First Name</string>
     <string name="open_camera">Open camera</string>
     <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="nameTooltip">One Word only letters</string>
+    <string name="usernTooltip">between 4–16 chars and only: letters, numbers, underscores and hyphens</string>
+    <string name="passwTooltip">at least 8 chars : uppercase letters, lowercase letters and numbers</string>
+    <string name="checkpwTooltip">same as your password</string>
 </resources>
