@@ -27,6 +27,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SubscribeActivity extends AppCompatActivity {
 
@@ -102,7 +104,6 @@ public class SubscribeActivity extends AppCompatActivity {
 
     //check if user inputed all fields and they're correct
     private boolean checkValidInput(){
-        
         // check if everything is not left empty
         if(userName.length()==EMPTY || fName.length()==EMPTY || lName.length()==EMPTY || password.length()==EMPTY || passwordCheck.length()==EMPTY) {
             Toast.makeText(this, "not inputted", Toast.LENGTH_SHORT).show();
@@ -117,6 +118,26 @@ public class SubscribeActivity extends AppCompatActivity {
             return false;
         }
         // finish validations
+        Pattern checkPassword=Pattern.compile( "(^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,}$G)");
+        Pattern checkName=Pattern.compile("(^[a-zA-Z][a-zA-Z\\s]{0,20}[a-zA-Z]$)");
+        Pattern checkUsername=Pattern.compile("^[a-zA-Z0-9_-]{4,16}$");
+        Matcher passw=checkPassword.matcher(password.getText().toString());
+        Matcher usern=checkUsername.matcher(userName.getText().toString());
+        Matcher fname=checkName.matcher(fName.getText().toString());
+        Matcher lname=checkName.matcher(lName.getText().toString());
+
+        if(!lname.matches() || !fname.matches()) {
+            Toast.makeText(this, "\"First And Last Names must contain letters only!\"", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!passw.matches()) {
+            Toast.makeText(this, "Password must contain: at least 8 characters -uppercase letters -lowercase letters -numbers", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!usern.matches()) {
+            Toast.makeText(this, "Username must be between 4 and 16 characters long and contain only: letters -numbers -underscores -hyphens", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 

@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         userName=findViewById(R.id.userName);
         password=findViewById(R.id.password);
         loginBtn=findViewById(R.id.loginBtn);
-        // logging iny
+        // logging in
         loginBtn.setOnClickListener(view -> {
             try {
                 if(userInJson(userName.getText().toString(), password.getText().toString()))
