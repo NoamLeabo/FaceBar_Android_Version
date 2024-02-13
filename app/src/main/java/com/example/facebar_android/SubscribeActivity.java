@@ -20,6 +20,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class SubscribeActivity extends AppCompatActivity {
 
     final int EMPTY=0;
@@ -63,11 +71,36 @@ public class SubscribeActivity extends AppCompatActivity {
         subscribeBtn.setOnClickListener(view -> {
             if(checkValidInput()) {
                 Toast.makeText(this, "nicee", Toast.LENGTH_SHORT).show();
+                // write the user to json file name
+                JSONObject user = new JSONObject();
+                try {
+                    user.put("username", userName.getText().toString());
+                    user.put("password", password.getText().toString());
+                    user.put("profilePic", profilePic);
+                    writeObject(user);
+                } catch (JSONException | IOException e) {
+                    Toast.makeText(this, "problem occurred", Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
+                }
+                Intent intent=new Intent(SubscribeActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
 
     }
-    //chcek if user inputed all fields and they're correct
+    // writing a JSON object to file users
+    private void writeObject(JSONObject user) throws IOException {
+        // Convert JsonObject to String Format
+        String userString = user.toString();
+        // Define the File Path and its Name
+        File file = new File(this.getFilesDir(),"users");
+        FileWriter fileWriter = new FileWriter(file);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write(userString);
+        bufferedWriter.close();
+    }
+
+    //check if user inputed all fields and they're correct
     private boolean checkValidInput(){
         
         // check if everything is not left empty
@@ -83,6 +116,7 @@ public class SubscribeActivity extends AppCompatActivity {
             Toast.makeText(this, "passwords don't match", Toast.LENGTH_SHORT).show();
             return false;
         }
+        // finish validations
         return true;
     }
 
