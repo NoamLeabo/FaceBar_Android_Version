@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">FaceBar_android</string>
+    <string name="app_name">FaceBar</string>
+    <string name="foo">Foo</string>
+    <string name="login_etUsername">Username</string>
+    <string name="login_etPassword">Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="app">app</string>
+    <string name="add_post_text">What\'s on your mind Noam?</string>
 </resources>

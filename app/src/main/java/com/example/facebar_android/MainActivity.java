@@ -1,14 +1,161 @@
 package com.example.facebar_android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
+    public static final int ADD_POST = 222;
+    private PostsListAdapter adapter;
+    private List<Post> posts;
+    public static final int ADD_POST_TEXT_ONLY = 111; // You can choose any integer value
+    private ActiveUser activeUser;
+
+
+    public static String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        // Get the current date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM", Locale.getDefault());
+        String date = dateFormat.format(calendar.getTime());
+
+        // Construct the time string
+        String time = String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
+        return time;
+    }
+
+    public String getWelcome(String username) {
+        String time;
+
+        // Get the current hour of the day
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+
+        // Determine the time of day based on the current hour
+        if (hourOfDay >= 0 && hourOfDay < 12) {
+            time = "Good morning";
+        } else if (hourOfDay >= 12 && hourOfDay < 18) {
+            time = "Good afternoon";
+        } else {
+            time = "Good evening";
+        }
+        return time + ",  " + username + "!";
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.scrolled_feed);
+
+        activeUser = new ActiveUser("Noam", "Leabo", "Noam446", "123456", R.drawable.pic1);
+
+        // we get the RecyclerView
+        RecyclerView lstPosts = findViewById(R.id.lstPosts);
+
+        // we append the welcome msg
+        TextView textView = findViewById(R.id.con_user);
+        textView.append(getWelcome(activeUser.getUsername()));
+
+        // we create a new adapter for the RecyclerView
+        final PostsListAdapter adapter = new PostsListAdapter(this);
+        this.adapter = adapter;
+        lstPosts.setAdapter(adapter);
+        lstPosts.setLayoutManager(new LinearLayoutManager(this));
+
+        Comment c1 = new Comment(activeUser.getUsername(), "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
+        Comment c2 = new Comment(activeUser.getUsername(), "good2sd asd asds asdasdas dasd gdf df");
+        Comment c3 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
+        Comment c4 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
+        Comment c5 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
+        Comment c6 = new Comment(activeUser.getUsername(), "goodsa sadsa dsa dasd asds add3");
+        Comment c7 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
+        Comment c8 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
+        Comment c9 = new Comment(activeUser.getUsername(), "goodsa sadsa dsa dasd asds add3");
+        Comment c10 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
+        Comment c11 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
+        Comment c12 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
+        List<Comment> comments = new ArrayList<>();
+        comments.add(c1);
+        comments.add(c2);
+        comments.add(c3);
+        comments.add(c4);
+        comments.add(c5);
+        comments.add(c6);
+        comments.add(c7);
+        comments.add(c8);
+        comments.add(c9);
+        comments.add(c10);
+        comments.add(c11);
+        comments.add(c12);
+
+        // we create a new posts list
+        posts = new ArrayList<>();
+
+
+        posts.add(new Post(activeUser.getUsername(), "Hello World1Hello World1Hello World1Hello World1H34g34g 34 g34 3geg dgfe rgergello World1", activeUser.getProfileImage(), 244));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", R.drawable.pic5, 24));
+        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 247));
+        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 32));
+        posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", activeUser.getProfileImage(), 24));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
+        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 24));
+        posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", activeUser.getProfileImage(), 24));
+        posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
+        posts.add(new Post(activeUser.getUsername(), "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", activeUser.getProfileImage(), 24));
+        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
+        posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
+
+        for (int i = 0; i < posts.size(); i++) {
+            posts.get(i).setComments(comments);
+        }
+
+        adapter.setPosts(posts);
+
+        Button add_post_btn = findViewById(R.id.add_post_btn);
+
+        add_post_btn.setOnClickListener(v -> {
+            Intent i = new Intent(this, AddPostActivity.class);
+            startActivityForResult(i, ADD_POST_TEXT_ONLY);
+        });
+
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ADD_POST_TEXT_ONLY && data != null) {
+                String content = data.getStringExtra("content");
+                if (content != null && !content.equals("")) {
+                    posts.add(new Post("TRY", content, 0, 0));
+                    adapter.updatePosts();
+                }
+            }
+            if (requestCode == ADD_POST && data != null) {
+                String content = data.getStringExtra("content");
+                if (content != null && !content.equals("")) {
+                    Bitmap newPic = data.getParcelableExtra("newPic");
+                    posts.add(new Post("TRY", content, 0, 0)); // Assuming your Post class doesn't accept a Bitmap directly
+                    adapter.updatePosts();
+                }
+            }
+        }
+    }
+
 }

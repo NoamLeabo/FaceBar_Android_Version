@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="facebar">#e7d6d6</color>
+    <color name="body">#D8C7C7</color>
+    <color name="body_pressed">#AEA1A1</color>
+    <color name="liked">#FF0D49</color>
 </resources>
