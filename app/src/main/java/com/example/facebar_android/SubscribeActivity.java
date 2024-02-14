@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -149,6 +150,11 @@ public class SubscribeActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         try {
                             profilePic=findViewById(R.id.profilePic);
+                            Bundle extras = result.getData().getExtras();
+                            if (extras != null) {
+                                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                                profilePic.setImageBitmap(imageBitmap);
+                            }
                             // get picture from gallery
                             Uri image=result.getData().getData();
                             profilePic.setImageURI(image);
