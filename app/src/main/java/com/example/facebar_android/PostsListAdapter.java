@@ -78,9 +78,17 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             if (holder.tvDate.getText().equals("date")) {
                 holder.tvDate.setText(MainActivity.getCurrentTime());
             }
+            if (current.isLiked()) {
+                holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
+            } else {
+                holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
+            }
             if (current.getPic() != 0) {
                 holder.ivPic.setImageResource(current.getPic());
                 holder.ivPic.setVisibility(View.VISIBLE); // Show the ImageView if an image is chosen
+            } else if (current.getIv() != null) {
+                holder.ivPic.setImageResource(current.getPic());
+                holder.ivPic.setVisibility(View.VISIBLE);
             } else {
                 holder.ivPic.setVisibility(View.GONE); // Hide the ImageView if no image is chosen
             }
@@ -92,18 +100,18 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             // Set OnClickListener for like button
             holder.likeBtn.setOnClickListener(v -> {
-                if (!holder.liked) {
+                if (!current.isLiked()) {
                     // Increase the number of likes by 1
                     current.setLikes(current.getLikes() + 1);
                     // Update the TextView to display the updated number of likes
                     holder.likes.setText(current.getLikes() + " Likes");
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
-                    holder.liked = true;
+                    current.setOppLiked();
                 } else {
                     current.setLikes(current.getLikes() - 1);
                     holder.likes.setText(current.getLikes() + " Likes");
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
-                    holder.liked = false;
+                    current.setOppLiked();
                 }
             });
             holder.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +181,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     public void setPosts(List<Post> s){
         posts = s;
+        notifyDataSetChanged();
+    }
+    public void updatePosts(){
         notifyDataSetChanged();
     }
     @Override

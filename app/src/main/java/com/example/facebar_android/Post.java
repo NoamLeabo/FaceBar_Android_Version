@@ -2,6 +2,7 @@ package com.example.facebar_android;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,19 @@ public class Post implements Parcelable {
     private int likes;
     private int numOfComments = 0;
     private int pic;
+    private ImageView iv;
     private List<Comment> comments;
     private boolean editMode = false;
     private boolean shareMode = false;
+    private boolean liked = false;
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setOppLiked() {
+        this.liked = !liked;
+    }
+
 
     public boolean isEditMode() {
         return editMode;
@@ -49,6 +60,14 @@ public class Post implements Parcelable {
         this.author = author;
         this.content = content;
         this.pic = pic;
+        this.likes = likes;
+        this.comments = new ArrayList<>();
+    }
+
+    public Post(String author, String content, ImageView pic, int likes) {
+        this.author = author;
+        this.content = content;
+        this.iv = pic;
         this.likes = likes;
         this.comments = new ArrayList<>();
     }
@@ -106,6 +125,9 @@ public class Post implements Parcelable {
         dest.writeInt(pic);
     }
 
+    public ImageView getIv() {
+        return iv;
+    }
     // Getters and setters
 
     public int getId() {

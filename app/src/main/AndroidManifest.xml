@@ -16,7 +16,7 @@
             android:name=".CommentsActivity"
             android:exported="false" />
         <activity
-            android:name=".AddPostActivity2"
+            android:name=".AddPostActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

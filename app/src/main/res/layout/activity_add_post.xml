@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="6dp"
-    android:background="@color/white"
+    android:background="@color/facebar"
     >
 
     <LinearLayout
@@ -95,6 +95,7 @@
 
         <Button
             android:id="@+id/add_ivPic_btn"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
@@ -105,10 +106,47 @@
             android:backgroundTint="@color/body_pressed"
             android:text="Add Image" />
 
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/add_ivPic_gallery"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1sp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:backgroundTint="@color/body_pressed"
+                android:text="Add Image from gallery" />
+
+            <Button
+                android:id="@+id/add_ivPic_cam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1sp"
+                android:layout_weight="1"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="serif"
+                android:backgroundTint="@color/body_pressed"
+                android:text="Add Image from camera" />
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/ivPic"
             android:layout_width="match_parent"
             android:layout_height="350dp"
+            android:layout_marginTop="20dp"
             android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/BOTTOM_END"
             app:layout_constraintTop_toBottomOf="@+id/tvContent" />

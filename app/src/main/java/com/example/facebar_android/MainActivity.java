@@ -1,6 +1,7 @@
 package com.example.facebar_android;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,12 +18,14 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static final int ADD_POST = 222;
+    private PostsListAdapter adapter;
     private List<Post> posts;
-    public static final int ADD_POST_REQUEST_CODE = 123; // You can choose any integer value
+    public static final int ADD_POST_TEXT_ONLY = 111; // You can choose any integer value
     private ActiveUser activeUser;
 
 
-    public static String getCurrentTime(){
+    public static String getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return time + ",  " + username + "!";
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         // we create a new adapter for the RecyclerView
         final PostsListAdapter adapter = new PostsListAdapter(this);
+        this.adapter = adapter;
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
@@ -75,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         Comment c2 = new Comment(activeUser.getUsername(), "good2sd asd asds asdasdas dasd gdf df");
         Comment c3 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
         Comment c4 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
-        Comment c5= new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
+        Comment c5 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
         Comment c6 = new Comment(activeUser.getUsername(), "goodsa sadsa dsa dasd asds add3");
         Comment c7 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
         Comment c8 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
@@ -99,8 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
         // we create a new posts list
         posts = new ArrayList<>();
+
+
         posts.add(new Post(activeUser.getUsername(), "Hello World1Hello World1Hello World1Hello World1H34g34g 34 g34 3geg dgfe rgergello World1", activeUser.getProfileImage(), 244));
-        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24 ));
+        posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", R.drawable.pic5, 24));
         posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 247));
         posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 32));
         posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", activeUser.getProfileImage(), 24));
@@ -109,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", activeUser.getProfileImage(), 24));
         posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
-        posts.add(new Post(activeUser.getUsername(), "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3",activeUser.getProfileImage(), 24));
+        posts.add(new Post(activeUser.getUsername(), "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", activeUser.getProfileImage(), 24));
         posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
         posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
 
@@ -122,19 +129,33 @@ public class MainActivity extends AppCompatActivity {
         Button add_post_btn = findViewById(R.id.add_post_btn);
 
         add_post_btn.setOnClickListener(v -> {
-            Intent i = new Intent(this, AddPostActivity2.class);
-            startActivityForResult(i, ADD_POST_REQUEST_CODE);
+            Intent i = new Intent(this, AddPostActivity.class);
+            startActivityForResult(i, ADD_POST_TEXT_ONLY);
         });
 
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_POST_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            String content = data.getStringExtra("content");
-            if (!content.equals(""))
-                posts.add(new Post("TRY", content, 0, 0));
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ADD_POST_TEXT_ONLY && data != null) {
+                String content = data.getStringExtra("content");
+                if (content != null && !content.equals("")) {
+                    posts.add(new Post("TRY", content, 0, 0));
+                    adapter.updatePosts();
+                }
+            }
+            if (requestCode == ADD_POST && data != null) {
+                String content = data.getStringExtra("content");
+                if (content != null && !content.equals("")) {
+                    Bitmap newPic = data.getParcelableExtra("newPic");
+                    posts.add(new Post("TRY", content, 0, 0)); // Assuming your Post class doesn't accept a Bitmap directly
+                    adapter.updatePosts();
+                }
+            }
         }
     }
+
 }
