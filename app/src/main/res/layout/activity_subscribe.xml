@@ -123,7 +123,7 @@
             android:backgroundTint="@color/blue"/>
         <Button
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="#00A400"
             android:id="@+id/subscribeBtn"
             android:textSize="20sp"
             android:layout_width="match_parent"
