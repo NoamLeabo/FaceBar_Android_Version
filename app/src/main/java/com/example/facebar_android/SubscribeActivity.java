@@ -117,7 +117,7 @@ public class SubscribeActivity extends AppCompatActivity {
             return false;
         }
         // finish validations
-        Pattern checkPassword=Pattern.compile( "(^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,}$G)");
+        Pattern checkPassword=Pattern.compile( "(^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$)");
         Pattern checkName=Pattern.compile("(^[a-zA-Z][a-zA-Z\\s]{0,20}[a-zA-Z]$)");
         Pattern checkUsername=Pattern.compile("^[a-zA-Z0-9_-]{4,16}$");
         Matcher passw=checkPassword.matcher(password.getText().toString());

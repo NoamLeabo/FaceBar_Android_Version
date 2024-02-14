@@ -5,11 +5,13 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -25,6 +27,7 @@ import java.io.IOException;
 public class LoginActivity extends AppCompatActivity {
     Button loginBtn, createAccBtn;
     EditText userName, password;
+    ImageView image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         // logging in
         loginBtn.setOnClickListener(view -> {
             try {
-                if(userInJson(userName.getText().toString(), password.getText().toString()))
+                if(userInJson(userName.getText().toString(), password.getText().toString())) {
                     Toast.makeText(this, "yessss", Toast.LENGTH_SHORT).show();
+                }
                 else Toast.makeText(this, "nooooo", Toast.LENGTH_SHORT).show();
             } catch (IOException | JSONException e) {
                 throw new RuntimeException(e);
