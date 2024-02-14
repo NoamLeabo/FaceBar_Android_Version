@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="13dp"
-    android:background="#404040"
+    android:background="#1f1f1f"
     >
 
     <LinearLayout
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/feed_post_profile_img"
+                    android:id="@+id/profile_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"
@@ -47,9 +47,11 @@
             </LinearLayout>
 
             <!-- Name + date -->
+
             <LinearLayout
                 android:id="@+id/post_info"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp">
@@ -70,7 +72,22 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="serif"
                     android:text="date" />
+
             </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginRight="7dp"
+                android:clickable="true"
+                app:backgroundTint="#808080"
+                app:rippleColor="@color/black"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
 
@@ -79,9 +96,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="serif"
+            android:textSize="18sp"
+            android:text="Content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/teContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="serif"
             android:text="sdvsv"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -128,6 +164,76 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/share_feed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:visibility="gone"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal"
+            android:background="#424242"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPic"
+            app:layout_constraintVertical_bias="1.0">
+
+            <ImageButton
+                android:id="@+id/whatsapp_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/mail_sign"
+                android:background="@drawable/rounded_button"
+                android:layout_margin="10dp"
+                />
+
+            <ImageButton
+                android:id="@+id/insta_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@drawable/color_button_selector"
+                android:src="@drawable/bluetooth_sign"
+                android:layout_margin="10dp"
+                />
+
+            <ImageButton
+                android:id="@+id/facebook_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@drawable/color_button_selector"
+                android:src="@drawable/send_sign"
+                android:layout_margin="10dp"
+                />
+
+            <ImageButton
+                android:id="@+id/mail_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@drawable/color_button_selector"
+                android:layout_margin="10dp"
+                android:src="@drawable/mobile_sign"
+                />
+            <ImageButton
+                android:id="@+id/more_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:background="@drawable/color_button_selector"
+                android:src="@drawable/post_adder_sign"
+                android:layout_margin="10dp"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/BOTTOM_END"
@@ -159,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/color_button_selector"
-                android:src="@drawable/comment_sign"
+                android:src="@drawable/try_sign"
                 android:layout_margin="10dp"
                 />
 

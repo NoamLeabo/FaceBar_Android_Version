@@ -15,7 +15,24 @@ public class Post implements Parcelable {
     private int numOfComments = 0;
     private int pic;
     private List<Comment> comments;
+    private boolean editMode = false;
+    private boolean shareMode = false;
 
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void changeEditMode() {
+        this.editMode = !editMode;
+    }
+
+    public boolean isShareMode() {
+        return shareMode;
+    }
+
+    public void setShareMode(boolean shareMode) {
+        this.shareMode = shareMode;
+    }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;

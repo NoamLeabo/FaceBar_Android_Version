@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="6dp"
-    android:background="#404040"
+    android:background="#1f1f1f"
     >
 
     <LinearLayout
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/feed_post_profile_img"
+                    android:id="@+id/profile_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"
@@ -85,7 +85,7 @@
             android:fontFamily="serif"
             android:hint="@string/add_post_text"
             android:inputType="textMultiLine"
-            android:maxLength="100"
+            android:maxLines="4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -98,11 +98,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="10sp"
             android:layout_marginRight="100dp"
             android:layout_marginBottom="8dp"
+            android:backgroundTint="#808080"
             android:fontFamily="serif"
-            android:text="Add Image" />
+            app:rippleColor="@android:color/darker_gray"
+            android:text="Add Image"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/ivPic"
@@ -128,7 +131,7 @@
         app:layout_constraintVertical_bias="0.95">
 
         <ImageButton
-            android:id="@+id/delete_post_btn"
+            android:id="@+id/del_Btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="12dp"

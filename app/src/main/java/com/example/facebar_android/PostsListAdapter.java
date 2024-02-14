@@ -33,8 +33,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         private final TextView tvDate;
         private final FloatingActionButton editBtn;
         private final EditText teContent;
-        private boolean editTMode = false;
-        private boolean shareMode = false;
+        private boolean editTMode;
+        private boolean shareMode;
         private LinearLayout share_feed;
 
 
@@ -87,6 +87,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.likes.setText(current.getLikes() + " Likes");
             holder.comments.setText(current.getComments().size() + " Comments");
 
+            holder.shareMode = false;
+
+
             // Set OnClickListener for like button
             holder.likeBtn.setOnClickListener(v -> {
                 if (!holder.liked) {
@@ -110,12 +113,15 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                         holder.teContent.setText(holder.tvContent.getText());
                         holder.teContent.setVisibility(View.VISIBLE);
                         holder.tvContent.setVisibility(View.GONE);
+                        holder.editBtn.setImageResource(R.drawable.done_sign);
                         holder.editTMode = true;
                     } else {
+                        current.setContent(String.valueOf(holder.teContent.getText()));
                         holder.tvContent.setText(holder.teContent.getText());
                         holder.teContent.setVisibility(View.GONE);
                         holder.tvContent.setVisibility(View.VISIBLE);
                         holder.editTMode = false;
+                        holder.editBtn.setImageResource(android.R.drawable.ic_menu_edit);
                         holder.tvDate.setText(MainActivity.getCurrentTime() + " edited");
                     }
                 }
@@ -148,8 +154,21 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     }
                 }
             });
-
         }
+    }
+    @Override
+    public void onViewRecycled(PostViewHolder holder) {
+        super.onViewRecycled(holder);
+        // Perform cleanup or release resources associated with the view holder
+        
+        holder.teContent.getText().clear();
+        holder.teContent.setVisibility(View.GONE);
+        holder.tvContent.setVisibility(View.VISIBLE);
+        holder.editTMode = false;
+        holder.editBtn.setImageResource(android.R.drawable.ic_menu_edit);
+
+        holder.share_feed.setVisibility(View.GONE);
+        holder.shareMode = false;
     }
 
     public void setPosts(List<Post> s){

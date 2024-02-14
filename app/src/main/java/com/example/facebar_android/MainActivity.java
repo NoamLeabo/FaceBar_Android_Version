@@ -17,6 +17,10 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
+    private List<Post> posts;
+    public static final int ADD_POST_REQUEST_CODE = 123; // You can choose any integer value
+    private ActiveUser activeUser;
+
 
     public static String getCurrentTime(){
         Calendar calendar = Calendar.getInstance();
@@ -53,30 +57,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scrolled_feed);
 
-        // username
-        String username = "Noam";
+        activeUser = new ActiveUser("Noam", "Leabo", "Noam446", "123456", R.drawable.pic1);
 
         // we get the RecyclerView
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
 
         // we append the welcome msg
         TextView textView = findViewById(R.id.con_user);
-        textView.append(getWelcome(username));
+        textView.append(getWelcome(activeUser.getUsername()));
 
         // we create a new adapter for the RecyclerView
         final PostsListAdapter adapter = new PostsListAdapter(this);
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        Comment c1 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
-        Comment c2 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
+        Comment c1 = new Comment(activeUser.getUsername(), "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
+        Comment c2 = new Comment(activeUser.getUsername(), "good2sd asd asds asdasdas dasd gdf df");
         Comment c3 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
         Comment c4 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
         Comment c5= new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
-        Comment c6 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
+        Comment c6 = new Comment(activeUser.getUsername(), "goodsa sadsa dsa dasd asds add3");
         Comment c7 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
         Comment c8 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
-        Comment c9 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
+        Comment c9 = new Comment(activeUser.getUsername(), "goodsa sadsa dsa dasd asds add3");
         Comment c10 = new Comment("Noam1", "goodgf gdfg fdg dfhjfhggfh trhrh rth 1");
         Comment c11 = new Comment("Noam2", "good2sd asd asds asdasdas dasd gdf df");
         Comment c12 = new Comment("Noam3", "goodsa sadsa dsa dasd asds add3");
@@ -94,22 +97,21 @@ public class MainActivity extends AppCompatActivity {
         comments.add(c11);
         comments.add(c12);
 
-
         // we create a new posts list
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post("Alice1", "Hello World1Hello World1Hello World1Hello World1H34g34g 34 g34 3geg dgfe rgergello World1", R.drawable.pic1, 244));
+        posts = new ArrayList<>();
+        posts.add(new Post(activeUser.getUsername(), "Hello World1Hello World1Hello World1Hello World1H34g34g 34 g34 3geg dgfe rgergello World1", activeUser.getProfileImage(), 244));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24 ));
         posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 247));
         posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 32));
-        posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
+        posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", activeUser.getProfileImage(), 24));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
         posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 24));
-        posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
+        posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", activeUser.getProfileImage(), 24));
         posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
         posts.add(new Post("Alice2", "Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2 Hello World2 Hello World2Hello World2Hello World2Hello World2", 0, 24));
-        posts.add(new Post("Alice3", "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3", R.drawable.pic1, 24));
+        posts.add(new Post(activeUser.getUsername(), "Hello Hello World3   World3 World3 World3 World3 World3 World3 v World3 wfew  ht w fwef 3 34t34g4g3g Hello World3Hello World3Hello World3",activeUser.getProfileImage(), 24));
         posts.add(new Post("Alice4", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", R.drawable.pic1, 24));
-        posts.add(new Post("Alice5", " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
+        posts.add(new Post(activeUser.getUsername(), " Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello Hello World4 Hello World4 Hello World4 Hello World4 Hello World4 Hello World4", 0, 24));
 
         for (int i = 0; i < posts.size(); i++) {
             posts.get(i).setComments(comments);
@@ -121,11 +123,18 @@ public class MainActivity extends AppCompatActivity {
 
         add_post_btn.setOnClickListener(v -> {
             Intent i = new Intent(this, AddPostActivity2.class);
-            i.putParcelableArrayListExtra("posts", new ArrayList<>(posts)); // Put list of posts in intent
-            startActivity(i);
-            adapter.setPosts(posts);
+            startActivityForResult(i, ADD_POST_REQUEST_CODE);
         });
 
-    }
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_POST_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            String content = data.getStringExtra("content");
+            if (!content.equals(""))
+                posts.add(new Post("TRY", content, 0, 0));
+        }
+    }
 }

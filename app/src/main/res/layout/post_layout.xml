@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/feed_post_profile_img"
+                    android:id="@+id/profile_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"
@@ -185,6 +185,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:src="@drawable/mail_sign"
                 android:background="@drawable/rounded_button"
                 android:layout_margin="10dp"
@@ -195,6 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:background="@drawable/color_button_selector"
                 android:src="@drawable/bluetooth_sign"
                 android:layout_margin="10dp"
@@ -205,6 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:background="@drawable/color_button_selector"
                 android:src="@drawable/send_sign"
                 android:layout_margin="10dp"
@@ -215,6 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:background="@drawable/color_button_selector"
                 android:layout_margin="10dp"
                 android:src="@drawable/mobile_sign"
@@ -224,6 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:background="@drawable/color_button_selector"
                 android:src="@drawable/post_adder_sign"
                 android:layout_margin="10dp"

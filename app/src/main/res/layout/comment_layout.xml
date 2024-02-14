@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/feed_post_profile_img"
+                    android:id="@+id/profile_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"

@@ -80,12 +80,14 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     holder.teContent.setText(holder.tvContent.getText());
                     holder.teContent.setVisibility(View.VISIBLE);
                     holder.tvContent.setVisibility(View.GONE);
+                    holder.editBtn.setImageResource(R.drawable.done_sign);
                     holder.editTMode = true;
                 } else {
                     holder.tvContent.setText(holder.teContent.getText());
                     holder.teContent.setVisibility(View.GONE);
                     holder.tvContent.setVisibility(View.VISIBLE);
                     holder.editTMode = false;
+                    holder.editBtn.setImageResource(android.R.drawable.ic_menu_edit);
                     holder.tvDate.setText(MainActivity.getCurrentTime() + " edited");
                 }
             });

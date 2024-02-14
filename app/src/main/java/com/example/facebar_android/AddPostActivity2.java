@@ -1,13 +1,12 @@
 package com.example.facebar_android;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddPostActivity2 extends AppCompatActivity {
 
@@ -16,32 +15,36 @@ public class AddPostActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
 
-        Post post = new Post();
+        final String[] content = new String[1];
         EditText editText = findViewById(R.id.tvWrite);
 
-
-        List<Post> posts = getIntent().getParcelableArrayListExtra("posts");
-
-        if (posts == null) {
-            posts = new ArrayList<>();
-        }
-
-
-
         ImageButton post_post_btn = findViewById(R.id.post_post_btn);
+        ImageButton cancel_post_post_btn = findViewById(R.id.del_Btn);
 
-        List<Post> finalPosts = posts;
-        post_post_btn.setOnClickListener(v -> {
-            post.setContent(String.valueOf(editText.getText()));
-            post.setAuthor("Noam");
-            post.setPic(R.drawable.pic3);
-            finalPosts.add(post);
-            returnToOldActivity();
+        post_post_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                content[0] = editText.getText().toString();
+                sendResultBack(content[0]);
+            }
+        });
+
+        cancel_post_post_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
         });
     }
 
     // Method to return to the previous activity
-    private void returnToOldActivity() {
+    private void sendResultBack(String content) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("content", content);
+        setResult(RESULT_OK, resultIntent);
         finish(); // This finishes the current activity and returns to the previous one
+    }
+    private void cancel(){
+        finish();
     }
 }
