@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e7d6d6"
+    tools:context=".SubscribeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/facebar"
+        android:textColor="@color/blue"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/fName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:ems="10"
+            android:tooltipText="@string/nameTooltip"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:background="@drawable/input_style"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/first_name"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/lName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:tooltipText="@string/nameTooltip"
+            android:textSize="20sp"
+            android:background="@drawable/input_style"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/last_name"
+            android:inputType="text"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"/>
+
+        <EditText
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:tooltipText="@string/usernTooltip"
+            android:background="@drawable/input_style"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:hint="@string/username"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:tooltipText="@string/passwTooltip"
+            android:background="@drawable/input_style"
+            android:hint="@string/password"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/white"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/passwordCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:background="@drawable/input_style"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/white"
+            android:tooltipText="@string/checkpwTooltip"
+            android:padding="20dp"
+            android:hint="@string/verify_password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:drawableLeft="@drawable/open_camera"
+            android:layout_width="wrap_content"
+            android:backgroundTint="@color/blue"
+            android:text="@string/open_camera"
+            android:id="@+id/openCameraBtn"
+            android:tooltipText="Profile Picture"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_from_gallery"
+            android:id="@+id/galleryBtn"
+            android:drawableLeft="@drawable/galler_pic"
+            android:backgroundTint="@color/blue"/>
+        <Button
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#00A400"
+            android:id="@+id/subscribeBtn"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/subscribe" />
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="-140dp">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="90dp"
+                android:id="@+id/profilePic"
+                android:layout_height="70dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final int ADD_POST = 222;
@@ -132,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, AddPostActivity.class);
             startActivityForResult(i, ADD_POST_TEXT_ONLY);
         });
-
 
     }
 
