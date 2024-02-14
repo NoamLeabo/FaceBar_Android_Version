@@ -24,4 +24,11 @@
     <string name="usernTooltip">between 4–16 chars and only: letters, numbers, underscores and hyphens</string>
     <string name="passwTooltip">at least 8 chars : uppercase letters, lowercase letters and numbers</string>
     <string name="checkpwTooltip">same as your password</string>
+    <string name="app_name">FaceBar</string>
+    <string name="foo">Foo</string>
+    <string name="login_etUsername">Username</string>
+    <string name="login_etPassword">Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="app">app</string>
+    <string name="add_post_text">What\'s on your mind Noam?</string>
 </resources>
