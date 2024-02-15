@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:context=".Screens.SubscribeActivity">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/facebar"
+        android:textColor="@color/blue"
+        android:fontFamily="serif"
+        android:textSize="60sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/fName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="serif"
+
+            android:layout_weight="1"
+            android:background="@drawable/input_style"
+            android:backgroundTint="#737373"
+            android:ems="10"
+            android:hint="@string/first_name"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:tooltipText="@string/nameTooltip" />
+
+        <EditText
+            android:id="@+id/lName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+
+            android:background="@drawable/input_style"
+            android:backgroundTint="#737373"
+            android:ems="10"
+            android:hint="@string/last_name"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:tooltipText="@string/nameTooltip" />
+
+        <EditText
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+
+            android:background="@drawable/input_style"
+            android:backgroundTint="#737373"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:tooltipText="@string/usernTooltip" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_style"
+            android:backgroundTint="#737373"
+            android:fontFamily="serif"
+
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:tooltipText="@string/passwTooltip" />
+
+        <EditText
+            android:id="@+id/passwordCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_style"
+            android:backgroundTint="#737373"
+            android:ems="10"
+            android:fontFamily="serif"
+
+            android:hint="@string/verify_password"
+            android:inputType="textPassword"
+            android:padding="20dp"
+            android:tooltipText="@string/checkpwTooltip" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/openCameraBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:textColor="@color/white"
+
+                    android:backgroundTint="@color/blue"
+                    android:drawableLeft="@drawable/open_camera"
+                    android:text="@string/open_camera"
+                    android:tooltipText="Profile Picture" />
+
+                <Button
+                    android:id="@+id/galleryBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:textColor="@color/white"
+
+                    android:backgroundTint="@color/blue"
+                    android:drawableLeft="@drawable/galler_pic"
+                    android:text="@string/choose_from_gallery" />
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/ivPic"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/img_border_background"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@+id/BOTTOM_END"
+                app:layout_constraintTop_toBottomOf="@+id/tvContent" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/subscribeBtn"
+            android:layout_width="250dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#363434"
+            android:text="@string/subscribe"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
