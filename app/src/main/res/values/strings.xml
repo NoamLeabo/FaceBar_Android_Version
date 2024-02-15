@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">FaceBar_android</string>
+    <string name="app_name">FaceBar</string>
+    <string name="foo">Foo</string>
+    <string name="login_etUsername">Username</string>
+    <string name="login_etPassword">Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="app">app</string>
+    <string name="add_post_text">What\'s on your mind Mark?</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -11,7 +17,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="facebar">FaceBar</string>
     <string name="password">Password</string>
-    <string name="username">UserName</string>
+    <string name="username">Username</string>
     <string name="verify_password">Verify Password</string>
     <string name="subscribe">Subscribe</string>
     <string name="log_in">Log in</string>
@@ -19,16 +25,21 @@
     <string name="last_name">Last Name</string>
     <string name="first_name">First Name</string>
     <string name="open_camera">Open camera</string>
-    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="choose_from_gallery">Open gallery</string>
     <string name="nameTooltip">One Word only letters</string>
     <string name="usernTooltip">between 4–16 chars and only: letters, numbers, underscores and hyphens</string>
     <string name="passwTooltip">at least 8 chars : uppercase letters, lowercase letters and numbers</string>
     <string name="checkpwTooltip">same as your password</string>
-    <string name="app_name">FaceBar</string>
-    <string name="foo">Foo</string>
-    <string name="login_etUsername">Username</string>
-    <string name="login_etPassword">Password</string>
-    <string name="login_btnLogin">Login</string>
-    <string name="app">app</string>
-    <string name="add_post_text">What\'s on your mind Noam?</string>
+    <string name="add_image_from_camera">Add Image from camera</string>
+    <string name="add_image">Add Image</string>
+    <string name="add_image_from_gallery">Add Image from gallery</string>
+    <string name="mark_z">Mark Z.</string>
+    <string name="name">Name</string>
+    <string name="date">date</string>
+    <string name="content">Content</string>
+    <string name="comments">Comments</string>
+    <string name="share_us_your_thoughts">Tell us what do you think about</string>
+    <string name="_45_likes">45 likes</string>
+    <string name="_12_comments">12 comments</string>
+    <string name="share_you_thoughts">Share your thoughts!</string>
 </resources>

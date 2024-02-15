@@ -42,7 +42,7 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center_horizontal"
-                android:text="Comments"
+                android:text="@string/comments"
                 android:textSize="30sp" />
 
         </LinearLayout>
@@ -55,7 +55,7 @@
 
             <EditText
                 android:id="@+id/newComment"
-                android:hint="Share us your thoughts"
+                android:hint="@string/share_us_your_thoughts"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
