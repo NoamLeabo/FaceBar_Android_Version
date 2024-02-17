@@ -12,24 +12,23 @@ public class Comment implements Parcelable {
     private String date = "date";
 
 
-    // Constructor with parameters
+    // constructor
     public Comment(String author, String content) {
         this.author = author;
         this.content = content;
     }
-
+    // parcel con
+    protected Comment(Parcel in) {
+        id = in.readInt();
+        author = in.readString();
+        content = in.readString();
+    }
     public void setDate(String date) {
         this.date = date;
     }
 
     public String getDate() {
         return date;
-    }
-
-    protected Comment(Parcel in) {
-        id = in.readInt();
-        author = in.readString();
-        content = in.readString();
     }
 
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {

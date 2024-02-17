@@ -23,6 +23,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     private FloatingActionButton btnAdd;
     private EditText newComment;
 
+    // an adapter that put the comment's content into a comment layout
     public CommentListAdapter(Context context, FloatingActionButton addButton, EditText commentEditText) {
         mInflater = LayoutInflater.from(context);
         btnAdd = addButton;
@@ -49,7 +50,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         private ImageView profile;
         private boolean editTMode = false;
 
-
+        // constructor
         private CommentViewHolder(View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
@@ -70,6 +71,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
+        // if the comments ain't null we shall bind them with layouts
+
+        /*attaching all comments fields */
+
         if (comments != null) {
             final Comment current = comments.get(position);
             holder.tvAuthor.setText(current.getAuthor());
@@ -82,6 +87,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                 current.setDate(FeedActivity.getCurrentTime());
             holder.tvDate.setText(current.getDate());
 
+            // switching between edit and notEdit mode
             holder.editBtn.setOnClickListener(v -> {
                 if (!holder.editTMode){
                     holder.teContent.setText(holder.tvContent.getText());
@@ -101,6 +107,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                 }
             });
 
+            // the delete comment btn
             holder.deleteBtn.setOnClickListener(v -> {
                 deleteComment(position);
                 notifyDataSetChanged();

@@ -187,6 +187,7 @@ public class FeedActivity extends AppCompatActivity {
             }
         }
 
+        // setting the posts' images
         for (int i = 0; i < posts.size(); i++) {
             Post post = posts.get(i);
             try {

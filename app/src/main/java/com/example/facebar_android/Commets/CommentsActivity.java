@@ -19,16 +19,17 @@ public class CommentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // we display the comments overall layout
         setContentView(R.layout.comments_page);
 
-        // Retrieve the comments passed from the previous activity
+        // retrieve the comments passed from the previous activity
         this.comments = getIntent().getParcelableArrayListExtra("comments");
         this.position = getIntent().getIntExtra("position",0);
 
-        // Initialize RecyclerView
+        // initialize RecyclerView
         RecyclerView lstComments = findViewById(R.id.lstComments);
 
-        // Set up the adapter
+        // set up the adapter
         FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
         EditText newComment = findViewById(R.id.newComment);
         final CommentListAdapter adapter = new CommentListAdapter(this, btnAdd, newComment);
@@ -51,6 +52,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void sendResult() {
+        // we send the updated comments list back to the feed screen
         Intent resultIntent = new Intent();
         resultIntent.putParcelableArrayListExtra("comments", this.comments);
         resultIntent.putExtra("position", position);

@@ -44,7 +44,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
         private PostViewHolder(View itemView) {
             super(itemView);
-
+            // we attach the fields
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
             tvContent = itemView.findViewById(R.id.tvContent);
             ivPic = itemView.findViewById(R.id.ivPic);
@@ -80,6 +80,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     @Override
     public void onBindViewHolder(PostViewHolder holder, int position) {
         if (posts != null) {
+
+            /* we set all post's content fields*/
+
             final Post current = posts.get(position);
 
             holder.profPic.setImageDrawable(current.getProfPic());
@@ -97,9 +100,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             }
             if (current.isContainsPostPic()) {
                 holder.ivPic.setImageDrawable(current.getPostPic());
-                holder.ivPic.setVisibility(View.VISIBLE); // Show the ImageView if an image is chosen
+                holder.ivPic.setVisibility(View.VISIBLE); // show the ImageView if an image is chosen
             } else {
-                holder.ivPic.setVisibility(View.GONE); // Hide the ImageView if no image is chosen
+                holder.ivPic.setVisibility(View.GONE); // hide the ImageView if no image is chosen
             }
             holder.likes.setText(current.getLikes() + " Likes");
             holder.comments.setText(current.getNumOfComments() + " Comments");
@@ -123,6 +126,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     current.setOppLiked();
                 }
             });
+            // change between the edit and noEdit mode
             holder.editBtn.setOnClickListener(v -> {
                 if (!holder.editTMode){
                     holder.teContent.setText(holder.tvContent.getText());
@@ -143,9 +147,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             });
 
             holder.commentBtn.setOnClickListener(v -> {
-                test(position);
+                // we move to comments page if the btn was clicked
+                moveToComments(position);
             });
-
+            // we display share menu
             holder.shareBtn.setOnClickListener(v -> {
                 if (!holder.shareMode){
                     holder.share_feed.setVisibility(View.VISIBLE);
@@ -155,7 +160,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     holder.shareMode = false;
                 }
             });
-
+            // we delete post and notify so
             holder.deleteBtn.setOnClickListener(v -> {
                 deletePost(position);
                 notifyDataSetChanged();
@@ -163,11 +168,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
 
-    public void test(int position){
+    public void moveToComments(int position){
         Intent intent = new Intent(this.mActivity, CommentsActivity.class);
-        // Get the comments associated with the current post
+        // get the comments associated with the current post
         ArrayList<Comment> postComments = posts.get(position).getComments();
-        // Pass the reference of the original list of comments
+        // pass the reference of the original list of comments
         intent.putExtra("comments", postComments);
         intent.putExtra("position", position);
         mActivity.startActivityForResult(intent, 555);
@@ -181,7 +186,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     @Override
     public void onViewRecycled(PostViewHolder holder) {
         super.onViewRecycled(holder);
-        // Perform cleanup or release resources associated with the view holder
+        // perform cleanup or release resources associated with the view holder
         
         holder.teContent.getText().clear();
         holder.teContent.setVisibility(View.GONE);

@@ -40,7 +40,7 @@ public class AddPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-
+        // retrieving all necessary fields from xml
         final String[] content = new String[1];
         EditText editText = findViewById(R.id.tvWrite);
         RegisterResult();
@@ -50,7 +50,7 @@ public class AddPostActivity extends AppCompatActivity {
         Button addImgGallery = findViewById(R.id.add_ivPic_gallery);
         Button addImgCam = findViewById(R.id.add_ivPic_cam);
         LinearLayout buttons = findViewById(R.id.buttons);
-
+        // setting all btns' listeners
         addImg.setOnClickListener(v -> {
             buttons.setVisibility(View.VISIBLE);
             addImg.setVisibility(View.GONE);
@@ -86,18 +86,19 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     private void RegisterResult() {
+        // the open camera intent
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             try {
                 ImageView pic = findViewById(R.id.ivPic);
                 Bundle extras = result.getData().getExtras();
                 if (extras != null && extras.get("data") != null) {
-                    // Image is captured from camera
+                    // image is captured from camera
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     saveBitMap(imageBitmap);
                     pic.setImageBitmap(imageBitmap);
                     isImage = true;
                 } else {
-                    // Image is selected from gallery
+                    // image is selected from gallery
                     Uri imageUri = result.getData().getData();
                     saveUri(imageUri);
                     isUri = true;
@@ -127,22 +128,26 @@ public class AddPostActivity extends AppCompatActivity {
         this.uri = uri;
     }
 
-    // Method to set the result and finish the activity
+
     private void sendResultBack() {
+        // method that sets the result and finish the activity
         Intent resultIntent = new Intent();
         if (isImage) {
             if (!isUri) {
+                // sends back the results with img by bitmap
                 resultIntent.putExtra("content", this.content);
                 resultIntent.putExtra("newPic", this.bitmap);
                 setResult(ADD_POST_BITMAP, resultIntent);
-                finish(); // Finish the current activity and return to the previous one
+                finish(); // finish the current activity and return to the previous one
             } else {
+                // sends back the results with img by uri
                 resultIntent.putExtra("content", this.content);
                 resultIntent.putExtra("newPic", this.uri);
                 setResult(ADD_POST_URI, resultIntent);
                 finish();
             }
         } else {
+            // sends back the results with no img
             resultIntent.putExtra("content", this.content);
             setResult(ADD_POST_TEXT, resultIntent);
             finish();
@@ -150,6 +155,6 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     private void cancel() {
-        finish(); // Finish the current activity and return to the previous one
+        finish(); // finish the current activity and return to the previous one
     }
 }

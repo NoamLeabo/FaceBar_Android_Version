@@ -24,9 +24,9 @@ public class Post {
     private String path;
     private Drawable postPic;
     private String pathPostPic;
-
     private boolean containsPostPic = false;
 
+    // constructor from json
     public Post(String author, String content, String path, int likes, String pathPostPic) {
         this.author = author;
         this.content = content;
@@ -37,6 +37,7 @@ public class Post {
         postId = Post.id;
         Post.id++;
     }
+    // constructor of a new user's post
     public Post(String author, String content, Drawable drawable, int likes, Context context) {
         this.author = author;
         this.content = content;
@@ -47,6 +48,7 @@ public class Post {
         postId = Post.id;
         Post.id++;
     }
+    // constructor of imageLess post
     public Post(String author, String content, int likes, Context context) {
         this.author = author;
         this.content = content;

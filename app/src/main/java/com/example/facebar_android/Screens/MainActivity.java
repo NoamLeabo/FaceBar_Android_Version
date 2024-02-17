@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        // we connect the xmls' objects
         createAccBtn=findViewById(R.id.createAccount);
         userName = findViewById(R.id.userName);
         password = findViewById(R.id.password);
