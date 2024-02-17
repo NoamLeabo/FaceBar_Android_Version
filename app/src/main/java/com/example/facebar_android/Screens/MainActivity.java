@@ -1,0 +1,51 @@
+package com.example.facebar_android.Screens;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.facebar_android.R;
+
+public class MainActivity extends AppCompatActivity {
+    Button loginBtn, createAccBtn;
+    EditText userName, password;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        // we connect the xmls' objects
+        createAccBtn=findViewById(R.id.createAccount);
+        userName = findViewById(R.id.userName);
+        password = findViewById(R.id.password);
+        loginBtn = findViewById(R.id.loginBtn);
+
+        final String[] curPass = new String[1];
+        final String[] curName = new String[1];
+
+        // logging in
+        loginBtn.setOnClickListener(view -> {
+            curName[0] = userName.getText().toString();
+            curPass[0] = password.getText().toString();
+            if (curName[0].equals("Mark_Z") && curPass[0].equals("123456Mm")) {
+                password.getText().clear();
+                userName.getText().clear();
+                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, FeedActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // create new account => send to subscribe page
+        createAccBtn.setOnClickListener(view -> {
+            Intent intent=new Intent(MainActivity.this, SubscribeActivity.class);
+            startActivity(intent);
+        });
+
+    }
+}
