@@ -64,3 +64,6 @@ Quick basic guide:
 ![תמונה2 (1)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/b3801811-ebb9-4ccf-b1b1-19bdc64f963b)
 
 ![WhatsApp Image 2024-02-22 at 19 26 26 (3)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/940534f9-60ca-4ef2-bd99-b5e45e7bfe0c)
+
+In general, the work was done by all group members. 2 of the members wrote the most of the code (basiclly onw wrote the feed and the other wrote the register and login), but we all
+helped one each other a lot with bugs and coding ideas, including implication of conclusions from writing the Web app.
