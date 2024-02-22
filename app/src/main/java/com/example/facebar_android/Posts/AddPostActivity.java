@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebar_android.R;
+import com.example.facebar_android.Screens.FeedActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +40,12 @@ public class AddPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_post);
+
+        if (FeedActivity.NIGHT_MODE == 0)
+            setContentView(R.layout.activity_add_post);
+        else
+            setContentView(R.layout.activity_add_post_dark);
+
         // retrieving all necessary fields from xml
         final String[] content = new String[1];
         EditText editText = findViewById(R.id.tvWrite);

@@ -40,7 +40,11 @@ public class SubscribeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subscribe);
+
+        if (FeedActivity.NIGHT_MODE == 0)
+            setContentView(R.layout.activity_subscribe);
+        else
+            setContentView(R.layout.activity_subscribe_dark);
 
         userName=findViewById(R.id.userName);
         profilePic=null;

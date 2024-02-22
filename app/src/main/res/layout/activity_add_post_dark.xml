@@ -63,6 +63,7 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:textColor="@color/white"
                     android:id="@+id/tvAuthor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,12 +79,14 @@
 
         <EditText
             android:id="@+id/tvWrite"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="serif"
+            android:textColorHint="@color/white"
             android:hint="@string/add_post_text"
             android:inputType="textMultiLine"
             android:maxLines="4"
@@ -126,7 +129,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:fontFamily="serif"
-                android:backgroundTint="@color/body_pressed"
+                android:backgroundTint="#363434"
                 android:text="Add Image from gallery" />
 
             <Button
@@ -139,7 +142,7 @@
                 android:layout_weight="1"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="serif"
-                android:backgroundTint="@color/body_pressed"
+                android:backgroundTint="#363434"
                 android:text="Add Image from camera" />
 
         </LinearLayout>
@@ -176,7 +179,7 @@
             android:layout_height="match_parent"
             android:layout_margin="12dp"
             android:layout_weight="1"
-            android:background="@drawable/color_button_selector"
+            android:background="@drawable/color_button_selector_dark"
             android:src="@drawable/delete_post_sign" />
 
         <ImageButton
@@ -185,7 +188,7 @@
             android:layout_height="match_parent"
             android:layout_margin="12dp"
             android:layout_weight="1"
-            android:background="@drawable/color_button_selector"
+            android:background="@drawable/color_button_selector_dark"
             android:src="@drawable/add_post_sign" />
     </LinearLayout>
 

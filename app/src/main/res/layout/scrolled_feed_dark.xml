@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/top_border"
+            android:background="@drawable/top_border_dark"
             android:orientation="vertical"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
 
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:src="@drawable/log_out_sign" />
 
                 <ImageButton
@@ -68,7 +68,7 @@
                     android:layout_marginRight="20dp"
                     android:adjustViewBounds="true"
 
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:src="@drawable/search_sign" />
 
             </LinearLayout>
@@ -110,6 +110,7 @@
                         <TextView
 
                             android:id="@+id/con_user"
+                            android:textColor="@color/white"
                             android:textStyle="bold"
                             android:fontFamily="serif"
                             android:layout_width="wrap_content"
@@ -141,7 +142,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:clickable="true"
                     android:src="@drawable/menu" />
 
@@ -166,9 +167,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:clickable="true"
-                    android:src="@drawable/post_adder_sign" />
+                    android:src="@drawable/night_sign" />
 
                 <ImageButton
                     android:id="@+id/notifications_btn"
@@ -176,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:clickable="true"
                     android:src="@drawable/notifications_sign" />
 
@@ -186,7 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:clickable="true"
                     android:src="@drawable/friends_sign" />
 
@@ -196,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:clickable="true"
                     android:src="@drawable/videos_sign" />
 
@@ -206,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button_selector"
+                    android:background="@drawable/color_button_selector_dark"
                     android:clickable="true"
                     android:src="@drawable/home_sign" />
             </LinearLayout>
