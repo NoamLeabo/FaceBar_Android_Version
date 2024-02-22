@@ -47,4 +47,4 @@ Quick basic guide:
     4. Delete post from Feed Page button.
     5. Create a new post button.
    
-![FEED (1)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/75e6201d-5171-451c-bb25-7e99ccf5fdde)
+![FEED (2)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/907e51a6-cc9e-4313-91fc-fdd12b1ea60a)
