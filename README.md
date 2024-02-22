@@ -7,15 +7,17 @@ A few things to keep in mind in order to perfect your experience using FaceBar -
      access to an active account in order to get opinions on the preview version
      of the app. One of these people is Mr. Mark Zuckerberg who definitely has 
      "some" experience in this type of platforms. 
-     In order to enter the application, enter his user information -\n
-     **Username: Mark_Z** \n
+     In order to enter the application, enter his user information -
+     
+     **Username: Mark_Z**
+     
      **Password: 123456Mm**
   
-  2)  In the beta version, our app supports the English language only.
+  3)  In the beta version, our app supports the English language only.
       Using the app on a phone configured in a different language may have
       a bad effect on the app's design and user experience.
 
-  3)  The app is yet to be synchronized with any database therefore any changes 
+  4)  The app is yet to be synchronized with any database therefore any changes 
       that you do will be saved **locally** and will not be saved by rerunning 
       the app logics.
 
