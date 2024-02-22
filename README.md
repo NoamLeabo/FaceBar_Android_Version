@@ -7,8 +7,8 @@ A few things to keep in mind in order to perfect your experience using FaceBar -
      access to an active account in order to get opinions on the preview version
      of the app. One of these people is Mr. Mark Zuckerberg who definitely has 
      "some" experience in this type of platforms. 
-     In order to enter the application, enter his user information -
-     **Username: Mark_Z**
+     In order to enter the application, enter his user information -\n
+     **Username: Mark_Z** \n
      **Password: 123456Mm**
   
   2)  In the beta version, our app supports the English language only.
