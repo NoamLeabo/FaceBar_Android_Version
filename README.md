@@ -59,5 +59,6 @@ Quick basic guide:
 
 6) Dark Mode - In order to enjoy our amazing dark mode simply change to 'Dark Mode' on your phone.
 
-![תמונה2](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/dd604fe1-2d6b-4ee1-ba88-5438db200060)
+![תמונה2 (1)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/b3801811-ebb9-4ccf-b1b1-19bdc64f963b)
+
 ![WhatsApp Image 2024-02-22 at 19 26 26 (3)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/940534f9-60ca-4ef2-bd99-b5e45e7bfe0c)
