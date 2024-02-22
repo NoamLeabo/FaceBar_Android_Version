@@ -31,6 +31,10 @@ We highly recommend running the app on a REAL PHONE so you could enjoy the full
 design experience of the app. If that is not possible, you can run the app on an 
 emulator.
 
+In general, the work was done by all group members. 2 of the members wrote the most of the code (basiclly onw wrote the feed and the other wrote the register and login), but we all
+helped one each other a lot with bugs and coding ideas, including implication of conclusions from writing the Web app. First we connected the login and register screen, then we connected
+them both with the feed page, and magde sure that the entire app functions properly.
+
 Quick basic guide:
 
 1) Login Page - pretty basic, enter the username and password and click log in in order to get to the
@@ -65,5 +69,4 @@ Quick basic guide:
 
 ![WhatsApp Image 2024-02-22 at 19 26 26 (3)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/940534f9-60ca-4ef2-bd99-b5e45e7bfe0c)
 
-In general, the work was done by all group members. 2 of the members wrote the most of the code (basiclly onw wrote the feed and the other wrote the register and login), but we all
-helped one each other a lot with bugs and coding ideas, including implication of conclusions from writing the Web app.
+**ENJOY FACEBAR!**
