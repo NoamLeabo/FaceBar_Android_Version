@@ -34,7 +34,7 @@ Quick basic guide:
 1) Login Page - pretty basic, enter the username and password and click log in in oreder to get to the
    feed page. clicking on the "Create new Account" will send you to the register page.
    
-![WhatsApp Image 2024-02-22 at 19 26 25](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/33ffaeeb-0b52-4dd7-abd1-0bac70001f92)
+![WhatsApp Image 2024-02-22 at 19 26 25](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/33ffaeeb-0b52-4dd7-abd1-0bac70001f92 | hight=100)
 
 2) Register Page - In order to create a new account, fill the field according to the requirements and click on registration.
 
