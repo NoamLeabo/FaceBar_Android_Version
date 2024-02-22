@@ -73,8 +73,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     @Override
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.post_layout, parent, false);
-        return new PostViewHolder(itemView);
+        if (FeedActivity.NIGHT_MODE == 0) {
+            View itemView = mInflater.inflate(R.layout.post_layout, parent, false);
+            return new PostViewHolder(itemView);
+        }
+        else {
+            View itemView = mInflater.inflate(R.layout.post_dark, parent, false);
+            return new PostViewHolder(itemView);
+        }
     }
 
     @Override
@@ -93,10 +99,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 holder.tvDate.setText(FeedActivity.getCurrentTime());
             } else
                 holder.tvDate.setText(current.getDate());
+
             if (current.isLiked()) {
                 holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
             } else {
-                holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
+                if (FeedActivity.NIGHT_MODE == 0)
+                    holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
+                else
+                    holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_dark);
             }
             if (current.isContainsPostPic()) {
                 holder.ivPic.setImageDrawable(current.getPostPic());
@@ -122,7 +132,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 } else {
                     current.setLikes(current.getLikes() - 1);
                     holder.likes.setText(current.getLikes() + " Likes");
-                    holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
+                    if (FeedActivity.NIGHT_MODE == 0)
+                        holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
+                    else
+                        holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_dark);
                     current.setOppLiked();
                 }
             });

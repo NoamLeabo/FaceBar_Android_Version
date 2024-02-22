@@ -45,6 +45,8 @@ public class FeedActivity extends AppCompatActivity {
     public static final int ADD_POST_BITMAP = 222;
     public static final int ADD_POST_URI = 333;
     public static final int ADD_POST_TEXT = 444;
+    public static int NIGHT_MODE = 0;
+
 
 
     private PostsListAdapter adapter;
@@ -77,6 +79,52 @@ public class FeedActivity extends AppCompatActivity {
         // Construct the time string
         return String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
     }
+    private void initializeViews() {
+        activeUser = new ActiveUser("Mark", "Zuckerberg", "Mark Z", "123456", R.drawable.zukiprofile);
+
+        // we get the RecyclerView
+        RecyclerView lstPosts = findViewById(R.id.lstPosts);
+
+        // we append the welcome msg
+        TextView textView = findViewById(R.id.con_user);
+        textView.append(getWelcome(activeUser.getUsername()));
+        ImageButton menuBtn = findViewById(R.id.menu_btn);
+        LinearLayout menu = findViewById(R.id.TOP_START);
+        ImageButton logOutBtn = findViewById(R.id.log_out_btn);
+        ImageButton nightModeBtn = findViewById(R.id.night_mode_btn);
+        ImageView profileImg = findViewById(R.id.profile_img);
+        profileImg.setImageResource(activeUser.getProfileImage());
+        nightModeBtn.setOnClickListener(v -> {
+            // Call method to switch between day mode and night mode
+            switchNightMode();
+        });
+
+        menuBtn.setOnClickListener(v -> {
+            if (menuOpen) {
+                menu.setVisibility(View.GONE);
+                menuOpen = false;
+            } else {
+                menu.setVisibility(View.VISIBLE);
+                menuOpen = true;
+            }
+        });
+        logOutBtn.setOnClickListener(v -> finish());
+
+        // we create a new adapter for the RecyclerView
+        final PostsListAdapter adapter = new PostsListAdapter(this);
+        this.adapter = adapter;
+        lstPosts.setAdapter(adapter);
+        lstPosts.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter.setPosts(posts);
+
+        Button add_post_btn = findViewById(R.id.add_post_btn);
+
+        add_post_btn.setOnClickListener(v -> {
+            Intent i = new Intent(this, AddPostActivity.class);
+            startActivityForResult(i, ADD_POST_TEXT_ONLY);
+        });
+    }
 
     public String getWelcome(String username) {
         String time;
@@ -99,43 +147,17 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scrolled_feed);
+        if (FeedActivity.NIGHT_MODE == 0)
+            setContentView(R.layout.scrolled_feed);
+        else
+            setContentView(R.layout.scrolled_feed_dark);
 
-        activeUser = new ActiveUser("Mark", "Zuckerberg", "Mark Z", "123456", R.drawable.zukiprofile);
+        loadFromJson();
 
-        // we get the RecyclerView
-        RecyclerView lstPosts = findViewById(R.id.lstPosts);
+        initializeViews();
+    }
 
-        // we append the welcome msg
-        TextView textView = findViewById(R.id.con_user);
-        textView.append(getWelcome(activeUser.getUsername()));
-        ImageButton menuBtn = findViewById(R.id.menu_btn);
-        LinearLayout menu = findViewById(R.id.TOP_START);
-        ImageButton logOutBtn = findViewById(R.id.log_out_btn);
-        ImageButton nightModeBtn = findViewById(R.id.night_mode_btn);
-        ImageView profileImg = findViewById(R.id.profile_img);
-        profileImg.setImageResource(activeUser.getProfileImage());
-        nightModeBtn.setOnClickListener(v -> {
-            //turns all xml to their night mode
-        });
-
-        menuBtn.setOnClickListener(v -> {
-            if (menuOpen) {
-                menu.setVisibility(View.GONE);
-                menuOpen = false;
-            } else {
-                menu.setVisibility(View.VISIBLE);
-                menuOpen = true;
-            }
-        });
-        logOutBtn.setOnClickListener(v -> finish());
-
-        // we create a new adapter for the RecyclerView
-        final PostsListAdapter adapter = new PostsListAdapter(this);
-        this.adapter = adapter;
-        lstPosts.setAdapter(adapter);
-        lstPosts.setLayoutManager(new LinearLayoutManager(this));
-
+    private void loadFromJson(){
         Context context = getApplicationContext();
         AssetManager assetManager = context.getAssets();
 
@@ -204,17 +226,24 @@ public class FeedActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
 
-        adapter.setPosts(posts);
-
-        Button add_post_btn = findViewById(R.id.add_post_btn);
-
-        add_post_btn.setOnClickListener(v -> {
-            Intent i = new Intent(this, AddPostActivity.class);
-            startActivityForResult(i, ADD_POST_TEXT_ONLY);
-        });
-
-
+    private void switchNightMode() {
+        // Toggle night mode state or implement logic to switch UI elements
+        // Here you should update the layout of your activity to the night mode version
+        if (NIGHT_MODE == 1) {
+            // Switch to day mode layout
+            setContentView(R.layout.scrolled_feed);
+            NIGHT_MODE = 0;
+            menuOpen = false;
+            initializeViews();
+        } else {
+            // Switch to night mode layout
+            setContentView(R.layout.scrolled_feed_dark);
+            NIGHT_MODE = 1;
+            menuOpen = false;
+            initializeViews();
+        }
     }
 
 
@@ -289,5 +318,23 @@ public class FeedActivity extends AppCompatActivity {
                 // and set the bitmap to an ImageView
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        sendResult();
+    }
+
+    @Override
+    public void finish() {
+        sendResult();
+        super.finish();
+    }
+
+    private void sendResult() {
+        // we send the updated comments list back to the feed screen
+        Intent resultIntent = new Intent();
+        setResult(999, resultIntent);
     }
 }

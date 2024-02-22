@@ -168,7 +168,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/post_adder_sign" />
+                    android:src="@drawable/night_sign" />
 
                 <ImageButton
                     android:id="@+id/notifications_btn"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="13dp"
-    android:background="@drawable/border_background"
+    android:background="@drawable/border_background_dark"
 
     >
 
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/another_border"
+            android:background="@drawable/another_border_night"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +59,7 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:textColor="@color/white"
                     android:id="@+id/tvAuthor"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -74,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="serif"
+                    android:textColor="@color/white"
                     android:text="@string/date" />
 
             </LinearLayout>
@@ -89,7 +91,6 @@
                 android:layout_marginRight="7dp"
                 android:layout_marginBottom="7dp"
                 android:backgroundTint="#363434"
-
                 android:clickable="true"
                 app:backgroundTint="@color/body"
                 app:rippleColor="@color/body_pressed"
@@ -122,6 +123,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="8dp"
+            android:textColor="@color/white"
             android:fontFamily="serif"
             android:textSize="18sp"
             android:text="@string/content"
@@ -141,6 +143,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="serif"
             android:text="sdvsv"
+            android:textColor="@color/white"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -191,6 +194,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:fontFamily="serif"
+                android:textColor="@color/white"
                 android:text="@string/_45_likes"
                 android:textStyle="bold"
                 android:textSize="20sp" />
@@ -202,6 +206,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
                 android:fontFamily="serif"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="@string/_12_comments"
                 android:textSize="20sp" />
@@ -230,7 +235,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:src="@drawable/mail_sign"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/color_button_selector_dark"
                 android:layout_margin="10dp"
                 />
 
@@ -240,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:background="@drawable/color_button_selector"
+                android:background="@drawable/color_button_selector_dark"
                 android:src="@drawable/bluetooth_sign"
                 android:layout_margin="10dp"
                 />
@@ -251,7 +256,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:background="@drawable/color_button_selector"
+                android:background="@drawable/color_button_selector_dark"
                 android:src="@drawable/send_sign"
                 android:layout_margin="10dp"
                 />
@@ -262,7 +267,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:background="@drawable/color_button_selector"
+                android:background="@drawable/color_button_selector_dark"
                 android:layout_margin="10dp"
                 android:src="@drawable/mobile_sign"
                 />
@@ -272,7 +277,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:background="@drawable/color_button_selector"
+                android:background="@drawable/color_button_selector_dark"
                 android:src="@drawable/post_adder_sign"
                 android:layout_margin="10dp"
                 />
@@ -298,7 +303,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/like_sign"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/rounded_button_dark"
                 android:layout_margin="10dp"
                 />
 
@@ -307,7 +312,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/color_button_selector"
+                android:background="@drawable/color_button_selector_dark"
                 android:src="@drawable/try_sign"
                 android:layout_margin="10dp"
                 />
@@ -317,7 +322,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/color_button_selector"
+                android:background="@drawable/color_button_selector_dark"
                 android:layout_margin="10dp"
                 android:src="@drawable/share_sign"
                 />

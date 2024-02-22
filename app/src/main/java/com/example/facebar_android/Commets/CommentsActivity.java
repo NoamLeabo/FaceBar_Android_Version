@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebar_android.R;
+import com.example.facebar_android.Screens.FeedActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // we display the comments overall layout
-        setContentView(R.layout.comments_page);
-
+        if (FeedActivity.NIGHT_MODE == 0)
+            setContentView(R.layout.comments_page);
+        else
+            setContentView(R.layout.comments_page_dark);
         // retrieve the comments passed from the previous activity
         this.comments = getIntent().getParcelableArrayListExtra("comments");
         this.position = getIntent().getIntExtra("position",0);
@@ -58,10 +61,4 @@ public class CommentsActivity extends AppCompatActivity {
         resultIntent.putExtra("position", position);
         setResult(555, resultIntent);
     }
-
-
-    private void sendResultBack() {
-
-    }
-
 }
