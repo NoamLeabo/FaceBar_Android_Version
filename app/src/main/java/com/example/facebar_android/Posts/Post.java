@@ -1,29 +1,39 @@
 package com.example.facebar_android.Posts;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import androidx.core.content.ContextCompat;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import com.example.facebar_android.Commets.Comment;
 import com.example.facebar_android.R;
 
 import java.util.ArrayList;
 
+@Entity
 public class Post {
-    private static int id = 1;
+    @PrimaryKey(autoGenerate = true)
     private int postId;
     private String author;
     private String content;
     private String date = "date";
     private int likes;
     private boolean liked = false;
+    @Ignore
     private ArrayList<Comment> comments;
     private int numOfComments;
+    @Ignore
     private Drawable profPic;
     private String path;
+    @Ignore
     private Drawable postPic;
     private String pathPostPic;
+    @Ignore
     private boolean containsPostPic = false;
 
     // constructor from json
@@ -34,8 +44,6 @@ public class Post {
         this.likes = likes;
         this.pathPostPic = pathPostPic;
         this.comments = new ArrayList<>();
-        postId = Post.id;
-        Post.id++;
     }
     // constructor of a new user's post
     public Post(String author, String content, Drawable drawable, int likes, Context context) {
@@ -45,8 +53,6 @@ public class Post {
         this.profPic = ContextCompat.getDrawable(context, R.drawable.zukiprofile);
         this.likes = likes;
         this.comments = new ArrayList<>();
-        postId = Post.id;
-        Post.id++;
     }
     // constructor of imageLess post
     public Post(String author, String content, int likes, Context context) {
@@ -55,10 +61,7 @@ public class Post {
         this.profPic = ContextCompat.getDrawable(context, R.drawable.zukiprofile);
         this.likes = likes;
         this.comments = new ArrayList<>();
-        postId = Post.id;
-        Post.id++;
     }
-
     public String getPathPostPic() {
         return this.pathPostPic;
     }
@@ -71,8 +74,11 @@ public class Post {
         this.containsPostPic = true;
     }
 
-    public boolean isLiked() {
+    public boolean getLiked() {
         return liked;
+    }
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 
     public void setOppLiked() {
@@ -109,7 +115,6 @@ public class Post {
         this.comments.add(c);
         this.numOfComments++;
     }
-
     public ArrayList<Comment> getComments() {
         return comments;
     }
@@ -117,11 +122,16 @@ public class Post {
     public int getNumOfComments() {
         return numOfComments;
     }
-
+    public void setNumOfComments(int numOfComments) {
+        this.numOfComments = numOfComments;
+    }
     // Getters and setters
+    public int getPostId() {
+        return postId;
+    }
 
-    public int getId() {
-        return id;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public String getAuthor() {

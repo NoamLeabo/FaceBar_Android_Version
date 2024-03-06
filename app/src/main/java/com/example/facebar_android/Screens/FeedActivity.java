@@ -17,11 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.facebar_android.ActiveUser;
 import com.example.facebar_android.Commets.Comment;
+import com.example.facebar_android.PostDao;
+import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.Posts.AddPostActivity;
 import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.Posts.PostsListAdapter;
@@ -48,16 +52,18 @@ public class FeedActivity extends AppCompatActivity {
     public static int NIGHT_MODE = 0;
 
 
-
+    private PostViewModel viewModel;
     private PostsListAdapter adapter;
+    private SwipeRefreshLayout refreshLayout;
     private List<Post> posts = new ArrayList<>();
     private ActiveUser activeUser;
     private boolean menuOpen = false;
 
 
-    public Context getContext(){
+    public Context getContext() {
         return this;
     }
+
     private String inputStreamToString(InputStream inputStream) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         byte[] buffer = new byte[1024];
@@ -79,6 +85,20 @@ public class FeedActivity extends AppCompatActivity {
         // Construct the time string
         return String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
     }
+
+    public static int getTimeInt() {
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int sec = calendar.get(Calendar.SECOND);
+
+        // Get the current date
+        int timeInt = hourOfDay + minute + calendar.getTime().getDay() + calendar.getTime().getMonth() +sec;
+
+        // Construct the time string
+        return timeInt;
+    }
+
     private void initializeViews() {
         activeUser = new ActiveUser("Mark", "Zuckerberg", "Mark Z", "123456", R.drawable.zukiprofile);
 
@@ -99,6 +119,12 @@ public class FeedActivity extends AppCompatActivity {
             switchNightMode();
         });
 
+        refreshLayout = findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(() -> {
+            viewModel.reload();
+        });
+
+
         menuBtn.setOnClickListener(v -> {
             if (menuOpen) {
                 menu.setVisibility(View.GONE);
@@ -111,12 +137,12 @@ public class FeedActivity extends AppCompatActivity {
         logOutBtn.setOnClickListener(v -> finish());
 
         // we create a new adapter for the RecyclerView
-        final PostsListAdapter adapter = new PostsListAdapter(this);
+        final PostsListAdapter adapter = new PostsListAdapter(this, viewModel);
         this.adapter = adapter;
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setPosts(posts);
+        adapter.setPosts(viewModel.getPosts().getValue());
 
         Button add_post_btn = findViewById(R.id.add_post_btn);
 
@@ -152,12 +178,23 @@ public class FeedActivity extends AppCompatActivity {
         else
             setContentView(R.layout.scrolled_feed_dark);
 
-        loadFromJson();
+        //loadFromJson();
+        viewModel = new PostViewModel();
 
+        viewModel.getPosts().observe(this, new Observer<List<Post>>() {
+            @Override
+            public void onChanged(List<Post> posts) {
+                adapter.setPosts(posts);
+                adapter.updatePosts();
+                refreshLayout.setRefreshing(false);
+                System.out.println("onChanged\n");
+            }
+        });
         initializeViews();
+
     }
 
-    private void loadFromJson(){
+    private void loadFromJson() {
         Context context = getApplicationContext();
         AssetManager assetManager = context.getAssets();
 
@@ -246,7 +283,6 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -256,10 +292,9 @@ public class FeedActivity extends AppCompatActivity {
                 ArrayList<Comment> comments = data.getParcelableArrayListExtra("comments");
                 int position = data.getIntExtra("position", 0);
                 posts.get(position).setComments(comments);
-                adapter.updatePosts();
+//                adapter.updatePosts();
             }
-        }
-        else if (resultCode == ADD_POST_BITMAP) {
+        } else if (resultCode == ADD_POST_BITMAP) {
             // Check if data contains the content and the bitmap
             if (data != null && data.hasExtra("content") && data.hasExtra("newPic")) {
                 // Retrieve the content and the bitmap
@@ -270,8 +305,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Create a new Post object
                 Post post = new Post("Mark Z.", content, drawable, 0, this.getContext());
                 post.setContainsPostPic();
-                posts.add(post);
-                adapter.updatePosts();
+                addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -299,8 +333,8 @@ public class FeedActivity extends AppCompatActivity {
                 Post post = new Post("Mark Z.", content, drawable, 0, this.getContext());
                 post.setContainsPostPic();
                 post.setContainsPostPic();
-                posts.add(post);
-                adapter.updatePosts();
+                addPostToDB(post);//
+                // adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -311,13 +345,20 @@ public class FeedActivity extends AppCompatActivity {
                 String content = data.getStringExtra("content");
 
                 Post post = new Post("Mark Z.", content, 0, this.getContext());
-                posts.add(post);
-                adapter.updatePosts();
+                post.setDate(FeedActivity.getCurrentTime());
+                addPostToDB(post);
+//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
             }
         }
+    }
+
+    public void addPostToDB(Post post) {
+        new Thread(() -> {
+            viewModel.add(post);
+        }).start();
     }
 
     @Override

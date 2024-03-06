@@ -5,17 +5,23 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.R;
 import com.example.facebar_android.Screens.FeedActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentsActivity extends AppCompatActivity {
-    ArrayList<Comment> comments;
+    private ArrayList<Comment> comments;
+    private ArrayList<Integer> ids;
+    //private CommentViewModel viewModel;
+
     int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,7 @@ public class CommentsActivity extends AppCompatActivity {
             setContentView(R.layout.comments_page_dark);
         // retrieve the comments passed from the previous activity
         this.comments = getIntent().getParcelableArrayListExtra("comments");
+
         this.position = getIntent().getIntExtra("position",0);
 
         // initialize RecyclerView
@@ -39,8 +46,10 @@ public class CommentsActivity extends AppCompatActivity {
         lstComments.setAdapter(adapter);
         lstComments.setLayoutManager(new LinearLayoutManager(this));
 
+        adapter.setComments(comments);
+
+
         // Set comments to the adapter
-        adapter.setComments(this.comments);
     }
     @Override
     public void onBackPressed() {
@@ -55,6 +64,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void sendResult() {
+
         // we send the updated comments list back to the feed screen
         Intent resultIntent = new Intent();
         resultIntent.putParcelableArrayListExtra("comments", this.comments);

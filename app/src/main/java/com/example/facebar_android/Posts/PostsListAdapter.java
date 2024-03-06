@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebar_android.Commets.Comment;
 import com.example.facebar_android.Commets.CommentsActivity;
+import com.example.facebar_android.PostRepository;
+import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.Screens.FeedActivity;
 import com.example.facebar_android.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,10 +67,12 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private final LayoutInflater mInflater;
     private List<Post> posts;
     private Activity mActivity;
+    private PostViewModel viewModel;
 
-    public PostsListAdapter(Activity activity) {
+    public PostsListAdapter(Activity activity, PostViewModel viewModel) {
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
+        this.viewModel = viewModel;
     }
 
     @Override
@@ -100,7 +104,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             } else
                 holder.tvDate.setText(current.getDate());
 
-            if (current.isLiked()) {
+            if (current.getLiked()) {
                 holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
             } else {
                 if (FeedActivity.NIGHT_MODE == 0)
@@ -122,21 +126,25 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             // Set OnClickListener for like button
             holder.likeBtn.setOnClickListener(v -> {
-                if (!current.isLiked()) {
+                if (!current.getLiked()) {
+                    Post nowLiked = current;
+                    nowLiked.setLikes(current.getLikes() + 1);
                     // Increase the number of likes by 1
-                    current.setLikes(current.getLikes() + 1);
                     // Update the TextView to display the updated number of likes
                     holder.likes.setText(current.getLikes() + " Likes");
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
-                    current.setOppLiked();
+                    nowLiked.setOppLiked();
+                    viewModel.edit(nowLiked);
                 } else {
-                    current.setLikes(current.getLikes() - 1);
+                    Post nowLiked = current;
+                    nowLiked.setLikes(current.getLikes() - 1);
                     holder.likes.setText(current.getLikes() + " Likes");
                     if (FeedActivity.NIGHT_MODE == 0)
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
                     else
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_dark);
-                    current.setOppLiked();
+                    nowLiked.setOppLiked();
+                    viewModel.edit(nowLiked);
                 }
             });
             // change between the edit and noEdit mode
@@ -148,14 +156,16 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     holder.editBtn.setImageResource(R.drawable.done_sign);
                     holder.editTMode = true;
                 } else {
-                    current.setContent(String.valueOf(holder.teContent.getText()));
+                    Post edited = current;
+                    edited.setContent(String.valueOf(holder.teContent.getText()));
+                    edited.setDate(FeedActivity.getCurrentTime() + " edited");
+                    viewModel.edit(edited);
                     holder.tvContent.setText(holder.teContent.getText());
                     holder.teContent.setVisibility(View.GONE);
                     holder.tvContent.setVisibility(View.VISIBLE);
                     holder.editTMode = false;
                     holder.editBtn.setImageResource(android.R.drawable.ic_menu_edit);
                     holder.tvDate.setText(FeedActivity.getCurrentTime() + " edited");
-                    current.setDate(FeedActivity.getCurrentTime() + " edited");
                 }
             });
 
@@ -193,7 +203,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
 
     public void deletePost(int position){
-        this.posts.remove(position);
+        Post toDelete = posts.remove(position);
+        viewModel.delete(toDelete);
+//        this.posts.remove(position);
+        System.out.println("deletePost\n");
     }
 
     @Override
@@ -214,9 +227,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void setPosts(List<Post> s){
         posts = s;
         notifyDataSetChanged();
+        System.out.println("setPosts\n");
     }
     public void updatePosts(){
         notifyDataSetChanged();
+        System.out.println("updatePosts\n");
     }
     @Override
     public int getItemCount(){
