@@ -6,15 +6,23 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.core.content.ContextCompat;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.example.facebar_android.Commets.Comment;
+import com.example.facebar_android.Converters;
 import com.example.facebar_android.R;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+//@TypeConverters(Converters.class)
+@TypeConverters(Converters.class)
 @Entity
 public class Post {
     @PrimaryKey(autoGenerate = true)
@@ -24,6 +32,9 @@ public class Post {
     private String date = "date";
     private int likes;
     private boolean liked = false;
+    @ColumnInfo(name = "comments_int")
+    private List<Integer> commentsInt = new ArrayList<>();
+    private int numOfCommentsInt = commentsInt.size();
     @Ignore
     private ArrayList<Comment> comments;
     private int numOfComments;
@@ -45,6 +56,7 @@ public class Post {
         this.pathPostPic = pathPostPic;
         this.comments = new ArrayList<>();
     }
+
     // constructor of a new user's post
     public Post(String author, String content, Drawable drawable, int likes, Context context) {
         this.author = author;
@@ -54,6 +66,7 @@ public class Post {
         this.likes = likes;
         this.comments = new ArrayList<>();
     }
+
     // constructor of imageLess post
     public Post(String author, String content, int likes, Context context) {
         this.author = author;
@@ -62,6 +75,7 @@ public class Post {
         this.likes = likes;
         this.comments = new ArrayList<>();
     }
+
     public String getPathPostPic() {
         return this.pathPostPic;
     }
@@ -77,6 +91,7 @@ public class Post {
     public boolean getLiked() {
         return liked;
     }
+
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
@@ -84,10 +99,12 @@ public class Post {
     public void setOppLiked() {
         this.liked = !liked;
     }
+
     public void setDate(String date) {
         this.date = date;
     }
-    public String getDate(){
+
+    public String getDate() {
         return this.date;
     }
 
@@ -95,19 +112,24 @@ public class Post {
         this.comments = comments;
         this.numOfComments = comments.size();
     }
+
     public Drawable getProfPic() {
         return this.profPic;
     }
-    public void setProfPic(Drawable imageView){
+
+    public void setProfPic(Drawable imageView) {
         this.profPic = imageView;
     }
+
     public Drawable getPostPic() {
         return this.postPic;
     }
-    public void setPostPic(Drawable imageView){
+
+    public void setPostPic(Drawable imageView) {
         this.postPic = imageView;
     }
-    public String getPath(){
+
+    public String getPath() {
         return this.path;
     }
 
@@ -115,6 +137,7 @@ public class Post {
         this.comments.add(c);
         this.numOfComments++;
     }
+
     public ArrayList<Comment> getComments() {
         return comments;
     }
@@ -122,9 +145,11 @@ public class Post {
     public int getNumOfComments() {
         return numOfComments;
     }
+
     public void setNumOfComments(int numOfComments) {
         this.numOfComments = numOfComments;
     }
+
     // Getters and setters
     public int getPostId() {
         return postId;
@@ -153,4 +178,20 @@ public class Post {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+    public List<Integer> getCommentsInt() {
+        return commentsInt;
+    }
+
+    public void setCommentsInt(List<Integer> commentsInt) {
+        this.commentsInt = commentsInt;
+    }
+    public int getNumOfCommentsInt() {
+        return commentsInt.size();
+    }
+
+    public void setNumOfCommentsInt(int numOfCommentsInt) {
+        this.numOfCommentsInt = numOfCommentsInt;
+    }
+
 }

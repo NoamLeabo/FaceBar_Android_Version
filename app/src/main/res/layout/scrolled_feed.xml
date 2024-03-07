@@ -108,7 +108,7 @@
                         android:layout_marginLeft="0dp">
 
                         <TextView
-
+                            android:clickable="true"
                             android:id="@+id/con_user"
                             android:textStyle="bold"
                             android:fontFamily="serif"

@@ -47,4 +47,39 @@
 //            }
 //        });
 //    }
+//    public void add(Post post) {
+//        Call<Void> call = webServiceAPI.createPost(post);
+//        call.enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                // Assuming successful addition, fetch updated data
+//                if (response.isSuccessful()) {
+//                    get();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                System.out.println("onFailure");
+//            }
+//        });
+//    }
+//    public void delete(Post post) {
+//        int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
+//        Call<Void> call = webServiceAPI.deletePost(postId);
+//        call.enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                // Assuming successful deletion, fetch updated data
+//                if (response.isSuccessful()) {
+//                    get();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                System.out.println("onFailure");
+//            }
+//        });
+//    }
 //}

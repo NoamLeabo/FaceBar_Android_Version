@@ -4,9 +4,15 @@ package com.example.facebar_android.Commets;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Comment implements Parcelable {
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-    private int id;
+@Entity
+public class Comment  {
+
+    @PrimaryKey(autoGenerate = true)
+    private int commentId;
     private final String author;
     private String content;
     private String date = "date";
@@ -17,12 +23,18 @@ public class Comment implements Parcelable {
         this.author = author;
         this.content = content;
     }
-    // parcel con
-    protected Comment(Parcel in) {
-        id = in.readInt();
-        author = in.readString();
-        content = in.readString();
-    }
+//    @Ignore
+//    public Comment(String author, String content, int id) {
+//        this.author = author;
+//        this.content = content;
+//        this.commentId = id;
+//    }
+//@Ignore
+//protected Comment(Parcel in) {
+//        commentId = in.readInt();
+//        author = in.readString();
+//        content = in.readString();
+//    }
     public void setDate(String date) {
         this.date = date;
     }
@@ -31,24 +43,24 @@ public class Comment implements Parcelable {
         return date;
     }
 
-    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
-        @Override
-        public Comment createFromParcel(Parcel in) {
-            return new Comment(in);
-        }
+//    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+//        @Override
+//        public Comment createFromParcel(Parcel in) {
+//            return new Comment(in);
+//        }
+//
+//        @Override
+//        public Comment[] newArray(int size) {
+//            return new Comment[size];
+//        }
+//    };
 
-        @Override
-        public Comment[] newArray(int size) {
-            return new Comment[size];
-        }
-    };
-
-    public int getId() {
-        return id;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCommentId(int id) {
+        this.commentId = id;
     }
 
     public String getAuthor() {
@@ -63,15 +75,15 @@ public class Comment implements Parcelable {
         this.content = content;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(author);
-        dest.writeString(content);
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeInt(commentId);
+//        dest.writeString(author);
+//        dest.writeString(content);
+//    }
 }

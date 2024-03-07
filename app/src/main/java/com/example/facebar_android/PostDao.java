@@ -14,13 +14,12 @@ import java.util.List;
 public interface PostDao {
     @Query("SELECT * FROM post ORDER BY postId DESC")
     List<Post> index();
-
+    @Query("SELECT * FROM post WHERE author = :username ORDER BY postId DESC")
+    List<Post> userPosts(String username);
     @Query("SELECT * FROM post WHERE postId = :id")
     Post get(int id);
-
     @Insert
     void insert(Post... posts);
-
     @Insert
     void insertList(List<Post> posts); // Modified method
 
@@ -32,7 +31,4 @@ public interface PostDao {
 
     @Query("DELETE FROM post")
     void clear(); // Method to delete all records from the post table
-
-    @Insert
-    void insertToStart(Post post); // Method to insert a post at the start
 }
