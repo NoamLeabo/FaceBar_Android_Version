@@ -1,12 +1,11 @@
 package com.example.facebar_android;
 
+
 import androidx.room.Delete;
 import androidx.room.Update;
 
 import com.example.facebar_android.Posts.Post;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
