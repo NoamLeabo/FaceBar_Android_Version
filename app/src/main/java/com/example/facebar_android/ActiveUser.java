@@ -7,16 +7,26 @@ public class ActiveUser {
     private String lName;
     private String username;
     private String password;
-    private int profileImage = R.drawable.pic3;
+    private String profileImg =" R.drawable.pic3";
     private ArrayList<Integer> posts = new ArrayList<>();
     private ArrayList<Integer> likedPosts = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();
     private ArrayList<String> req = new ArrayList<>();
-
-    public ActiveUser(String username, String password, int profileImage) {
+    private static ActiveUser instance;
+    public static void updateInstance(ActiveUser user) {
+        instance = user;
+    }
+    public static ActiveUser getInstance() {
+        if (instance == null) {
+            // You may throw an IllegalStateException here or return null depending on your requirement
+            throw new IllegalStateException("ActiveUser instance has not been initialized.");
+        }
+        return instance;
+    }
+    public ActiveUser(String username, String password, String profileImage) {
         this.username = username;
         this.password = password;
-        this.profileImage = profileImage;
+        this.profileImg = profileImage;
     }
     public String getfName() {
         return fName;
@@ -50,12 +60,12 @@ public class ActiveUser {
         this.password = password;
     }
 
-    public int getProfileImage() {
-        return profileImage;
+    public String getProfileImage() {
+        return profileImg;
     }
 
-    public void setProfileImage(int profileImage) {
-        this.profileImage = profileImage;
+    public void setProfileImage(String profileImage) {
+        this.profileImg = profileImage;
     }
 
     public ArrayList<Integer> getPosts() {
@@ -88,5 +98,6 @@ public class ActiveUser {
 
     public void setLikedPosts(ArrayList<Integer> likedPosts) {
         this.likedPosts = likedPosts;
+
     }
 }

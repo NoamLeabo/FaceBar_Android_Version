@@ -13,12 +13,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.facebar_android.ActiveUser;
 import com.example.facebar_android.R;
 import com.example.facebar_android.Screens.FeedActivity;
 
@@ -39,6 +41,7 @@ public class AddPostActivity extends AppCompatActivity {
     private boolean isUri = false;
     private boolean isImage = false;
     private String base;
+    private ActiveUser activeUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,20 @@ public class AddPostActivity extends AppCompatActivity {
             setContentView(R.layout.activity_add_post);
         else
             setContentView(R.layout.activity_add_post_dark);
+        activeUser = ActiveUser.getInstance();
+
+        TextView tvAuthor = findViewById(R.id.tvAuthor);
+        tvAuthor.setText(activeUser.getUsername());
+
+        ImageView profileImg = findViewById(R.id.profile_img);
+
+        byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+        // Initialize bitmap
+        Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        // set bitmap on imageView
+        profileImg.setImageBitmap(bitmap);
+
+
 
         // retrieving all necessary fields from xml
         final String[] content = new String[1];

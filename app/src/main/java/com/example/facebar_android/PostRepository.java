@@ -119,7 +119,7 @@ public class PostRepository {
                 //dao.insertList(posts);
                 //dao.clear();
             }).start();
-            //this.setValue(posts);
+            this.setValue(posts);
         }
 
         @Override

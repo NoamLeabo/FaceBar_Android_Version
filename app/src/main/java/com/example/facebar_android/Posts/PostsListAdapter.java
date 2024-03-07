@@ -78,15 +78,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private List<Post> posts;
     private Activity mActivity;
     private PostViewModel viewModel;
-    private String visitingUser;
     private ActiveUser activeUser;
 
-    public PostsListAdapter(Activity activity, PostViewModel viewModel, String visitingUser, ActiveUser activeUser) {
+    public PostsListAdapter(Activity activity, PostViewModel viewModel) {
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
         this.viewModel = viewModel;
-        this.activeUser = activeUser;
-        this.visitingUser = visitingUser;
+        this.activeUser = ActiveUser.getInstance();
     }
 
     @Override
@@ -116,7 +114,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 public void onClick(View v) {
                     Intent i = new Intent(MyApplication.context, ProfilePageActivity.class);
                     i.putExtra("userProfile", holder.tvAuthor.getText());
-                    i.putExtra("visitingUser", holder.tvAuthor.getText());
                     mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
                 }
             });
@@ -181,9 +178,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     viewModel.edit(nowLiked);
                 }
             });
-            if (!holder.tvAuthor.getText().equals(visitingUser))
+            if (!holder.tvAuthor.getText().equals(activeUser.getUsername()))
                 holder.editBtn.setVisibility(View.GONE);
-
+            else
+                holder.editBtn.setVisibility(View.VISIBLE);
             // change between the edit and noEdit mode
             holder.editBtn.setOnClickListener(v -> {
                 if (!holder.editTMode){
@@ -221,8 +219,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 }
             });
 
-            if (!holder.tvAuthor.getText().equals(visitingUser))
+            if (!holder.tvAuthor.getText().equals(activeUser.getUsername()))
                 holder.deleteBtn.setVisibility(View.GONE);
+            else
+                holder.deleteBtn.setVisibility(View.VISIBLE);
 
             // we delete post and notify so
             holder.deleteBtn.setOnClickListener(v -> {

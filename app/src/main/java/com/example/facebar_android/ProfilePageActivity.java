@@ -53,7 +53,6 @@ public class ProfilePageActivity extends AppCompatActivity {
     private boolean me;
     ImageButton friendsBtn;
     private void initializeViews() {
-        activeUser = new ActiveUser("Mark Z.", "123456", R.drawable.zukiprofile);
 
         // we get the RecyclerView
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
@@ -62,7 +61,14 @@ public class ProfilePageActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.con_user);
         textView.append(userProfile);
         ImageView profileImg = findViewById(R.id.profile_img);
-        profileImg.setImageResource(activeUser.getProfileImage());
+
+        byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+        // Initialize bitmap
+        Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        // set bitmap on imageView
+        profileImg.setImageBitmap(bitmap);
+
+        //profileImg.setImageResource(activeUser.getProfileImage());
         friendsBtn = findViewById(R.id.friends_btn);
 
         if (me) {
@@ -86,7 +92,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         });
 
         // we create a new adapter for the RecyclerView
-        final PostsListAdapter adapter = new PostsListAdapter(this, viewModel, visitingUser, activeUser);
+        final PostsListAdapter adapter = new PostsListAdapter(this, viewModel);
         this.adapter = adapter;
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
@@ -111,10 +117,10 @@ public class ProfilePageActivity extends AppCompatActivity {
 //            setContentView(R.layout.scrolled_feed);
 //        else
 //            setContentView(R.layout.scrolled_feed_dark);
+        activeUser = ActiveUser.getInstance();
         setContentView(R.layout.activity_profile_page);
         userProfile = getIntent().getStringExtra("userProfile"); // Use "userProfile" as key
-        visitingUser = getIntent().getStringExtra("visitingUser"); // Use "visitingUser" as key
-        me = userProfile.equals(visitingUser);
+        me = userProfile.equals(activeUser.getUsername());
 
         viewModel = new PostViewModel(userProfile);
 

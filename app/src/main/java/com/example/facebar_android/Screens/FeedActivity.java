@@ -103,8 +103,7 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        activeUser = new ActiveUser( "Mark Z.", "123456", R.drawable.zukiprofile);
-
+        activeUser = ActiveUser.getInstance();
         // we get the RecyclerView
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
 
@@ -115,8 +114,7 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), ProfilePageActivity.class);
-                i.putExtra("userProfile", "Mark Z."); // Use "userProfile" as key
-                i.putExtra("visitingUser", "Mark Z."); // Use "visitingUser" as key
+                i.putExtra("userProfile", activeUser.getUsername()); // Use "userProfile" as key
                 startActivityForResult(i, ADD_POST_TEXT_ONLY);
             }
         });
@@ -126,7 +124,13 @@ public class FeedActivity extends AppCompatActivity {
         ImageButton logOutBtn = findViewById(R.id.log_out_btn);
         ImageButton nightModeBtn = findViewById(R.id.night_mode_btn);
         ImageView profileImg = findViewById(R.id.profile_img);
-        profileImg.setImageResource(activeUser.getProfileImage());
+
+        byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+        // Initialize bitmap
+        Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        // set bitmap on imageView
+        profileImg.setImageBitmap(bitmap);
+
         nightModeBtn.setOnClickListener(v -> {
             // Call method to switch between day mode and night mode
             switchNightMode();
@@ -150,7 +154,7 @@ public class FeedActivity extends AppCompatActivity {
         logOutBtn.setOnClickListener(v -> finish());
 
         // we create a new adapter for the RecyclerView
-        final PostsListAdapter adapter = new PostsListAdapter(this, viewModel, "Mark Z.", activeUser);
+        final PostsListAdapter adapter = new PostsListAdapter(this, viewModel);
         this.adapter = adapter;
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
@@ -254,8 +258,9 @@ public class FeedActivity extends AppCompatActivity {
                 String base = Base64.getEncoder().encodeToString(bytes);
 
                 // Create a new Post object
-                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext(), base);
+                Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
+                post.setDate(FeedActivity.getCurrentTime());
                 addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
@@ -288,8 +293,9 @@ public class FeedActivity extends AppCompatActivity {
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
                 // Create a new Post object
-                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext(), base);
+                Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
+                post.setDate(FeedActivity.getCurrentTime());
                 addPostToDB(post);//
                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
@@ -301,7 +307,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Retrieve the content and the bitmap
                 String content = data.getStringExtra("content");
 
-                Post post = new Post("Mark Z.", content, 0, this.getContext());
+                Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
                 post.setDate(FeedActivity.getCurrentTime());
                 addPostToDB(post);
 //                adapter.updatePosts();
