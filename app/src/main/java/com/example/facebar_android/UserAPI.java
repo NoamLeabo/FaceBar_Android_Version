@@ -1,5 +1,7 @@
 package com.example.facebar_android;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -21,23 +23,23 @@ public interface UserAPI {
             @Field("profileImg") String img
     );
     @GET("user/{id}")
-    Call<Void> getUser(@Path("id") int id);
+    Call<ActiveUser> getUser(@Path("id") String id);
 
     @PATCH("user/{id}")
-    Call<Void> updateUser(@Path("id") int id);
+    Call<Void> updateUser(@Path("id") String id);
 
     @DELETE("user/{id}")
-    Call<Void> deleteUser(@Path("id") int id);
+    Call<Void> deleteUser(@Path("id") String id);
 
     @GET("user/{id}/friends")
-    Call<Void> getFriends(@Path("id") int id);
+    Call<List> getFriends(@Path("id") String id);
 
     @POST("user/{id}/friends")
-    Call<Void> pendingFriend(@Path("id") int id, @Body int fid);
+    Call<Void> pendingFriend(@Path("id") String id, @Body String fid);
 
     @PATCH("user/{id}/friends/{fid}")
-    Call<Void> acceptFriend(@Path("id") int id);
+    Call<Void> acceptFriend(@Path("id") String id);
 
     @DELETE("user/{id}/friends/{fid}")
-    Call<Void> rejectFriend(@Path("id") int id);
+    Call<Void> rejectFriend(@Path("id") String id);
 }
