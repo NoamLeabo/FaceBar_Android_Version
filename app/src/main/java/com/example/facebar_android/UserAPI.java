@@ -3,12 +3,22 @@ package com.example.facebar_android;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface UserAPI {
+    @FormUrlEncoded
+    @POST("user")
+    Call<Void> newUser(
+            @Field("fName") String fName,
+            @Field("lName") String lName,
+            @Field("username") String username,
+            @Field("password") String password
+    );
     @GET("user/{id}")
     Call<Void> getUser(@Path("id") int id);
 

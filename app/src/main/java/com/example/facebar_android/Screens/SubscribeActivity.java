@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.facebar_android.R;
+import com.example.facebar_android.usersAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class SubscribeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        usersAPI usersAPI=new usersAPI();
 
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_subscribe);
@@ -74,17 +76,18 @@ public class SubscribeActivity extends AppCompatActivity {
         subscribeBtn.setOnClickListener(view -> {
             if(checkValidInput()) {
                 Toast.makeText(this, "nice", Toast.LENGTH_SHORT).show();
-                // write the user to json file name
-                JSONObject user = new JSONObject();
-                try {
-                    user.put("username", userName.getText().toString());
-                    user.put("password", password.getText().toString());
-                    user.put("profilePic", profilePic);
-                    writeObject(user);
-                } catch (JSONException | IOException e) {
-                    Toast.makeText(this, "problem occurred", Toast.LENGTH_SHORT).show();
-                    throw new RuntimeException(e);
-                }
+//                // write the user to json file name
+//                JSONObject user = new JSONObject();
+//                try {
+//                    user.put("username", userName.getText().toString());
+//                    user.put("password", password.getText().toString());
+//                    user.put("profilePic", profilePic);
+//                    writeObject(user);
+//                } catch (JSONException | IOException e) {
+//                    Toast.makeText(this, "problem occurred", Toast.LENGTH_SHORT).show();
+//                    throw new RuntimeException(e);
+//                }
+                usersAPI.addUser(fName.getText().toString(),lName.getText().toString(),userName.getText().toString(),password.getText().toString());
                 finish();
             }
         });
