@@ -36,10 +36,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -242,11 +244,18 @@ public class FeedActivity extends AppCompatActivity {
                 // Retrieve the content and the bitmap
                 String content = data.getStringExtra("content");
                 Bitmap bitmap = data.getParcelableExtra("newPic");
+
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                byte[] bytes=stream.toByteArray();
+                String base = Base64.getEncoder().encodeToString(bytes);
+
                 // Create a new Post object
-                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext());
-                post.setContainsPostPic();
+                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext(), base);
+                post.setContainsPostPic(true);
                 addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
@@ -258,6 +267,8 @@ public class FeedActivity extends AppCompatActivity {
                 // Retrieve the content and the bitmap
                 String content = data.getStringExtra("content");
                 Uri uri = data.getParcelableExtra("newPic");
+
+
                 // Load the image from the URI into a Bitmap
                 Bitmap bitmap = null;
                 try {
@@ -268,13 +279,17 @@ public class FeedActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                byte[] bytes=stream.toByteArray();
+                String base = Base64.getEncoder().encodeToString(bytes);
+
                 // Create a BitmapDrawable from the Bitmap
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
                 // Create a new Post object
-                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext());
-                post.setContainsPostPic();
-                post.setContainsPostPic();
+                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext(), base);
+                post.setContainsPostPic(true);
                 addPostToDB(post);//
                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed

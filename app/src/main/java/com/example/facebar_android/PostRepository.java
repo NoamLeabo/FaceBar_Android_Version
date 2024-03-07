@@ -28,14 +28,14 @@ public class PostRepository {
     private String username;
     private PostListData postsListDate;
 
-//    private PostAPI api;
+    private PostAPI api;
 
     public PostRepository(String username) {
         this.username = username;
         db = Room.databaseBuilder(MyApplication.context, AppDB.class, "PostsDB").fallbackToDestructiveMigration().build();
         dao = db.postDao();
         postsListDate = new PostListData(username);
-        //api = new PostAPI(postsListDate, dao);
+        api = new PostAPI(postsListDate, dao);
     }
 
 
@@ -152,18 +152,21 @@ public class PostRepository {
     public void add(final Post post) {
         new Thread(() -> {
             dao.insert(post);
+//            api.add(post);
         }).start();
     }
 
     public void delete(final Post post) {
         new Thread(() -> {
             dao.delete(post);
+//            api.delete(post);
         }).start();
     }
 
     public void edit(final Post post) {
         new Thread(() -> {
             dao.update(post);
+//            api.update(post);
         }).start();
     }
 
@@ -173,6 +176,11 @@ public class PostRepository {
                 postsListDate.postValue(dao.index());
             else
                 postsListDate.postValue(dao.userPosts(username));
+
+//            if (username.equals(""))
+//                api.get();
+//            else
+//                api.getUserPosts(username);
         }).start();
     }
 }

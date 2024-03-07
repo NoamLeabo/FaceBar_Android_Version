@@ -3,6 +3,9 @@ package com.example.facebar_android.Posts;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,8 +137,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 else
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_dark);
             }
-            if (current.isContainsPostPic()) {
-                holder.ivPic.setImageDrawable(current.getPostPic());
+            if (current.getContainsPostPic()) {
+
+                byte[] bytes= Base64.decode(current.getBase(),Base64.DEFAULT);
+                // Initialize bitmap
+                Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                // set bitmap on imageView
+                holder.ivPic.setImageBitmap(bitmap);
+
                 holder.ivPic.setVisibility(View.VISIBLE); // show the ImageView if an image is chosen
             } else {
                 holder.ivPic.setVisibility(View.GONE); // hide the ImageView if no image is chosen

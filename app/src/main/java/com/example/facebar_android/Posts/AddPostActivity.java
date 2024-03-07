@@ -22,8 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.facebar_android.R;
 import com.example.facebar_android.Screens.FeedActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.Objects;
 
 public class AddPostActivity extends AppCompatActivity {
@@ -36,6 +38,7 @@ public class AddPostActivity extends AppCompatActivity {
     private Uri uri;
     private boolean isUri = false;
     private boolean isImage = false;
+    private String base;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,15 @@ public class AddPostActivity extends AppCompatActivity {
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     saveBitMap(imageBitmap);
                     pic.setImageBitmap(imageBitmap);
+
+                    pic.setDrawingCacheEnabled(true); // Enable drawing cache
+                    pic.buildDrawingCache(); // Build the drawing cache
+                    ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                    Bitmap bitmap=Bitmap.createBitmap(pic.getDrawingCache());
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                    byte[] bytes=stream.toByteArray();
+                    base = Base64.getEncoder().encodeToString(bytes);
+
                     isImage = true;
                 } else {
                     // image is selected from gallery
@@ -114,6 +126,12 @@ public class AddPostActivity extends AppCompatActivity {
                         InputStream inputStream = getContentResolver().openInputStream(imageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         pic.setImageBitmap(bitmap);
+
+                        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                        byte[] bytes=stream.toByteArray();
+                        base = Base64.getEncoder().encodeToString(bytes);
+
                         saveBitMap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -143,12 +161,14 @@ public class AddPostActivity extends AppCompatActivity {
                 // sends back the results with img by bitmap
                 resultIntent.putExtra("content", this.content);
                 resultIntent.putExtra("newPic", this.bitmap);
+                //resultIntent.putExtra("base", this.base);
                 setResult(ADD_POST_BITMAP, resultIntent);
                 finish(); // finish the current activity and return to the previous one
             } else {
                 // sends back the results with img by uri
                 resultIntent.putExtra("content", this.content);
                 resultIntent.putExtra("newPic", this.uri);
+               // resultIntent.putExtra("base", this.base);
                 setResult(ADD_POST_URI, resultIntent);
                 finish();
             }

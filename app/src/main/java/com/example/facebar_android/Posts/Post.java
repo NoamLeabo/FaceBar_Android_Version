@@ -41,11 +41,14 @@ public class Post {
     @Ignore
     private Drawable profPic;
     private String path;
+
+
+
+    private String base;
     @Ignore
     private Drawable postPic;
     private String pathPostPic;
-    @Ignore
-    private boolean containsPostPic = false;
+    private boolean containsPostPic;
 
     // constructor from json
     public Post(String author, String content, String path, int likes, String pathPostPic) {
@@ -58,13 +61,14 @@ public class Post {
     }
 
     // constructor of a new user's post
-    public Post(String author, String content, Drawable drawable, int likes, Context context) {
+    public Post(String author, String content, Drawable drawable, int likes, Context context, String base) {
         this.author = author;
         this.content = content;
         this.postPic = drawable;
         this.profPic = ContextCompat.getDrawable(context, R.drawable.zukiprofile);
         this.likes = likes;
         this.comments = new ArrayList<>();
+        this.base = base;
     }
 
     // constructor of imageLess post
@@ -80,12 +84,12 @@ public class Post {
         return this.pathPostPic;
     }
 
-    public boolean isContainsPostPic() {
+    public boolean getContainsPostPic() {
         return containsPostPic;
     }
 
-    public void setContainsPostPic() {
-        this.containsPostPic = true;
+    public void setContainsPostPic(boolean b) {
+        this.containsPostPic = b;
     }
 
     public boolean getLiked() {
@@ -192,6 +196,13 @@ public class Post {
 
     public void setNumOfCommentsInt(int numOfCommentsInt) {
         this.numOfCommentsInt = numOfCommentsInt;
+    }
+    public String getBase() {
+        return base;
+    }
+
+    public void setBase(String base) {
+        this.base = base;
     }
 
 }
