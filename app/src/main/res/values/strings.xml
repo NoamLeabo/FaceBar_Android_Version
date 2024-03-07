@@ -42,5 +42,5 @@
     <string name="_45_likes">45 likes</string>
     <string name="_12_comments">12 comments</string>
     <string name="share_you_thoughts">Share your thoughts!</string>
-    <string name="BaseUrl">http://10.0.2.2:123456/api/</string>
+    <string name="BaseUrl">http://10.0.2.2:12345/</string>
 </resources>

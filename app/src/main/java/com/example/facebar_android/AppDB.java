@@ -8,9 +8,11 @@ import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.Commets.Comment;
 
 
-@Database(entities = {Post.class}, version = 1)
+@Database(entities = {Post.class, Comment.class}, version = 8)
+//@TypeConverters({Converters.class})
+
 public abstract class AppDB extends RoomDatabase {
     public abstract PostDao postDao();
-    //public abstract CommentDao commentDao();
+    public abstract CommentDao commentDao();
 
 }

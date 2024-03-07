@@ -25,22 +25,25 @@ import java.util.List;
 public class PostRepository {
     private PostDao dao;
     private AppDB db;
+    private String username;
     private PostListData postsListDate;
 
-//    private PostAPI api;
+    private PostAPI api;
 
-    public PostRepository() {
-        db = Room.databaseBuilder(MyApplication.context, AppDB.class, "PostsDB").build();
+    public PostRepository(String username) {
+        this.username = username;
+        db = Room.databaseBuilder(MyApplication.context, AppDB.class, "PostsDB").fallbackToDestructiveMigration().build();
         dao = db.postDao();
-        postsListDate = new PostListData();
-        //api = new PostAPI(postsListDate, dao);
+        postsListDate = new PostListData(username);
+        api = new PostAPI(postsListDate, dao);
     }
 
 
     class PostListData extends MutableLiveData<List<Post>> {
-        public PostListData() {
+        private String username;
+        public PostListData(String username) {
             super();
-
+            this.username = username;
             List<Post> posts = new ArrayList<>();
 
             Context context = MyApplication.context;
@@ -112,10 +115,11 @@ public class PostRepository {
 //                    e.printStackTrace();
 //                }
 //            }
-//            new Thread(() -> {
-//                dao.insertList(posts);
-//            }).start();
-//            this.setValue(posts);
+            new Thread(() -> {
+                //dao.insertList(posts);
+                //dao.clear();
+            }).start();
+            //this.setValue(posts);
         }
 
         @Override
@@ -123,7 +127,10 @@ public class PostRepository {
             super.onActive();
 
             new Thread(() -> {
-                postsListDate.postValue(dao.index());
+                if (username.equals(""))
+                    postsListDate.postValue(dao.index());
+                else
+                    postsListDate.postValue(dao.userPosts(username));
             }).start();
         }
     }
@@ -145,24 +152,35 @@ public class PostRepository {
     public void add(final Post post) {
         new Thread(() -> {
             dao.insert(post);
+//            api.add(post);
         }).start();
     }
 
     public void delete(final Post post) {
         new Thread(() -> {
             dao.delete(post);
+//            api.delete(post);
         }).start();
     }
 
     public void edit(final Post post) {
         new Thread(() -> {
             dao.update(post);
+//            api.update(post);
         }).start();
     }
 
     public void reload() {
         new Thread(() -> {
-            postsListDate.postValue(dao.index());
+            if (username.equals(""))
+                postsListDate.postValue(dao.index());
+            else
+                postsListDate.postValue(dao.userPosts(username));
+
+//            if (username.equals(""))
+//                api.get();
+//            else
+//                api.getUserPosts(username);
         }).start();
     }
 }
