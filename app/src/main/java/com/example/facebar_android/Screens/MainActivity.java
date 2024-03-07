@@ -39,17 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
         // logging in
         loginBtn.setOnClickListener(view -> {
-            curName[0] = userName.getText().toString();
-            curPass[0] = password.getText().toString();
-            if ((curName[0].equals("Mark_Z") && curPass[0].equals("123456Mm")) || true) {
-                password.getText().clear();
-                userName.getText().clear();
-                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, FeedActivity.class);
-                startActivityForResult(intent, 999);
-            } else {
-                Toast.makeText(this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
-            }
+//            curName[0] = userName.getText().toString();
+//            curPass[0] = password.getText().toString();
+//            if ((curName[0].equals("Mark_Z") && curPass[0].equals("123456Mm")) || true) {
+//                password.getText().clear();
+//                userName.getText().clear();
+//                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(this, FeedActivity.class);
+//                startActivityForResult(intent, 999);
+//            } else {
+//                Toast.makeText(this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
+//            }
+
         });
         // create new account => send to subscribe page
         createAccBtn.setOnClickListener(view -> {

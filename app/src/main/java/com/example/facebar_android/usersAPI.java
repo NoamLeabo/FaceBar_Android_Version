@@ -23,8 +23,8 @@ public class usersAPI {
                 .build();
         userAPI=retrofit.create(UserAPI.class);
     }
-    public void addUser(String fName, String lName, String username,String password){
-        Call<Void> call= userAPI.newUser(fName,lName,username,password);
+    public void addUser(String fName, String lName, String username,String password,String image){
+        Call<Void> call= userAPI.newUser(fName,lName,username,password, image);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

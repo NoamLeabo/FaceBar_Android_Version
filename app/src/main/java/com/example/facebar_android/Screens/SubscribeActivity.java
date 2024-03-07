@@ -22,9 +22,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,33 +78,19 @@ public class SubscribeActivity extends AppCompatActivity {
         subscribeBtn.setOnClickListener(view -> {
             if(checkValidInput()) {
                 Toast.makeText(this, "nice", Toast.LENGTH_SHORT).show();
-//                // write the user to json file name
-//                JSONObject user = new JSONObject();
-//                try {
-//                    user.put("username", userName.getText().toString());
-//                    user.put("password", password.getText().toString());
-//                    user.put("profilePic", profilePic);
-//                    writeObject(user);
-//                } catch (JSONException | IOException e) {
-//                    Toast.makeText(this, "problem occurred", Toast.LENGTH_SHORT).show();
-//                    throw new RuntimeException(e);
-//                }
-                usersAPI.addUser(fName.getText().toString(),lName.getText().toString(),userName.getText().toString(),password.getText().toString());
+                profilePic.setDrawingCacheEnabled(true); // Enable drawing cache
+                profilePic.buildDrawingCache(); // Build the drawing cache
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                Bitmap bitmap=Bitmap.createBitmap(profilePic.getDrawingCache());
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                byte[] bytes=stream.toByteArray();
+                String image= Base64.getEncoder().encodeToString(bytes);
+
+                usersAPI.addUser(fName.getText().toString(),lName.getText().toString(),userName.getText().toString(),password.getText().toString(),image);
                 finish();
             }
         });
 
-    }
-    // writing a JSON object to file users
-    private void writeObject(JSONObject user) throws IOException {
-        // Convert JsonObject to String Format
-        String userString = user.toString();
-        // Define the File Path and its Name
-        File file = new File(this.getFilesDir(),"users");
-        FileWriter fileWriter = new FileWriter(file);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.write(userString);
-        bufferedWriter.close();
     }
 
     //check if user inserted all fields and they're correct

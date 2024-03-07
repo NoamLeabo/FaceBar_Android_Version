@@ -17,7 +17,8 @@ public interface UserAPI {
             @Field("fName") String fName,
             @Field("lName") String lName,
             @Field("username") String username,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("profileImg") String img
     );
     @GET("user/{id}")
     Call<Void> getUser(@Path("id") int id);
