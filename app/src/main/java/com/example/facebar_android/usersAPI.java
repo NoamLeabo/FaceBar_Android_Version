@@ -1,10 +1,6 @@
 package com.example.facebar_android;
 import static android.content.ContentValues.TAG;
 import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
