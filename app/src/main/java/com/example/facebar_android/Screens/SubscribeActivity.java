@@ -18,14 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.facebar_android.R;
 import com.example.facebar_android.usersAPI;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -85,9 +78,19 @@ public class SubscribeActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
                 byte[] bytes=stream.toByteArray();
                 String image= Base64.getEncoder().encodeToString(bytes);
+                usersAPI.addUser(fName.getText().toString(), lName.getText().toString(), userName.getText().toString(), password.getText().toString(), image, new usersAPI.AddUserCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(SubscribeActivity.this, "User added successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
 
-                usersAPI.addUser(fName.getText().toString(),lName.getText().toString(),userName.getText().toString(),password.getText().toString(),image);
-                finish();
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(SubscribeActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
             }
         });
 
