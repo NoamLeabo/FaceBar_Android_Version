@@ -24,6 +24,8 @@ public interface UserAPI {
     );
     @GET("user/{id}")
     Call<ActiveUser> getUser(@Path("id") String id);
+    @GET("user/{id}")
+    Call<ProfileUser> getProfileUser(@Path("id") String id);
 
     @PATCH("user/{id}")
     Call<Void> updateUser(@Path("id") String id);

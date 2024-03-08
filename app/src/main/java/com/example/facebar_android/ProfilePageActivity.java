@@ -47,9 +47,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         return this;
     }
     private ActiveUser activeUser;
-    private String userProfile;
-    private String visitingUser;
-
+    private ProfileUser profileUser;
     private boolean me;
     ImageButton friendsBtn;
     private void initializeViews() {
@@ -59,10 +57,10 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         // we append the welcome msg
         TextView textView = findViewById(R.id.con_user);
-        textView.append(userProfile);
+        textView.append(profileUser.getUsername());
         ImageView profileImg = findViewById(R.id.profile_img);
 
-        byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+        byte[] bytes= android.util.Base64.decode(profileUser.getProfileImage(), android.util.Base64.DEFAULT);
         // Initialize bitmap
         Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
         // set bitmap on imageView
@@ -117,12 +115,13 @@ public class ProfilePageActivity extends AppCompatActivity {
 //            setContentView(R.layout.scrolled_feed);
 //        else
 //            setContentView(R.layout.scrolled_feed_dark);
-        activeUser = ActiveUser.getInstance();
-        setContentView(R.layout.activity_profile_page);
-        userProfile = getIntent().getStringExtra("userProfile"); // Use "userProfile" as key
-        me = userProfile.equals(activeUser.getUsername());
 
-        viewModel = new PostViewModel(userProfile);
+        activeUser = ActiveUser.getInstance();
+        profileUser = ProfileUser.getInstance();
+        setContentView(R.layout.activity_profile_page);
+        me = profileUser.getUsername().equals(activeUser.getUsername());
+
+        viewModel = new PostViewModel(profileUser.getUsername());
 
         viewModel.getPosts().observe(this, new Observer<List<Post>>() {
             @Override
@@ -163,8 +162,9 @@ public class ProfilePageActivity extends AppCompatActivity {
                 String base = Base64.getEncoder().encodeToString(bytes);
 
                 // Create a new Post object
-                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext(), base);
+                Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
+                post.setDate(FeedActivity.getCurrentTime());
                 addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
@@ -197,8 +197,9 @@ public class ProfilePageActivity extends AppCompatActivity {
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
                 // Create a new Post object
-                Post post = new Post("Mark Z.", content, drawable, 0, this.getContext(), base);
+                Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
+                post.setDate(FeedActivity.getCurrentTime());
                 addPostToDB(post);//
                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
@@ -210,7 +211,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 // Retrieve the content and the bitmap
                 String content = data.getStringExtra("content");
 
-                Post post = new Post("Mark Z.", content, 0, this.getContext());
+                Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
                 post.setDate(FeedActivity.getCurrentTime());
                 addPostToDB(post);
 //                adapter.updatePosts();

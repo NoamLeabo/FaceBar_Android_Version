@@ -31,6 +31,7 @@ import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.Posts.PostsListAdapter;
 import com.example.facebar_android.ProfilePageActivity;
 import com.example.facebar_android.R;
+import com.example.facebar_android.usersAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +62,7 @@ public class FeedActivity extends AppCompatActivity {
     private List<Post> posts = new ArrayList<>();
     private ActiveUser activeUser;
     private boolean menuOpen = false;
+    private usersAPI usersAPI;
 
 
     public Context getContext() {
@@ -113,8 +115,18 @@ public class FeedActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("got user profile");
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        System.out.println("did not get user profile");
+                    }
+                });
                 Intent i = new Intent(getContext(), ProfilePageActivity.class);
-                i.putExtra("userProfile", activeUser.getUsername()); // Use "userProfile" as key
                 startActivityForResult(i, ADD_POST_TEXT_ONLY);
             }
         });
@@ -194,7 +206,7 @@ public class FeedActivity extends AppCompatActivity {
             setContentView(R.layout.scrolled_feed);
         else
             setContentView(R.layout.scrolled_feed_dark);
-
+        usersAPI = new usersAPI();
         //loadFromJson();
         viewModel = new PostViewModel("");
 

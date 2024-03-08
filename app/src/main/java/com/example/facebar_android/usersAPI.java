@@ -90,6 +90,44 @@ public class usersAPI {
         });
 
     }
+
+    public void getProfileUser(String userName, final AddUserCallback callback) {
+        Call<ProfileUser> call = userAPI.getProfileUser(userName);
+        call.enqueue(new Callback<ProfileUser>() {
+            @Override
+            public void onResponse(Call<ProfileUser> call, Response<ProfileUser> response) {
+                if (response.code() == 200) {
+                    ProfileUser user = response.body();
+                    if (user.getLikedPosts() == null)
+                        user.setLikedPosts(new ArrayList<>());
+                    if (user.getFriends() == null)
+                        user.setFriends(new ArrayList<>());
+                    if (user.getPosts() == null)
+                        user.setPosts(new ArrayList<>());
+                    if (user.getReq() == null)
+                        user.setReq(new ArrayList<>());
+                    ProfileUser.updateInstance(user);
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ProfileUser> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+
+    }
+
     public interface AddUserCallback {
         void onSuccess();
         void onError(String message);

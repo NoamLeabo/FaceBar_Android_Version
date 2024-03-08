@@ -25,8 +25,10 @@ import com.example.facebar_android.MyApplication;
 import com.example.facebar_android.PostRepository;
 import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.ProfilePageActivity;
+import com.example.facebar_android.ProfileUser;
 import com.example.facebar_android.Screens.FeedActivity;
 import com.example.facebar_android.R;
+import com.example.facebar_android.usersAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -79,12 +81,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private Activity mActivity;
     private PostViewModel viewModel;
     private ActiveUser activeUser;
+    private usersAPI usersAPI;
 
     public PostsListAdapter(Activity activity, PostViewModel viewModel) {
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
         this.viewModel = viewModel;
         this.activeUser = ActiveUser.getInstance();
+        usersAPI = new usersAPI();
     }
 
     @Override
@@ -112,9 +116,19 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.tvAuthor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(MyApplication.context, ProfilePageActivity.class);
-                    i.putExtra("userProfile", holder.tvAuthor.getText());
-                    mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                    usersAPI.getProfileUser((String) holder.tvAuthor.getText(), new usersAPI.AddUserCallback() {
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("got user profile");
+                            Intent i = new Intent(MyApplication.context, ProfilePageActivity.class);
+                            mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            System.out.println("did not get user profile");
+                        }
+                    });
                 }
             });
 
