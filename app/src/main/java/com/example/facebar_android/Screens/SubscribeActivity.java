@@ -70,7 +70,7 @@ public class SubscribeActivity extends AppCompatActivity {
         // onclick for subscribing
         subscribeBtn.setOnClickListener(view -> {
             if(checkValidInput()) {
-                Toast.makeText(this, "nice", Toast.LENGTH_SHORT).show();
+                profilePic.destroyDrawingCache(); // Clear the drawing cache
                 profilePic.setDrawingCacheEnabled(true); // Enable drawing cache
                 profilePic.buildDrawingCache(); // Build the drawing cache
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
@@ -88,7 +88,6 @@ public class SubscribeActivity extends AppCompatActivity {
                     @Override
                     public void onError(String message) {
                         Toast.makeText(SubscribeActivity.this, message, Toast.LENGTH_SHORT).show();
-
                     }
                 });
             }
@@ -121,7 +120,7 @@ public class SubscribeActivity extends AppCompatActivity {
         Matcher lname=checkName.matcher(lName.getText().toString());
 
         if(!lname.matches() || !fname.matches()) {
-            Toast.makeText(this, "\"First And Last Names must contain letters only!\"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "\"First& Last Name must contain letters only and be at least 2 characters long!\"", Toast.LENGTH_SHORT).show();
             return false;
         }
         if(!passW.matches()) {
