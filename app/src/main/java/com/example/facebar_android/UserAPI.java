@@ -34,14 +34,14 @@ public interface UserAPI {
     Call<Void> deleteUser(@Path("id") String id);
 
     @GET("api/users/{id}/friends")
-    Call<List> getFriends(@Path("id") String id);
+    Call<List<String>> getFriends(@Path("id") String id);
 
     @POST("api/users/{id}/friends")
-    Call<Void> pendingFriend(@Path("id") String id, @Body String fid);
+    Call<Void> pendingFriend(@Path("id") String id, @Field("fid") String fid);
 
     @PATCH("api/users/{id}/friends/{fid}")
-    Call<Void> acceptFriend(@Path("id") String id);
+    Call<Void> acceptFriend(@Path("id") String id , @Path("fid") String fid);
 
     @DELETE("api/users/{id}/friends/{fid}")
-    Call<Void> rejectFriend(@Path("id") String id);
+    Call<Void> rejectFriend(@Path("id") String id, @Path("fid") String fid);
 }
