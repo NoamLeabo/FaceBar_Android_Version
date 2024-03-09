@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess() {
                     Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+                    userName.getText().clear();
+                    password.getText().clear();
                     Intent intent = new Intent(MainActivity.this, FeedActivity.class);
                     startActivityForResult(intent, 999);
                 }
