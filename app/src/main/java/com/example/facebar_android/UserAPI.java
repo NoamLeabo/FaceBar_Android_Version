@@ -28,7 +28,7 @@ public interface UserAPI {
     Call<ProfileUser> getProfileUser(@Path("id") String id);
 
     @PATCH("api/users/{id}")
-    Call<Void> updateUser(@Path("id") String id);
+    Call<Void> updateUser(@Path("id") String id, @Body ActiveUser user);
 
     @DELETE("api/users/{id}")
     Call<Void> deleteUser(@Path("id") String id);

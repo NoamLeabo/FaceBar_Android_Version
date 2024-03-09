@@ -257,6 +257,31 @@ public class usersAPI {
             }
         });
     }
+    public void updateUser(String userName, ActiveUser user, final AddUserCallback callback) {
+        Call<Void> call = userAPI.updateUser(userName, user);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
 
     public interface AddUserCallback {
         void onSuccess();
