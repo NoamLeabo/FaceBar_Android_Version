@@ -128,6 +128,161 @@ public class usersAPI {
 
     }
 
+    public void getFriends(String userName, final AddUserCallback callback) {
+        Call<List<String>> call = userAPI.getFriends(userName);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.code() == 200) {
+                    List<String> friends =response.body();
+                    ArrayList<String> friendsArrayList = new ArrayList<>(friends);
+                    ActiveUser.getInstance().setFriends(friendsArrayList);
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
+
+    public void pendingFriend(String userName, String friendName, final AddUserCallback callback) {
+        Call<Void> call = userAPI.pendingFriend(userName, friendName);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
+    public void acceptFriend(String userName, String friendName, final AddUserCallback callback) {
+        Call<Void> call = userAPI.acceptFriend(userName, friendName);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
+    public void rejectFriend(String userName, String friendName, final AddUserCallback callback) {
+        Call<Void> call = userAPI.rejectFriend(userName, friendName);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
+    public void deleteUser(String userName, final AddUserCallback callback) {
+        Call<Void> call = userAPI.deleteUser(userName);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
+    public void updateUser(String userName, ActiveUser user, final AddUserCallback callback) {
+        Call<Void> call = userAPI.updateUser(userName, user);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
+
     public interface AddUserCallback {
         void onSuccess();
         void onError(String message);
