@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 
 public interface UserAPI {
     @FormUrlEncoded
-    @POST("user")
+    @POST("api/users")
     Call<Void> newUser(
             @Field("fName") String fName,
             @Field("lName") String lName,
@@ -22,26 +22,26 @@ public interface UserAPI {
             @Field("password") String password,
             @Field("profileImg") String img
     );
-    @GET("user/{id}")
+    @GET("api/users/{id}")
     Call<ActiveUser> getUser(@Path("id") String id);
-    @GET("user/{id}")
+    @GET("api/users/{id}")
     Call<ProfileUser> getProfileUser(@Path("id") String id);
 
-    @PATCH("user/{id}")
+    @PATCH("api/users/{id}")
     Call<Void> updateUser(@Path("id") String id);
 
-    @DELETE("user/{id}")
+    @DELETE("api/users/{id}")
     Call<Void> deleteUser(@Path("id") String id);
 
-    @GET("user/{id}/friends")
+    @GET("api/users/{id}/friends")
     Call<List> getFriends(@Path("id") String id);
 
-    @POST("user/{id}/friends")
+    @POST("api/users/{id}/friends")
     Call<Void> pendingFriend(@Path("id") String id, @Body String fid);
 
-    @PATCH("user/{id}/friends/{fid}")
+    @PATCH("api/users/{id}/friends/{fid}")
     Call<Void> acceptFriend(@Path("id") String id);
 
-    @DELETE("user/{id}/friends/{fid}")
+    @DELETE("api/users/{id}/friends/{fid}")
     Call<Void> rejectFriend(@Path("id") String id);
 }
