@@ -14,6 +14,10 @@ import retrofit2.http.Path;
 
 public interface UserAPI {
     @FormUrlEncoded
+    @POST("api/tokens")
+    Call<String> getToken(@Field("username") String username, @Field("password") String password);
+
+    @FormUrlEncoded
     @POST("api/users")
     Call<Void> newUser(
             @Field("fName") String fName,
