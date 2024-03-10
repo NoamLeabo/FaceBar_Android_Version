@@ -43,10 +43,21 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess() {
                     Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
-                    userName.getText().clear();
-                    password.getText().clear();
-                    Intent intent = new Intent(MainActivity.this, FeedActivity.class);
-                    startActivityForResult(intent, 999);
+                    usersAPI.getToken(userName.getText().toString(), password.getText().toString(), new usersAPI.AddUserCallback() {
+                        @Override
+                        public void onSuccess(){
+                            Toast.makeText(MainActivity.this, "Token got", Toast.LENGTH_SHORT).show();
+                            userName.getText().clear();
+                            password.getText().clear();
+                            Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                            startActivityForResult(intent, 999);
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(MainActivity.this, "Error getting token", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 @Override
@@ -55,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
 //            curName[0] = userName.getText().toString();
 //            curPass[0] = password.getText().toString();
 //            if ((curName[0].equals("Mark_Z") && curPass[0].equals("123456Mm")) || true) {

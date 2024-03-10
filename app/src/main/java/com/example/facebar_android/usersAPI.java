@@ -4,11 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.facebar_android.Posts.Post;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +21,33 @@ public class usersAPI {
         retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:12345/").addConverterFactory(GsonConverterFactory.create())
                 .build();
         userAPI = retrofit.create(UserAPI.class);
+    }
+    public void getToken(String username,String password, final AddUserCallback callback) {
+        Call<String> call = userAPI.getToken(username, password);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.code() == 201) {
+                    String token = response.body();
+                    Log.d(TAG, "onResponse: "+token);
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
     }
     public void addUser(String fName, String lName, String username, String password, String image, final AddUserCallback callback) {
         Call<Void> call = userAPI.newUser(fName, lName, username, password, image);
@@ -65,8 +87,12 @@ public class usersAPI {
                         user.setFriends(new ArrayList<>());
                     if (user.getPosts() == null)
                         user.setPosts(new ArrayList<>());
-                    if (user.getReq() == null)
-                        user.setReq(new ArrayList<>());
+                    if (user.getPendings() == null) {
+                        ArrayList<String> p = new ArrayList<>();
+                        p.add("GIGI");
+                        p.add("DIDI");
+                        user.setPendings(p);
+                    }
                     ActiveUser.updateInstance(user);
                     if (password.equals(user.getPassword()))
                         callback.onSuccess();
@@ -257,8 +283,8 @@ public class usersAPI {
             }
         });
     }
-    public void updateUser(String userName, ActiveUser user, final AddUserCallback callback) {
-        Call<Void> call = userAPI.updateUser(userName, user);
+    public void updateUser(String userName, String password,String image, final AddUserCallback callback) {
+        Call<Void> call = userAPI.updateUser(userName,password, image);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

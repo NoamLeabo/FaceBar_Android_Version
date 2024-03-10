@@ -41,9 +41,6 @@ public class Post {
     @Ignore
     private Drawable profPic;
     private String path;
-
-
-
     private String base;
     @Ignore
     private Drawable postPic;

@@ -42,7 +42,10 @@
                     android:id="@+id/profile_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/person_sign_black" />

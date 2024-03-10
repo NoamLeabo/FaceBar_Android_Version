@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lay_logo"
                 app:layout_constraintVertical_bias="0.0"
@@ -171,14 +171,14 @@
                     android:src="@drawable/night_sign" />
 
                 <ImageButton
-                    android:id="@+id/notifications_btn"
+                    android:id="@+id/editBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/notifications_sign" />
+                    android:src="@drawable/edit_sign" />
 
                 <ImageButton
                     android:id="@+id/friends_btn"

@@ -14,6 +14,10 @@ import retrofit2.http.Path;
 
 public interface UserAPI {
     @FormUrlEncoded
+    @POST("api/tokens")
+    Call<String> getToken(@Field("username") String username, @Field("password") String password);
+
+    @FormUrlEncoded
     @POST("api/users")
     Call<Void> newUser(
             @Field("fName") String fName,
@@ -27,8 +31,10 @@ public interface UserAPI {
     @GET("api/users/{id}")
     Call<ProfileUser> getProfileUser(@Path("id") String id);
 
+    @FormUrlEncoded
     @PATCH("api/users/{id}")
-    Call<Void> updateUser(@Path("id") String id, @Body ActiveUser user);
+    Call<Void> updateUser(@Path("id") String id, @Field("password") String password,
+                          @Field("profileImg") String img);
 
     @DELETE("api/users/{id}")
     Call<Void> deleteUser(@Path("id") String id);

@@ -24,6 +24,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.facebar_android.ActiveUser;
 import com.example.facebar_android.Commets.Comment;
+import com.example.facebar_android.MyApplication;
 import com.example.facebar_android.PostDao;
 import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.Posts.AddPostActivity;
@@ -118,6 +119,8 @@ public class FeedActivity extends AppCompatActivity {
                 usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
+                        Intent i = new Intent(getContext(), ProfilePageActivity.class);
+                        startActivityForResult(i, ADD_POST_TEXT_ONLY);
                         System.out.println("got user profile");
                     }
 
@@ -126,12 +129,11 @@ public class FeedActivity extends AppCompatActivity {
                         System.out.println("did not get user profile");
                     }
                 });
-                Intent i = new Intent(getContext(), ProfilePageActivity.class);
-                startActivityForResult(i, ADD_POST_TEXT_ONLY);
             }
         });
 
         ImageButton menuBtn = findViewById(R.id.menu_btn);
+        ImageButton editBtn = findViewById(R.id.editBtn);
         LinearLayout menu = findViewById(R.id.TOP_START);
         ImageButton logOutBtn = findViewById(R.id.log_out_btn);
         ImageButton nightModeBtn = findViewById(R.id.night_mode_btn);
@@ -153,6 +155,11 @@ public class FeedActivity extends AppCompatActivity {
             viewModel.reload();
         });
 
+        editBtn.setOnClickListener(v -> {
+            Intent i = new Intent(MyApplication.context, SubscribeActivity.class);
+            i.putExtra("edit", 404);
+            startActivityForResult(i, 404);
+        });
 
         menuBtn.setOnClickListener(v -> {
             if (menuOpen) {
@@ -327,6 +334,9 @@ public class FeedActivity extends AppCompatActivity {
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
             }
+        } else if (resultCode == 404) {
+            activeUser = ActiveUser.getInstance();
+            recreate();
         }
     }
 
