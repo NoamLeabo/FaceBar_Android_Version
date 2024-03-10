@@ -116,8 +116,8 @@ public class PostRepository {
 //                }
 //            }
             new Thread(() -> {
-                //dao.insertList(posts);
-                //dao.clear();
+                dao.insertList(posts);
+                dao.clear();
             }).start();
             this.setValue(posts);
         }
@@ -127,6 +127,7 @@ public class PostRepository {
             super.onActive();
 
             new Thread(() -> {
+                api.get();
                 if (username.equals(""))
                     postsListDate.postValue(dao.index());
                 else

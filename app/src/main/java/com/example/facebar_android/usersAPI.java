@@ -29,6 +29,9 @@ public class usersAPI {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.code() == 201) {
                     String token = response.body();
+                    JWT jwt = JWT.getInstance();
+                    jwt.upDateToken(token);
+                    Log.d(TAG, "onResponse: "+jwt.getToken());
                     Log.d(TAG, "onResponse: "+token);
                     callback.onSuccess();
                 } else {
