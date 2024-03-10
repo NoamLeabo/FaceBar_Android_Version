@@ -69,7 +69,7 @@ public class PostAPI {
         });
     }
     public void add(Post post) {
-        Call<Void> call = webServiceAPI.createPost(post);
+        Call<Void> call = webServiceAPI.createPost(post.getAuthor() ,post);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -87,7 +87,7 @@ public class PostAPI {
     }
     public void delete(Post post) {
         int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
-        Call<Void> call = webServiceAPI.deletePost(postId);
+        Call<Void> call = webServiceAPI.deletePost(post.getAuthor(), postId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

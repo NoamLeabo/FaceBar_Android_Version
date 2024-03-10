@@ -4,11 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.facebar_android.Posts.Post;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +60,12 @@ public class usersAPI {
                         user.setFriends(new ArrayList<>());
                     if (user.getPosts() == null)
                         user.setPosts(new ArrayList<>());
-                    if (user.getReq() == null)
-                        user.setReq(new ArrayList<>());
+                    if (user.getPendings() == null) {
+                        ArrayList<String> p = new ArrayList<>();
+                        p.add("GIGI");
+                        p.add("DIDI");
+                        user.setPendings(p);
+                    }
                     ActiveUser.updateInstance(user);
                     if (password.equals(user.getPassword()))
                         callback.onSuccess();
@@ -257,8 +256,8 @@ public class usersAPI {
             }
         });
     }
-    public void updateUser(String userName, ActiveUser user, final AddUserCallback callback) {
-        Call<Void> call = userAPI.updateUser(userName, user);
+    public void updateUser(String userName, String password,String image, final AddUserCallback callback) {
+        Call<Void> call = userAPI.updateUser(userName,password, image);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

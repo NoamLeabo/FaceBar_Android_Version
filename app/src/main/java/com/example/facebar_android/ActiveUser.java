@@ -11,7 +11,7 @@ public class ActiveUser {
     private ArrayList<Integer> posts = new ArrayList<>();
     private ArrayList<Integer> likedPosts = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();
-    private ArrayList<String> req = new ArrayList<>();
+    private ArrayList<String> pendings = new ArrayList<>();
     private static ActiveUser instance;
     public static void updateInstance(ActiveUser user) {
         instance = user;
@@ -84,12 +84,12 @@ public class ActiveUser {
         this.friends = friends;
     }
 
-    public ArrayList<String> getReq() {
-        return req;
+    public ArrayList<String> getPendings() {
+        return pendings;
     }
 
-    public void setReq(ArrayList<String> req) {
-        this.req = req;
+    public void setPendings(ArrayList<String> pendings) {
+        this.pendings = pendings;
     }
 
     public ArrayList<Integer> getLikedPosts() {

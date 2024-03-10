@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +31,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Locale;
 
 public class ProfilePageActivity extends AppCompatActivity {
     public static final int ADD_POST_TEXT_ONLY = 111;
@@ -70,18 +68,26 @@ public class ProfilePageActivity extends AppCompatActivity {
         friendsBtn = findViewById(R.id.friends_btn);
 
         if (me) {
-
-        } else {
-            friendsBtn.setImageResource(R.drawable.add_friend_sign);
             friendsBtn.setOnClickListener(v -> {
-                //send friends req
-                friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
-                if (friendsBtn.isClickable())
-                    Toast.makeText(this, "Friend request was sent!", Toast.LENGTH_SHORT).show();
-                friendsBtn.setClickable(false);
-
-
+                Intent i = new Intent(this, FriendsReqActivity.class);
+                startActivityForResult(i, ADD_POST_TEXT_ONLY);
             });
+        } else {
+            if (activeUser.getFriends().contains(profileUser.getUsername()) || activeUser.getPendings().contains(profileUser.getUsername())) {
+                friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
+                friendsBtn.setClickable(false);
+            } else {
+                friendsBtn.setImageResource(R.drawable.add_friend_sign);
+                friendsBtn.setOnClickListener(v -> {
+                    //send friends req
+                    friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
+                    if (friendsBtn.isClickable())
+                        Toast.makeText(this, "Friend request was sent!", Toast.LENGTH_SHORT).show();
+                    friendsBtn.setClickable(false);
+
+
+                });
+            }
         }
 
         refreshLayout = findViewById(R.id.refreshLayout);

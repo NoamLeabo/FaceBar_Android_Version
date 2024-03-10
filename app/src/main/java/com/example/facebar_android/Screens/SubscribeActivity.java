@@ -3,6 +3,7 @@ package com.example.facebar_android.Screens;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.facebar_android.ActiveUser;
 import com.example.facebar_android.R;
 import com.example.facebar_android.usersAPI;
 
@@ -26,7 +28,9 @@ import java.util.regex.Pattern;
 public class SubscribeActivity extends AppCompatActivity {
 
     final int EMPTY=0;
-
+    private int status;
+    private usersAPI usersAPI;
+    private ActiveUser activeUser;
     EditText fName,lName,password,userName,passwordCheck;
     Button openCameraBtn,subscribeBtn,galleryBtn;
     ImageView profilePic;
@@ -36,15 +40,16 @@ public class SubscribeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        usersAPI usersAPI=new usersAPI();
+        usersAPI=new usersAPI();
 
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_subscribe);
         else
             setContentView(R.layout.activity_subscribe_dark);
 
+        status = getIntent().getIntExtra("edit", 0);
         userName=findViewById(R.id.userName);
-        profilePic=null;
+        profilePic=findViewById(R.id.ivPic);
         fName=findViewById(R.id.fName);
         lName=findViewById(R.id.lName);
         password=findViewById(R.id.password);
@@ -53,6 +58,24 @@ public class SubscribeActivity extends AppCompatActivity {
         subscribeBtn=findViewById(R.id.subscribeBtn);
         galleryBtn=findViewById(R.id.galleryBtn);
         registerResult();
+
+        if (status == 404) {
+            activeUser = ActiveUser.getInstance();
+            userName.setText(activeUser.getUsername());
+            userName.setEnabled(false);
+            lName.setText(activeUser.getlName());
+            lName.setEnabled(false);
+            fName.setText(activeUser.getfName());
+            fName.setEnabled(false);
+            subscribeBtn.setText("Update Values");
+            password.setText(activeUser.getPassword());
+            passwordCheck.setText(activeUser.getPassword());
+            byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+            // Initialize bitmap
+            Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            // set bitmap on imageView
+            profilePic.setImageBitmap(bitmap);
+        }
 
         // onclick for opening gallery
         galleryBtn.setOnClickListener(view ->  {
@@ -73,23 +96,52 @@ public class SubscribeActivity extends AppCompatActivity {
                 profilePic.destroyDrawingCache(); // Clear the drawing cache
                 profilePic.setDrawingCacheEnabled(true); // Enable drawing cache
                 profilePic.buildDrawingCache(); // Build the drawing cache
-                ByteArrayOutputStream stream=new ByteArrayOutputStream();
-                Bitmap bitmap=Bitmap.createBitmap(profilePic.getDrawingCache());
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-                byte[] bytes=stream.toByteArray();
-                String image= Base64.getEncoder().encodeToString(bytes);
-                usersAPI.addUser(fName.getText().toString(), lName.getText().toString(), userName.getText().toString(), password.getText().toString(), image, new usersAPI.AddUserCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Toast.makeText(SubscribeActivity.this, "User added successfully", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                Bitmap bitmap = Bitmap.createBitmap(profilePic.getDrawingCache());
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bytes = stream.toByteArray();
+                String image = Base64.getEncoder().encodeToString(bytes);
+                if (status == 404) {
 
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(SubscribeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    usersAPI.updateUser(activeUser.getUsername(), password.getText().toString(), image, new usersAPI.AddUserCallback() {
+                        @Override
+                        public void onSuccess() {
+                            usersAPI.getUser(userName.getText().toString(), password.getText().toString(), new usersAPI.AddUserCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(SubscribeActivity.this, "Values were updated!", Toast.LENGTH_SHORT).show();
+                                    setResult(404);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onError(String message) {
+                                    Toast.makeText(SubscribeActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(SubscribeActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    usersAPI.addUser(fName.getText().toString(), lName.getText().toString(), userName.getText().toString(), password.getText().toString(), image, new usersAPI.AddUserCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(SubscribeActivity.this, "User added successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(SubscribeActivity.this, message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
