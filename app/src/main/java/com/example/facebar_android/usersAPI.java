@@ -22,6 +22,33 @@ public class usersAPI {
                 .build();
         userAPI = retrofit.create(UserAPI.class);
     }
+    public void getToken(String username,String password, final AddUserCallback callback) {
+        Call<String> call = userAPI.getToken(username, password);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.code() == 201) {
+                    String token = response.body();
+                    Log.d(TAG, "onResponse: "+token);
+                    callback.onSuccess();
+                } else {
+                    String errorMessage = null;
+                    try {
+                        errorMessage = response.errorBody().string();
+                        callback.onError(errorMessage);
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d(TAG, "onFailure: failed");
+                call.cancel();
+            }
+        });
+    }
     public void addUser(String fName, String lName, String username, String password, String image, final AddUserCallback callback) {
         Call<Void> call = userAPI.newUser(fName, lName, username, password, image);
         call.enqueue(new Callback<Void>() {
