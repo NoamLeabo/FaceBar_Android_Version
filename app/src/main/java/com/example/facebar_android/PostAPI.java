@@ -30,7 +30,8 @@ public class PostAPI {
     }
 
     public void get() {
-        Call<List<Post>> call = webServiceAPI.getPosts(JWT.getInstance().getToken());
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<List<Post>> call = webServiceAPI.getPosts(token);
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {

@@ -18,7 +18,7 @@ import retrofit2.http.Path;
 
 public interface WebServiceAPI {
     @GET("api/posts")
-    Call<List<Post>> getPosts(@Header("Authorization") String token);
+    Call<List<Post>> getPosts(@Header("authorization") String token);
     @GET("users/id/posts")
     Call<List<Post>> getUserPosts(@Path("id") String id);
     @POST("users/id/posts")
