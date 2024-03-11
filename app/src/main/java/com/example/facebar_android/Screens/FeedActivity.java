@@ -2,11 +2,9 @@ package com.example.facebar_android.Screens;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -23,9 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.facebar_android.ActiveUser;
-import com.example.facebar_android.Commets.Comment;
 import com.example.facebar_android.MyApplication;
-import com.example.facebar_android.PostDao;
 import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.Posts.AddPostActivity;
 import com.example.facebar_android.Posts.Post;
@@ -33,10 +29,6 @@ import com.example.facebar_android.Posts.PostsListAdapter;
 import com.example.facebar_android.ProfilePageActivity;
 import com.example.facebar_android.R;
 import com.example.facebar_android.usersAPI;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -279,7 +271,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
-                post.setDate(FeedActivity.getCurrentTime());
+                post.setPublished(FeedActivity.getCurrentTime());
                 addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
@@ -314,7 +306,7 @@ public class FeedActivity extends AppCompatActivity {
                 // Create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
-                post.setDate(FeedActivity.getCurrentTime());
+                post.setPublished(FeedActivity.getCurrentTime());
                 addPostToDB(post);//
                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
@@ -327,7 +319,7 @@ public class FeedActivity extends AppCompatActivity {
                 String content = data.getStringExtra("content");
 
                 Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
-                post.setDate(FeedActivity.getCurrentTime());
+                post.setPublished(FeedActivity.getCurrentTime());
                 addPostToDB(post);
 //                adapter.updatePosts();
                 // Use the content and the bitmap as needed

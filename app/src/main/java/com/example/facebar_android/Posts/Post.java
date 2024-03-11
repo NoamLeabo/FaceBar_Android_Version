@@ -1,9 +1,7 @@
 package com.example.facebar_android.Posts;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 
 import androidx.core.content.ContextCompat;
 import androidx.room.ColumnInfo;
@@ -15,10 +13,8 @@ import androidx.room.TypeConverters;
 import com.example.facebar_android.Commets.Comment;
 import com.example.facebar_android.Converters;
 import com.example.facebar_android.R;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //@TypeConverters(Converters.class)
@@ -28,8 +24,10 @@ public class Post {
     @PrimaryKey(autoGenerate = true)
     private int postId;
     private String author;
+
+    private String profilePic;
     private String content;
-    private String date = "date";
+    private String published = "date";
     private int likes;
     private boolean liked = false;
     @ColumnInfo(name = "comments_int")
@@ -41,11 +39,19 @@ public class Post {
     @Ignore
     private Drawable profPic;
     private String path;
-    private String base;
+    private String imageView;
     @Ignore
     private Drawable postPic;
     private String pathPostPic;
     private boolean containsPostPic;
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
 
     // constructor from json
     public Post(String author, String content, String path, int likes, String pathPostPic) {
@@ -58,14 +64,14 @@ public class Post {
     }
 
     // constructor of a new user's post
-    public Post(String author, String content, Drawable drawable, int likes, Context context, String base) {
+    public Post(String author, String content, Drawable drawable, int likes, Context context, String imageView) {
         this.author = author;
         this.content = content;
         this.postPic = drawable;
         this.profPic = ContextCompat.getDrawable(context, R.drawable.zukiprofile);
         this.likes = likes;
         this.comments = new ArrayList<>();
-        this.base = base;
+        this.imageView = imageView;
     }
 
     // constructor of imageLess post
@@ -101,12 +107,12 @@ public class Post {
         this.liked = !liked;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPublished(String published) {
+        this.published = published;
     }
 
-    public String getDate() {
-        return this.date;
+    public String getPublished() {
+        return this.published;
     }
 
     public void setComments(ArrayList<Comment> comments) {
@@ -194,12 +200,12 @@ public class Post {
     public void setNumOfCommentsInt(int numOfCommentsInt) {
         this.numOfCommentsInt = numOfCommentsInt;
     }
-    public String getBase() {
-        return base;
+    public String getImageView() {
+        return imageView;
     }
 
-    public void setBase(String base) {
-        this.base = base;
+    public void setImageView(String imageView) {
+        this.imageView = imageView;
     }
 
 }

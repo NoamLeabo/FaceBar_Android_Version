@@ -14,18 +14,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.facebar_android.ActiveUser;
-import com.example.facebar_android.Commets.Comment;
 import com.example.facebar_android.Commets.CommentsActivity;
 import com.example.facebar_android.MyApplication;
-import com.example.facebar_android.PostRepository;
 import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.ProfilePageActivity;
-import com.example.facebar_android.ProfileUser;
 import com.example.facebar_android.Screens.FeedActivity;
 import com.example.facebar_android.R;
 import com.example.facebar_android.usersAPI;
@@ -133,11 +129,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             });
 
             holder.tvContent.setText(current.getContent());
-            if (current.getDate().equals("date")) {
-                current.setDate(FeedActivity.getCurrentTime());
+            if (current.getPublished().equals("date")) {
+                current.setPublished(FeedActivity.getCurrentTime());
                 holder.tvDate.setText(FeedActivity.getCurrentTime());
             } else
-                holder.tvDate.setText(current.getDate());
+                holder.tvDate.setText(current.getPublished());
 
             int liked = activeUser.getLikedPosts().indexOf(current.getPostId());
             if (liked != -1) {
@@ -150,7 +146,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             }
             if (current.getContainsPostPic()) {
 
-                byte[] bytes= Base64.decode(current.getBase(),Base64.DEFAULT);
+                byte[] bytes= Base64.decode(current.getImageView(),Base64.DEFAULT);
                 // Initialize bitmap
                 Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
                 // set bitmap on imageView
@@ -207,7 +203,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                 } else {
                     Post edited = current;
                     edited.setContent(String.valueOf(holder.teContent.getText()));
-                    edited.setDate(FeedActivity.getCurrentTime() + " edited");
+                    edited.setPublished(FeedActivity.getCurrentTime() + " edited");
                     viewModel.edit(edited);
                     holder.tvContent.setText(holder.teContent.getText());
                     holder.teContent.setVisibility(View.GONE);

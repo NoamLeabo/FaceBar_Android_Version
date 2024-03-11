@@ -2,15 +2,12 @@ package com.example.facebar_android;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.example.facebar_android.Commets.Comment;
 import com.example.facebar_android.Posts.Post;
-import com.example.facebar_android.Posts.PostsListAdapter;
 import com.example.facebar_android.Screens.FeedActivity;
 
 import org.json.JSONArray;
@@ -81,8 +78,8 @@ public class PostRepository {
 
                     Post post = new Post(author, content, path, numlikes, pathPost);
 //                    post.setComments(commentsList);
-                    post.setDate(FeedActivity.getCurrentTime());
-                    posts.add(post);
+                    post.setPublished(FeedActivity.getCurrentTime());
+                   // posts.add(post);
                 }
 
             } catch (IOException | JSONException e) {
@@ -116,8 +113,8 @@ public class PostRepository {
 //                }
 //            }
             new Thread(() -> {
-                dao.insertList(posts);
-                dao.clear();
+                //dao.insertList(posts);
+                //dao.clear();
             }).start();
             this.setValue(posts);
         }
@@ -127,11 +124,11 @@ public class PostRepository {
             super.onActive();
 
             new Thread(() -> {
-                api.get();
-                if (username.equals(""))
-                    postsListDate.postValue(dao.index());
-                else
-                    postsListDate.postValue(dao.userPosts(username));
+//                api.get();
+//                if (username.equals(""))
+//                    postsListDate.postValue(dao.index());
+//                else
+//                    postsListDate.postValue(dao.userPosts(username));
             }).start();
         }
     }
@@ -152,8 +149,8 @@ public class PostRepository {
 
     public void add(final Post post) {
         new Thread(() -> {
-            dao.insert(post);
-//            api.add(post);
+//            dao.insert(post);
+            api.add(post);
         }).start();
     }
 
@@ -173,15 +170,16 @@ public class PostRepository {
 
     public void reload() {
         new Thread(() -> {
-            if (username.equals(""))
-                postsListDate.postValue(dao.index());
-            else
-                postsListDate.postValue(dao.userPosts(username));
-
 //            if (username.equals(""))
-//                api.get();
+//                postsListDate.postValue(dao.index());
 //            else
-//                api.getUserPosts(username);
+//                postsListDate.postValue(dao.userPosts(username));
+//
+////            if (username.equals(""))
+////                api.get();
+////            else
+////                api.getUserPosts(username);
+            api.get();
         }).start();
     }
 }
