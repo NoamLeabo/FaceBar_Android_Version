@@ -170,7 +170,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 // Create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
-                post.setDate(FeedActivity.getCurrentTime());
+                post.setPublished(FeedActivity.getCurrentTime());
                 addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
@@ -205,7 +205,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 // Create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
-                post.setDate(FeedActivity.getCurrentTime());
+                post.setPublished(FeedActivity.getCurrentTime());
                 addPostToDB(post);//
                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
@@ -218,7 +218,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 String content = data.getStringExtra("content");
 
                 Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
-                post.setDate(FeedActivity.getCurrentTime());
+                post.setPublished(FeedActivity.getCurrentTime());
                 addPostToDB(post);
 //                adapter.updatePosts();
                 // Use the content and the bitmap as needed

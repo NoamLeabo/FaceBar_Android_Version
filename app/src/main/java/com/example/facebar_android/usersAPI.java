@@ -29,6 +29,9 @@ public class usersAPI {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.code() == 201) {
                     String token = response.body();
+                    JWT jwt = JWT.getInstance();
+                    jwt.upDateToken(token);
+                    Log.d(TAG, "onResponse: "+jwt.getToken());
                     Log.d(TAG, "onResponse: "+token);
                     callback.onSuccess();
                 } else {
@@ -155,7 +158,8 @@ public class usersAPI {
     }
 
     public void getFriends(String userName, final AddUserCallback callback) {
-        Call<List<String>> call = userAPI.getFriends(userName);
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<List<String>> call = userAPI.getFriends(userName,token);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -184,7 +188,8 @@ public class usersAPI {
     }
 
     public void pendingFriend(String userName, String friendName, final AddUserCallback callback) {
-        Call<Void> call = userAPI.pendingFriend(userName, friendName);
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<Void> call = userAPI.pendingFriend(userName, friendName,token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -209,7 +214,8 @@ public class usersAPI {
         });
     }
     public void acceptFriend(String userName, String friendName, final AddUserCallback callback) {
-        Call<Void> call = userAPI.acceptFriend(userName, friendName);
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<Void> call = userAPI.acceptFriend(userName, friendName,token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -234,7 +240,8 @@ public class usersAPI {
         });
     }
     public void rejectFriend(String userName, String friendName, final AddUserCallback callback) {
-        Call<Void> call = userAPI.rejectFriend(userName, friendName);
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<Void> call = userAPI.rejectFriend(userName, friendName,token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -259,7 +266,8 @@ public class usersAPI {
         });
     }
     public void deleteUser(String userName, final AddUserCallback callback) {
-        Call<Void> call = userAPI.deleteUser(userName);
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<Void> call = userAPI.deleteUser(userName,token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -284,7 +292,8 @@ public class usersAPI {
         });
     }
     public void updateUser(String userName, String password,String image, final AddUserCallback callback) {
-        Call<Void> call = userAPI.updateUser(userName,password, image);
+        String token="bearer "+JWT.getInstance().getToken();
+        Call<Void> call = userAPI.updateUser(userName,password, image,token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
