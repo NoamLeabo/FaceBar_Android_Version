@@ -23,6 +23,7 @@ import java.util.List;
 public class Post {
     @PrimaryKey(autoGenerate = true)
     private int postId;
+    private String _id;
     private String author;
 
     private String profilePic;
@@ -208,4 +209,11 @@ public class Post {
         this.imageView = imageView;
     }
 
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 }

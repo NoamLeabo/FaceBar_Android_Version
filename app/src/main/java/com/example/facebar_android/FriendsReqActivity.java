@@ -7,7 +7,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.facebar_android.Commets.CommentListAdapter;
 import com.example.facebar_android.Screens.FeedActivity;
@@ -16,7 +18,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class FriendsReqActivity extends AppCompatActivity {
-    ActiveUser activeUser;
+    private ActiveUser activeUser;
+    private ProfileUser profileUser;
+    private FriendListAdapter adapterF;
+    private boolean friend = false;
+    private SwipeRefreshLayout refreshLayoutF;
+
+    private usersAPI usersAPI = new usersAPI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +36,50 @@ public class FriendsReqActivity extends AppCompatActivity {
 //            setContentView(R.layout.comments_page_dark);
 
         activeUser = ActiveUser.getInstance();
+        profileUser = ProfileUser.getInstance();
         setContentView(R.layout.activity_friends_req);
+
+        if(getIntent().getStringExtra("friend") != null) {
+            friend = true;
+        }
 
         // retrieve the comments passed from the previous activity
 
         // initialize FRIENDS RecyclerView
         RecyclerView lstFriends = findViewById(R.id.lstFriends);
-        SwipeRefreshLayout refreshLayoutF = findViewById(R.id.refreshLayoutF);
+        refreshLayoutF = findViewById(R.id.refreshLayoutF);
 
-        final FriendListAdapter adapterF = new FriendListAdapter(this);
+        adapterF = new FriendListAdapter(this, friend);
         lstFriends.setAdapter(adapterF);
         lstFriends.setLayoutManager(new LinearLayoutManager(this));
 
-        adapterF.setFriends(activeUser.getFriends());
+        adapterF.setFriends(profileUser.getFriends());
         refreshLayoutF.setOnRefreshListener(() -> {
-            activeUser = ActiveUser.getInstance();
-            adapterF.setFriends(activeUser.getFriends());
-            refreshLayoutF.setRefreshing(false);
+//            activeUser = ActiveUser.getInstance();
+            usersAPI.getFriends(profileUser.getUsername(), new usersAPI.AddUserCallback() {
+                @Override
+                public void onSuccess() {
+                    adapterF.setFriends(profileUser.getFriends());
+                    refreshLayoutF.setRefreshing(false);
+                }
+
+                @Override
+                public void onError(String message) {
+
+                }
+            });
         });
 
         // initialize PENDINGS RecyclerView
         RecyclerView lstPendings = findViewById(R.id.lstReq);
         SwipeRefreshLayout refreshLayoutR = findViewById(R.id.refreshLayoutR);
 
-        final PendingListAdapter adapterR = new PendingListAdapter(this);
+        if (friend) {
+            refreshLayoutR.setVisibility(View.GONE);
+            TextView req = findViewById(R.id.friends_req);
+            req.setVisibility(View.GONE);
+        }
+        final PendingListAdapter adapterR = new PendingListAdapter(this, this);
         lstPendings.setAdapter(adapterR);
         lstPendings.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,6 +90,20 @@ public class FriendsReqActivity extends AppCompatActivity {
             refreshLayoutR.setRefreshing(false);
         });
 
+    }
+    void updateFList() {
+        usersAPI.getFriends(profileUser.getUsername(), new usersAPI.AddUserCallback() {
+            @Override
+            public void onSuccess() {
+                adapterF.setFriends(profileUser.getFriends());
+                refreshLayoutF.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
     @Override
     public void onBackPressed() {

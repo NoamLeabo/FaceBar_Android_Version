@@ -8,6 +8,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -19,9 +20,10 @@ public interface WebServiceAPI {
     Call<List<Post>> getUserPosts(@Path("id") String id, @Header("authorization") String token);
     @FormUrlEncoded
     @POST("api/users/{id}/posts")
-    Call<Void> createPost(@Path("id") String id, @Field("content") String content,@Field("imageView") String base,@Field("published") String date  ,@Header("authorization") String token);
+    Call<Void> createPost(@Path("id") String id, @Field("content") String content,@Field("imageView") String base,@Field("published") String date, @Field("profilePic") String profilePic  ,@Header("authorization") String token);
     @DELETE("api/users/{id}/posts/{pid}")
-    Call<Void> deletePost(@Path("id") String id, @Path("pid") int pid, @Header("authorization") String token);
-    @PUT("api/users/{id}/posts/{pid}")
-    Call<Void> updatePost(@Path("id") String id, @Path("pid") int pid, @Body Post post, @Header("authorization") String token);
+    Call<Void> deletePost(@Path("id") String id, @Path("pid") String pid, @Header("authorization") String token);
+    @FormUrlEncoded
+    @PATCH("api/users/{id}/posts/{pid}")
+    Call<Void> updatePost(@Path("id") String id, @Path("pid") String pid, @Field("content") String content, @Field("imageView") String imageView, @Field("published") String published, @Header("authorization") String token);
 }

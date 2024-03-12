@@ -11,6 +11,8 @@ public class ProfileUser {
     private ArrayList<Integer> posts = new ArrayList<>();
     private ArrayList<Integer> likedPosts = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();
+    private ArrayList<String> pending = new ArrayList<>();
+
     private ArrayList<String> req = new ArrayList<>();
     private static ProfileUser instance;
     public static void updateInstance(ProfileUser user) {
@@ -99,5 +101,13 @@ public class ProfileUser {
     public void setLikedPosts(ArrayList<Integer> likedPosts) {
         this.likedPosts = likedPosts;
 
+    }
+
+    public ArrayList<String> getPending() {
+        return pending;
+    }
+
+    public void setPending(ArrayList<String> pending) {
+        this.pending = pending;
     }
 }

@@ -113,8 +113,7 @@ public class PostRepository {
 //                }
 //            }
             new Thread(() -> {
-                //dao.insertList(posts);
-                //dao.clear();
+                dao.index();
             }).start();
             this.setValue(posts);
         }
@@ -124,7 +123,7 @@ public class PostRepository {
             super.onActive();
 
             new Thread(() -> {
-//                api.get();
+                  api.get();
 //                if (username.equals(""))
 //                    postsListDate.postValue(dao.index());
 //                else
@@ -156,15 +155,15 @@ public class PostRepository {
 
     public void delete(final Post post) {
         new Thread(() -> {
-            dao.delete(post);
-//            api.delete(post);
+//            dao.delete(post);
+            api.delete(post);
         }).start();
     }
 
     public void edit(final Post post) {
         new Thread(() -> {
-            dao.update(post);
-//            api.update(post);
+//            dao.update(post);
+            api.update(post);
         }).start();
     }
 
@@ -182,4 +181,16 @@ public class PostRepository {
             api.get();
         }).start();
     }
+    public void getUserPost(String username){
+        new Thread(() -> {
+            api.getUserPost(username);
+        }).start();
+    }
+
+    public void reloadUserPost() {
+        new Thread(() -> {
+            api.getUserPost(username);
+        }).start();
+    }
+
 }

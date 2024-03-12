@@ -37,16 +37,25 @@ public class AddPostActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> launcher;
     private Bitmap bitmap;
     private String content;
+    private ImageView pic;
+    private String _id;
     private Uri uri;
     private boolean isUri = false;
     private boolean isImage = false;
     private String base;
     private ActiveUser activeUser;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getIntent().getStringExtra("author") != null) {
+            editMode = true;
+            this._id = getIntent().getStringExtra("id");
+            this.base = getIntent().getStringExtra("imageView");
+            this.content = getIntent().getStringExtra("content");
+        }
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_add_post);
         else
@@ -55,20 +64,29 @@ public class AddPostActivity extends AppCompatActivity {
 
         TextView tvAuthor = findViewById(R.id.tvAuthor);
         tvAuthor.setText(activeUser.getUsername());
+        pic = findViewById(R.id.ivPic);
+
 
         ImageView profileImg = findViewById(R.id.profile_img);
-
         byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
         // Initialize bitmap
         Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
         // set bitmap on imageView
         profileImg.setImageBitmap(bitmap);
 
-
-
         // retrieving all necessary fields from xml
         final String[] content = new String[1];
         EditText editText = findViewById(R.id.tvWrite);
+        editText.setHint("What's on your mind " +activeUser.getUsername() +"?");
+        if (editMode && !base.equals("")) {
+            bytes= android.util.Base64.decode(base, android.util.Base64.DEFAULT);
+            // Initialize bitmap
+            bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            // set bitmap on imageView
+            pic.setImageBitmap(bitmap);
+        }
+        if (editMode)
+            editText.setText(this.content);
         RegisterResult();
         ImageButton post_post_btn = findViewById(R.id.post_post_btn);
         ImageButton cancel_post_post_btn = findViewById(R.id.del_Btn);
@@ -115,7 +133,6 @@ public class AddPostActivity extends AppCompatActivity {
         // the open camera intent
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             try {
-                ImageView pic = findViewById(R.id.ivPic);
                 Bundle extras = result.getData().getExtras();
                 if (extras != null && extras.get("data") != null) {
                     // image is captured from camera
@@ -176,12 +193,16 @@ public class AddPostActivity extends AppCompatActivity {
         if (isImage) {
             if (!isUri) {
                 // sends back the results with img by bitmap
+                if (editMode)
+                    resultIntent.putExtra("edit", _id);
                 resultIntent.putExtra("content", this.content);
                 resultIntent.putExtra("newPic", this.bitmap);
                 //resultIntent.putExtra("base", this.base);
                 setResult(ADD_POST_BITMAP, resultIntent);
                 finish(); // finish the current activity and return to the previous one
             } else {
+                if (editMode)
+                    resultIntent.putExtra("edit", _id);
                 // sends back the results with img by uri
                 resultIntent.putExtra("content", this.content);
                 resultIntent.putExtra("newPic", this.uri);
@@ -190,6 +211,8 @@ public class AddPostActivity extends AppCompatActivity {
                 finish();
             }
         } else {
+            if (editMode)
+                resultIntent.putExtra("edit", _id);
             // sends back the results with no img
             resultIntent.putExtra("content", this.content);
             setResult(ADD_POST_TEXT, resultIntent);

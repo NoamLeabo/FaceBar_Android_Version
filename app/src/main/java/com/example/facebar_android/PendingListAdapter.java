@@ -25,14 +25,16 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
     private List<String> images;
     private ActiveUser activeUser;
     private usersAPI usersAPI;
+    private FriendsReqActivity friendsReqActivity;
 
     // an adapter that put the comment's content into a comment layout
-    public PendingListAdapter(Context context) {
+    public PendingListAdapter(Context context, FriendsReqActivity friendsReqActivity) {
         mInflater = LayoutInflater.from(context);
         this.activeUser = ActiveUser.getInstance();
         this.pendings = activeUser.getPendings();
         this.usersAPI = new usersAPI();
         this.images = new ArrayList<>();
+        this.friendsReqActivity = friendsReqActivity;
     }
 
     public void updatePendings() {
@@ -87,7 +89,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
             // the delete comment btn
             holder.deleteBtn.setOnClickListener(v -> {
-                usersAPI.rejectFriend(activeUser.getUsername(), profileUser.getUsername(), new usersAPI.AddUserCallback() {
+                usersAPI.rejectFriend(activeUser.getUsername(), current, new usersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
                         System.out.println("deleted friend");
@@ -104,10 +106,11 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
             });
 
             holder.editBtn.setOnClickListener(v -> {
-                usersAPI.acceptFriend(activeUser.getUsername(), profileUser.getUsername(), new usersAPI.AddUserCallback() {
+                usersAPI.acceptFriend(activeUser.getUsername(), current, new usersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
                         System.out.println("accepted friend");
+                        friendsReqActivity.updateFList();
                     }
 
                     @Override

@@ -91,10 +91,7 @@ public class usersAPI {
                     if (user.getPosts() == null)
                         user.setPosts(new ArrayList<>());
                     if (user.getPendings() == null) {
-                        ArrayList<String> p = new ArrayList<>();
-                        p.add("GIGI");
-                        p.add("DIDI");
-                        user.setPendings(p);
+                        user.setPendings(new ArrayList<>());
                     }
                     ActiveUser.updateInstance(user);
                     if (password.equals(user.getPassword()))
@@ -166,7 +163,7 @@ public class usersAPI {
                 if (response.code() == 200) {
                     List<String> friends =response.body();
                     ArrayList<String> friendsArrayList = new ArrayList<>(friends);
-                    ActiveUser.getInstance().setFriends(friendsArrayList);
+                    ProfileUser.getInstance().setFriends(friendsArrayList);
                     callback.onSuccess();
                 } else {
                     String errorMessage = null;

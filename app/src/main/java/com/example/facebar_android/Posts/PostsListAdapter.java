@@ -156,6 +156,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             } else {
                 holder.ivPic.setVisibility(View.GONE); // hide the ImageView if no image is chosen
             }
+
+            byte[] bytes= Base64.decode(current.getProfilePic(),Base64.DEFAULT);
+            // Initialize bitmap
+            Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            // set bitmap on imageView
+            holder.profPic.setImageBitmap(bitmap);
+
             holder.likes.setText(current.getLikes() + " Likes");
             holder.comments.setText(current.getNumOfCommentsInt() + " Comments");
 
@@ -195,11 +202,24 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             // change between the edit and noEdit mode
             holder.editBtn.setOnClickListener(v -> {
                 if (!holder.editTMode){
-                    holder.teContent.setText(holder.tvContent.getText());
-                    holder.teContent.setVisibility(View.VISIBLE);
-                    holder.tvContent.setVisibility(View.GONE);
-                    holder.editBtn.setImageResource(R.drawable.done_sign);
-                    holder.editTMode = true;
+
+                    Intent i = new Intent(MyApplication.context, AddPostActivity.class);
+                    if (current.getContainsPostPic())
+                        i.putExtra("imageView", current.getImageView());
+                    else
+                        i.putExtra("imageView","");
+                    i.putExtra("author", current.getAuthor());
+                    i.putExtra("id", current.get_id());
+                    i.putExtra("content", current.getContent());
+                    mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                    System.out.println("got user profile");
+
+//
+//                    holder.teContent.setText(holder.tvContent.getText());
+//                    holder.teContent.setVisibility(View.VISIBLE);
+//                    holder.tvContent.setVisibility(View.GONE);
+//                    holder.editBtn.setImageResource(R.drawable.done_sign);
+//                    holder.editTMode = true;
                 } else {
                     Post edited = current;
                     edited.setContent(String.valueOf(holder.teContent.getText()));

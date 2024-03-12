@@ -44,10 +44,12 @@ public class ProfilePageActivity extends AppCompatActivity {
     public Context getContext() {
         return this;
     }
-    private ActiveUser activeUser;
+    private ActiveUser activeUser = ActiveUser.getInstance();
     private ProfileUser profileUser;
+    private TextView private_msg;
     private boolean me;
     ImageButton friendsBtn;
+    private usersAPI usersAPI = new usersAPI();
     private void initializeViews() {
 
         // we get the RecyclerView
@@ -66,33 +68,59 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         //profileImg.setImageResource(activeUser.getProfileImage());
         friendsBtn = findViewById(R.id.friends_btn);
+        private_msg = findViewById(R.id.private_msg);
+        refreshLayout = findViewById(R.id.refreshLayout);
+
 
         if (me) {
+            private_msg.setVisibility(View.GONE);
+            refreshLayout.setVisibility(View.VISIBLE);
             friendsBtn.setOnClickListener(v -> {
                 Intent i = new Intent(this, FriendsReqActivity.class);
                 startActivityForResult(i, ADD_POST_TEXT_ONLY);
             });
         } else {
-            if (activeUser.getFriends().contains(profileUser.getUsername()) || activeUser.getPendings().contains(profileUser.getUsername())) {
+            //pending friend
+            if (profileUser.getPending().contains(activeUser.getUsername())) {
                 friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
+                friendsBtn.setImageResource(R.drawable.add_friend_sign);
                 friendsBtn.setClickable(false);
+            }
+            // is friend of
+            else if (profileUser.getFriends().contains(activeUser.getUsername())) {
+                private_msg.setVisibility(View.GONE);
+                refreshLayout.setVisibility(View.VISIBLE);
+                friendsBtn.setOnClickListener(v -> {
+                    Intent i = new Intent(this, FriendsReqActivity.class);
+                    i.putExtra("friend","friend");
+                    startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                });
             } else {
                 friendsBtn.setImageResource(R.drawable.add_friend_sign);
                 friendsBtn.setOnClickListener(v -> {
                     //send friends req
-                    friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
-                    if (friendsBtn.isClickable())
-                        Toast.makeText(this, "Friend request was sent!", Toast.LENGTH_SHORT).show();
-                    friendsBtn.setClickable(false);
+                    usersAPI.pendingFriend(activeUser.getUsername(), profileUser.getUsername(), new usersAPI.AddUserCallback() {
+                        @Override
+                        public void onSuccess() {
+                            friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
+                            if (friendsBtn.isClickable())
+                                Toast.makeText(MyApplication.context, "Friend request was sent!", Toast.LENGTH_SHORT).show();
+                            friendsBtn.setClickable(false);
 
+                        }
 
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(MyApplication.context, "Friend request was not sent!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 });
             }
         }
 
-        refreshLayout = findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(() -> {
-            viewModel.reload();
+            viewModel.reloadUserPost();
         });
 
         // we create a new adapter for the RecyclerView
@@ -101,7 +129,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setPosts(viewModel.getPosts().getValue());
+        adapter.setPosts(viewModel.getUserPosts(profileUser.getUsername()).getValue());
 
         Button add_post_btn = findViewById(R.id.add_post_btn);
 
@@ -113,6 +141,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 startActivityForResult(i, ADD_POST_TEXT_ONLY);
             });
         }
+        viewModel.reloadUserPost();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +158,7 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         viewModel = new PostViewModel(profileUser.getUsername());
 
-        viewModel.getPosts().observe(this, new Observer<List<Post>>() {
+        viewModel.getUserPosts(profileUser.getUsername()).observe(this, new Observer<List<Post>>() {
             @Override
             public void onChanged(List<Post> posts) {
                 adapter.setPosts(posts);
@@ -138,6 +167,8 @@ public class ProfilePageActivity extends AppCompatActivity {
             }
         });
         initializeViews();
+        viewModel.reloadUserPost();
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -171,7 +202,14 @@ public class ProfilePageActivity extends AppCompatActivity {
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);//                adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -206,8 +244,14 @@ public class ProfilePageActivity extends AppCompatActivity {
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);//
-                // adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);//                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -219,18 +263,32 @@ public class ProfilePageActivity extends AppCompatActivity {
 
                 Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);
-//                adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);// //                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
             }
+        } else if (resultCode == 404) {
+            activeUser = ActiveUser.getInstance();
+            recreate();
         }
     }
 
     public void addPostToDB(Post post) {
         new Thread(() -> {
             viewModel.add(post);
+        }).start();
+    }
+    public void updatePostInDB(Post post) {
+        new Thread(() -> {
+            viewModel.edit(post);
         }).start();
     }
 

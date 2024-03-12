@@ -35,7 +35,7 @@ public class PostAPI {
     }
 
     public void get() {
-        String token="bearer "+JWT.getInstance().getToken();
+        String token = "bearer " + JWT.getInstance().getToken();
         Call<List<Post>> call = webServiceAPI.getPosts(token);
         call.enqueue(new Callback<List<Post>>() {
             @Override
@@ -61,30 +61,12 @@ public class PostAPI {
         });
     }
 
-    public void getUserPosts(String id) {
-        String token="bearer "+JWT.getInstance().getToken();
-        Call<List<Post>> call = webServiceAPI.getUserPosts(id,token);
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-
-                new Thread(() -> {
-                    dao.clear();
-                    dao.insertList(response.body());
-                    postListData.postValue(dao.index());
-                }).start();
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-            }
-        });
-    }
     public void add(Post post) {
-        String token="bearer "+JWT.getInstance().getToken();
-        Log.d(TAG, "add: "+post.getContent());
-        Log.d(TAG, "add: "+post.getImageView());
-        Call<Void> call = webServiceAPI.createPost(post.getAuthor() ,post.getContent(),post.getImageView(),post.getPublished(),token);
+        ActiveUser activeUser = ActiveUser.getInstance();
+        String token = "bearer " + JWT.getInstance().getToken();
+        Log.d(TAG, "add: " + post.getContent());
+        Log.d(TAG, "add: " + post.getImageView());
+        Call<Void> call = webServiceAPI.createPost(post.getAuthor(), post.getContent(), post.getImageView(), post.getPublished(), activeUser.getProfileImage(), token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -100,10 +82,11 @@ public class PostAPI {
             }
         });
     }
+
     public void delete(Post post) {
-        String token="bearer "+JWT.getInstance().getToken();
-        int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
-        Call<Void> call = webServiceAPI.deletePost(post.getAuthor(), postId,token);
+        String token = "bearer " + JWT.getInstance().getToken();
+        String postId = post.get_id(); // Assuming Post has getId() method to retrieve post ID
+        Call<Void> call = webServiceAPI.deletePost(post.getAuthor(), post.get_id(), token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -122,8 +105,8 @@ public class PostAPI {
 
     public void update(Post post) {
         int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
-        String token="bearer "+JWT.getInstance().getToken();
-        Call<Void> call = webServiceAPI.updatePost(post.getAuthor(), postId, post,token);
+        String token = "bearer " + JWT.getInstance().getToken();
+        Call<Void> call = webServiceAPI.updatePost(post.getAuthor(), post.get_id(), post.getContent(), post.getImageView(), post.getPublished(), token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -137,6 +120,33 @@ public class PostAPI {
             public void onFailure(Call<Void> call, Throwable t) {
                 System.out.println("onFailure");
             }
-   });
-}
+        });
+    }
+    public void getUserPost(String username){
+
+        String token = "bearer " + JWT.getInstance().getToken();
+        Call<List<Post>> call = webServiceAPI.getUserPosts(username, token);
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                for (int i = 0; i < response.body().size(); i++) {
+                    if (response.body().get(i).getCommentsInt() == null)
+                        response.body().get(i).setCommentsInt(new ArrayList<>());
+                    if (response.body().get(i).getImageView() != null)
+                        response.body().get(i).setContainsPostPic(true);
+                }
+                new Thread(() -> {
+                    dao.clear();
+                    dao.insertList(response.body());
+                    postListData.postValue(dao.index());
+                }).start();
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                System.out.println("onFailure");
+
+            }
+        });
+    }
 }

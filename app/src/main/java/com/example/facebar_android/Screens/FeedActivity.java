@@ -128,6 +128,45 @@ public class FeedActivity extends AppCompatActivity {
         ImageButton editBtn = findViewById(R.id.editBtn);
         LinearLayout menu = findViewById(R.id.TOP_START);
         ImageButton logOutBtn = findViewById(R.id.log_out_btn);
+        ImageButton profilePage = findViewById(R.id.profilePage);
+        profilePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Intent i = new Intent(getContext(), ProfilePageActivity.class);
+                        startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                        System.out.println("got user profile");
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        System.out.println("did not get user profile");
+                    }
+                });
+            }
+        });
+
+        ImageButton deleteBtn = findViewById(R.id.delete_btn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usersAPI.deleteUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("got user profile");
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        System.out.println("did not get user profile");
+                    }
+                });
+            }
+        });
+
         ImageButton nightModeBtn = findViewById(R.id.night_mode_btn);
         ImageView profileImg = findViewById(R.id.profile_img);
 
@@ -179,6 +218,7 @@ public class FeedActivity extends AppCompatActivity {
             startActivityForResult(i, ADD_POST_TEXT_ONLY);
         });
     }
+
 
     public String getWelcome(String username) {
         String time;
@@ -272,7 +312,14 @@ public class FeedActivity extends AppCompatActivity {
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);//                adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -307,8 +354,14 @@ public class FeedActivity extends AppCompatActivity {
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);//
-                // adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);//                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -320,8 +373,14 @@ public class FeedActivity extends AppCompatActivity {
 
                 Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);
-//                adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);// //                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -335,6 +394,11 @@ public class FeedActivity extends AppCompatActivity {
     public void addPostToDB(Post post) {
         new Thread(() -> {
             viewModel.add(post);
+        }).start();
+    }
+    public void updatePostInDB(Post post) {
+        new Thread(() -> {
+            viewModel.edit(post);
         }).start();
     }
 

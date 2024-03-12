@@ -42,7 +42,7 @@ public interface UserAPI {
 
     @GET("api/users/{id}/friends")
     Call<List<String>> getFriends(@Path("id") String id, @Header("authorization") String token);
-
+    @FormUrlEncoded
     @POST("api/users/{id}/friends")
     Call<Void> pendingFriend(@Path("id") String id, @Field("fid") String fid, @Header("authorization") String token);
 

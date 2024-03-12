@@ -27,13 +27,15 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     private List<String> friends;
     private ActiveUser activeUser;
     private usersAPI usersAPI;
+    private boolean friend;
 
     // an adapter that put the comment's content into a comment layout
-    public FriendListAdapter(Context context) {
+    public FriendListAdapter(Context context, boolean friend) {
         mInflater = LayoutInflater.from(context);
         this.activeUser = ActiveUser.getInstance();
         this.friends = activeUser.getFriends();
         this.usersAPI = new usersAPI();
+        this.friend = friend;
     }
 
     public void updateFriends() {
@@ -92,10 +94,13 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
             Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
             // set bitmap on imageView
             holder.profile.setImageBitmap(bitmap);
+            if (friend){
+                holder.deleteBtn.setVisibility(View.GONE);
+            }
 
             // the delete comment btn
             holder.deleteBtn.setOnClickListener(v -> {
-                usersAPI.rejectFriend(activeUser.getUsername(), profileUser.getUsername(), new usersAPI.AddUserCallback() {
+                usersAPI.rejectFriend(activeUser.getUsername(), current, new usersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
                         System.out.println("got user profile");
