@@ -41,7 +41,7 @@ public class AddPostActivity extends AppCompatActivity {
     private Uri uri;
     private boolean isUri = false;
     private boolean isImage = false;
-    private String base = "";
+    private String base;
     private ActiveUser activeUser;
     private boolean editMode = false;
 
@@ -72,8 +72,6 @@ public class AddPostActivity extends AppCompatActivity {
         Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
         // set bitmap on imageView
         profileImg.setImageBitmap(bitmap);
-        Button addImg = findViewById(R.id.add_ivPic_btn);
-
 
         // retrieving all necessary fields from xml
         final String[] content = new String[1];
@@ -82,31 +80,24 @@ public class AddPostActivity extends AppCompatActivity {
         if (editMode && !base.equals("")) {
             bytes= android.util.Base64.decode(base, android.util.Base64.DEFAULT);
             // Initialize bitmap
-            bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            this.bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
             // set bitmap on imageView
-            pic.setImageBitmap(bitmap);
+            pic.setImageBitmap(this.bitmap);
             isImage = true;
-            addImg.setText("Remove Image");
         }
         if (editMode)
             editText.setText(this.content);
         RegisterResult();
         ImageButton post_post_btn = findViewById(R.id.post_post_btn);
         ImageButton cancel_post_post_btn = findViewById(R.id.del_Btn);
+        Button addImg = findViewById(R.id.add_ivPic_btn);
         Button addImgGallery = findViewById(R.id.add_ivPic_gallery);
         Button addImgCam = findViewById(R.id.add_ivPic_cam);
         LinearLayout buttons = findViewById(R.id.buttons);
         // setting all btns' listeners
         addImg.setOnClickListener(v -> {
-            if (editMode && !base.equals("")) {
-                pic.setImageBitmap(null); // Clear the ImageView
-                addImg.setText("Add Image");
-                this.base = "";
-                isImage = false;
-            } else {
-                buttons.setVisibility(View.VISIBLE);
-                addImg.setVisibility(View.GONE);
-            }
+            buttons.setVisibility(View.VISIBLE);
+            addImg.setVisibility(View.GONE);
         });
 
         addImgCam.setOnClickListener(v -> {
@@ -200,23 +191,23 @@ public class AddPostActivity extends AppCompatActivity {
         // method that sets the result and finish the activity
         Intent resultIntent = new Intent();
         if (isImage) {
-            if (!isUri) {
+            if (isUri) {
                 // sends back the results with img by bitmap
                 if (editMode)
                     resultIntent.putExtra("edit", _id);
                 resultIntent.putExtra("content", this.content);
-                resultIntent.putExtra("newPic", this.bitmap);
-                resultIntent.putExtra("base", this.base);
-                setResult(ADD_POST_BITMAP, resultIntent);
+                resultIntent.putExtra("newPic", this.uri);
+//                resultIntent.putExtra("base", this.base);
+                setResult(ADD_POST_URI, resultIntent);
                 finish(); // finish the current activity and return to the previous one
             } else {
                 if (editMode)
                     resultIntent.putExtra("edit", _id);
                 // sends back the results with img by uri
                 resultIntent.putExtra("content", this.content);
-                resultIntent.putExtra("newPic", this.uri);
-                resultIntent.putExtra("base", this.base);
-                setResult(ADD_POST_URI, resultIntent);
+                resultIntent.putExtra("newPic", this.bitmap);
+//                resultIntent.putExtra("base", this.base);
+                setResult(ADD_POST_BITMAP, resultIntent);
                 finish();
             }
         } else {
@@ -224,7 +215,7 @@ public class AddPostActivity extends AppCompatActivity {
                 resultIntent.putExtra("edit", _id);
             // sends back the results with no img
             resultIntent.putExtra("content", this.content);
-            resultIntent.putExtra("base", this.base);
+//            resultIntent.putExtra("base", this.base);
             setResult(ADD_POST_TEXT, resultIntent);
             finish();
         }

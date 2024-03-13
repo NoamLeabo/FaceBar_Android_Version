@@ -314,15 +314,13 @@ public class FeedActivity extends AppCompatActivity {
                 String content = data.getStringExtra("content");
                 Bitmap bitmap = data.getParcelableExtra("newPic");
 
-
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
 
-                bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
                 byte[] bytes=stream.toByteArray();
                 String base = Base64.getEncoder().encodeToString(bytes);
-                base =  data.getStringExtra("base");
 
                 // Create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
@@ -362,8 +360,6 @@ public class FeedActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
                 byte[] bytes=stream.toByteArray();
                 String base = Base64.getEncoder().encodeToString(bytes);
-                base =  data.getStringExtra("base");
-
 
                 // Create a BitmapDrawable from the Bitmap
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
