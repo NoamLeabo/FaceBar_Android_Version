@@ -9,9 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.facebar_android.PostAPI;
 import com.example.facebar_android.R;
-import com.example.facebar_android.usersAPI;
+import com.example.facebar_android.API.UsersAPI;
 
 public class MainActivity extends AppCompatActivity {
     Button loginBtn, createAccBtn;
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        usersAPI usersAPI=new usersAPI();
+        UsersAPI usersAPI=new UsersAPI();
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_login);
         else
@@ -39,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         // logging in
         loginBtn.setOnClickListener(view -> {
-            usersAPI.getUser(userName.getText().toString(), password.getText().toString(), new usersAPI.AddUserCallback() {
+            usersAPI.getUser(userName.getText().toString(), password.getText().toString(), new UsersAPI.AddUserCallback() {
                 @Override
                 public void onSuccess() {
                     Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
-                    usersAPI.getToken(userName.getText().toString(), password.getText().toString(), new usersAPI.AddUserCallback() {
+                    usersAPI.getToken(userName.getText().toString(), password.getText().toString(), new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess(){
                             Toast.makeText(MainActivity.this, "Token got", Toast.LENGTH_SHORT).show();

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -21,16 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.facebar_android.ActiveUser;
-import com.example.facebar_android.FriendsReqActivity;
-import com.example.facebar_android.MyApplication;
-import com.example.facebar_android.PostViewModel;
-import com.example.facebar_android.Posts.AddPostActivity;
+import com.example.facebar_android.Users.ActiveUser;
+import com.example.facebar_android.APP_Utilities.MyApplication;
+import com.example.facebar_android.Posts.PostViewModel;
 import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.Posts.PostsListAdapter;
-import com.example.facebar_android.ProfilePageActivity;
 import com.example.facebar_android.R;
-import com.example.facebar_android.usersAPI;
+import com.example.facebar_android.API.UsersAPI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -57,7 +53,7 @@ public class FeedActivity extends AppCompatActivity {
     private List<Post> posts = new ArrayList<>();
     private ActiveUser activeUser;
     private boolean menuOpen = false;
-    private usersAPI usersAPI;
+    private UsersAPI usersAPI;
 
 
     public Context getContext() {
@@ -110,7 +106,7 @@ public class FeedActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                usersAPI.getProfileUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
                         Intent i = new Intent(getContext(), ProfilePageActivity.class);
@@ -135,7 +131,7 @@ public class FeedActivity extends AppCompatActivity {
 
         friendsBtn.setOnClickListener(v -> {
 
-            usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+            usersAPI.getProfileUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
                 @Override
                 public void onSuccess() {
                     Intent i = new Intent(getContext(), FriendsReqActivity.class);
@@ -151,7 +147,7 @@ public class FeedActivity extends AppCompatActivity {
         profilePage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                usersAPI.getProfileUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
                         Intent i = new Intent(getContext(), ProfilePageActivity.class);
@@ -171,7 +167,7 @@ public class FeedActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usersAPI.deleteUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                usersAPI.deleteUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
                         System.out.println("got user profile");
@@ -263,7 +259,7 @@ public class FeedActivity extends AppCompatActivity {
             setContentView(R.layout.scrolled_feed);
         else
             setContentView(R.layout.scrolled_feed_dark);
-        usersAPI = new usersAPI();
+        usersAPI = new UsersAPI();
         //loadFromJson();
         viewModel = new PostViewModel("");
 
@@ -318,13 +314,15 @@ public class FeedActivity extends AppCompatActivity {
                 String content = data.getStringExtra("content");
                 Bitmap bitmap = data.getParcelableExtra("newPic");
 
+
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
 
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
                 byte[] bytes=stream.toByteArray();
                 String base = Base64.getEncoder().encodeToString(bytes);
+                base =  data.getStringExtra("base");
 
                 // Create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
@@ -364,6 +362,8 @@ public class FeedActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
                 byte[] bytes=stream.toByteArray();
                 String base = Base64.getEncoder().encodeToString(bytes);
+                base =  data.getStringExtra("base");
+
 
                 // Create a BitmapDrawable from the Bitmap
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);

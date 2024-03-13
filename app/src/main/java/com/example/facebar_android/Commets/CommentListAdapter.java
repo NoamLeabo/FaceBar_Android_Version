@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.facebar_android.CommentViewModel;
 import com.example.facebar_android.Screens.FeedActivity;
 import com.example.facebar_android.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -96,7 +95,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             if (current.getAuthor().equals("Mark Z."))
                 holder.profile.setImageResource(R.drawable.zukiprofile);
             else
-                holder.profile.setImageResource(R.drawable.person_sign);
+                holder.profile.setImageResource(R.drawable.person_sign_b);
             holder.tvContent.setText(current.getContent());
             if (current.getDate().equals("date"))
                 current.setDate(FeedActivity.getCurrentTime());

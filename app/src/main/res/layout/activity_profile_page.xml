@@ -98,7 +98,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/friends_sing_b" />
+                    android:src="@drawable/friends_sign" />
 
             </LinearLayout>
 

@@ -17,15 +17,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.facebar_android.ActiveUser;
-import com.example.facebar_android.Commets.CommentsActivity;
-import com.example.facebar_android.MyApplication;
-import com.example.facebar_android.PostAPI;
-import com.example.facebar_android.PostViewModel;
-import com.example.facebar_android.ProfilePageActivity;
+import com.example.facebar_android.Users.ActiveUser;
+import com.example.facebar_android.Screens.CommentsActivity;
+import com.example.facebar_android.APP_Utilities.MyApplication;
+import com.example.facebar_android.Screens.ProfilePageActivity;
+import com.example.facebar_android.Screens.AddPostActivity;
 import com.example.facebar_android.Screens.FeedActivity;
 import com.example.facebar_android.R;
-import com.example.facebar_android.usersAPI;
+import com.example.facebar_android.API.UsersAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -78,14 +77,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     private Activity mActivity;
     private PostViewModel viewModel;
     private ActiveUser activeUser;
-    private usersAPI usersAPI;
+    private UsersAPI usersAPI;
 
     public PostsListAdapter(Activity activity, PostViewModel viewModel) {
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
         this.viewModel = viewModel;
         this.activeUser = ActiveUser.getInstance();
-        usersAPI = new usersAPI();
+        usersAPI = new UsersAPI();
     }
 
     @Override
@@ -113,7 +112,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.tvAuthor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    usersAPI.getProfileUser((String) holder.tvAuthor.getText(), new usersAPI.AddUserCallback() {
+                    usersAPI.getProfileUser((String) holder.tvAuthor.getText(), new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess() {
                             System.out.println("got user profile");

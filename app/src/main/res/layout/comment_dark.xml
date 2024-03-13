@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="13dp"
-    android:background="@color/black"
+    android:background="@drawable/another_border_night_friend"
     >
 
     <LinearLayout
@@ -42,7 +42,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/person_sign" />
+                    app:srcCompat="@drawable/person_sign_b" />
 
             </LinearLayout>
 
