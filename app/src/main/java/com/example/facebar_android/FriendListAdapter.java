@@ -20,11 +20,13 @@ import com.example.facebar_android.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Map;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
 
     private final LayoutInflater mInflater;
     private List<String> friends;
+    private DoubleArray images = new DoubleArray();
     private ActiveUser activeUser;
     private usersAPI usersAPI;
     private boolean friend;
@@ -75,10 +77,23 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
         if (friends != null) {
             final String current = friends.get(position);
+            if (!images.ifKeyExists(current))
+                images.insertPair(current, "");
             usersAPI.getProfileUser(friends.get(position), new usersAPI.AddUserCallback() {
                 @Override
                 public void onSuccess() {
                     System.out.println("got user profile");
+                    ProfileUser profileUser = ProfileUser.getInstance();
+                    holder.tvAuthor.setText(current);
+
+                    if (images.getValueOfKey(current) == "") {
+                        images.insertValueToKey(current, profileUser.getProfileImage());
+                    }
+                    byte[] bytes= Base64.decode(images.getValueOfKey(current),Base64.DEFAULT);
+                    // Initialize bitmap
+                    Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    // set bitmap on imageView
+                    holder.profile.setImageBitmap(bitmap);
                 }
 
                 @Override
@@ -86,14 +101,10 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                     System.out.println("did not get user profile");
                 }
             });
-            ProfileUser profileUser = ProfileUser.getInstance();
-            holder.tvAuthor.setText(current);
 
-            byte[] bytes= Base64.decode(profileUser.getProfileImage(),Base64.DEFAULT);
-            // Initialize bitmap
-            Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-            // set bitmap on imageView
-            holder.profile.setImageBitmap(bitmap);
+
+
+
             if (friend){
                 holder.deleteBtn.setVisibility(View.GONE);
             }

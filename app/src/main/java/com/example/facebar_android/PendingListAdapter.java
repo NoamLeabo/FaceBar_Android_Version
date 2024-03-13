@@ -22,8 +22,8 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     private final LayoutInflater mInflater;
     private List<String> pendings;
-    private List<String> images;
     private ActiveUser activeUser;
+    private DoubleArray images = new DoubleArray();
     private usersAPI usersAPI;
     private FriendsReqActivity friendsReqActivity;
 
@@ -33,7 +33,6 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         this.activeUser = ActiveUser.getInstance();
         this.pendings = activeUser.getPendings();
         this.usersAPI = new usersAPI();
-        this.images = new ArrayList<>();
         this.friendsReqActivity = friendsReqActivity;
     }
 
@@ -77,16 +76,30 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
         if (pendings != null) {
             final String current = pendings.get(position);
+            if (!images.ifKeyExists(current))
+                images.insertPair(current, "");
+            usersAPI.getProfileUser(pendings.get(position), new usersAPI.AddUserCallback() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("got user profile");
+                    ProfileUser profileUser = ProfileUser.getInstance();
+                    holder.tvAuthor.setText(current);
 
-            ProfileUser profileUser = ProfileUser.getInstance();
-            holder.tvAuthor.setText(current);
+                    if (images.getValueOfKey(current) == "") {
+                        images.insertValueToKey(current, profileUser.getProfileImage());
+                    }
+                    byte[] bytes= Base64.decode(images.getValueOfKey(current),Base64.DEFAULT);
+                    // Initialize bitmap
+                    Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    // set bitmap on imageView
+                    holder.profile.setImageBitmap(bitmap);
+                }
 
-            byte[] bytes= Base64.decode(profileUser.getProfileImage(),Base64.DEFAULT);
-            // Initialize bitmap
-            Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-            // set bitmap on imageView
-            holder.profile.setImageBitmap(bitmap);
-
+                @Override
+                public void onError(String message) {
+                    System.out.println("did not get user profile");
+                }
+            });
             // the delete comment btn
             holder.deleteBtn.setOnClickListener(v -> {
                 usersAPI.rejectFriend(activeUser.getUsername(), current, new usersAPI.AddUserCallback() {
@@ -111,6 +124,8 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     public void onSuccess() {
                         System.out.println("accepted friend");
                         friendsReqActivity.updateFList();
+                        deletePendings(position);
+                        updatePendings();
                     }
 
                     @Override
@@ -118,9 +133,6 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                         System.out.println("failed to accepte friend");
                     }
                 });
-
-                deletePendings(position);
-                updatePendings();
             });
         }
     }

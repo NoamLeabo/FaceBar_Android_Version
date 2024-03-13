@@ -95,7 +95,9 @@ public class FriendsReqActivity extends AppCompatActivity {
         usersAPI.getFriends(profileUser.getUsername(), new usersAPI.AddUserCallback() {
             @Override
             public void onSuccess() {
+                profileUser = ProfileUser.getInstance();
                 adapterF.setFriends(profileUser.getFriends());
+                adapterF.notifyDataSetChanged();
                 refreshLayoutF.setRefreshing(false);
             }
 
@@ -105,6 +107,7 @@ public class FriendsReqActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
