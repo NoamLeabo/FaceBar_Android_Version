@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebar_android.ActiveUser;
 import com.example.facebar_android.Commets.CommentsActivity;
 import com.example.facebar_android.MyApplication;
+import com.example.facebar_android.PostAPI;
 import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.ProfilePageActivity;
 import com.example.facebar_android.Screens.FeedActivity;
@@ -135,8 +136,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             } else
                 holder.tvDate.setText(current.getPublished());
 
-            int liked = activeUser.getLikedPosts().indexOf(current.getPostId());
-            if (liked != -1) {
+//            int liked = activeUser.getLikedPosts().indexOf(current.getPostId());
+            boolean liked = current.getUsersWhoLiked().contains(activeUser.getUsername());
+            if (liked) {
                 holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
             } else {
                 if (FeedActivity.NIGHT_MODE == 0)
@@ -163,7 +165,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             // set bitmap on imageView
             holder.profPic.setImageBitmap(bitmap);
 
-            holder.likes.setText(current.getLikes() + " Likes");
+            holder.likes.setText(current.getUsersWhoLiked().size() + " Likes");
             holder.comments.setText(current.getNumOfCommentsInt() + " Comments");
 
             holder.shareMode = false;
@@ -171,28 +173,29 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             // Set OnClickListener for like button
             holder.likeBtn.setOnClickListener(v -> {
-                final int isLiked = activeUser.getLikedPosts().indexOf(current.getPostId());
-                if (isLiked == -1) {
-                    activeUser.getLikedPosts().add(current.getPostId());
-                    Post nowLiked = current;
-                    nowLiked.setLikes(current.getLikes() + 1);
+                if (!liked) {
+                    viewModel.likePost(current);
+//                    activeUser.getLikedPosts().add(current.getPostId());
+//                    Post nowLiked = current;
+//                    nowLiked.setLikes(current.getLikes() + 1);
                     // Increase the number of likes by 1
                     // Update the TextView to display the updated number of likes
-                    holder.likes.setText(current.getLikes() + " Likes");
+                    holder.likes.setText(current.getUsersWhoLiked().size() + " Likes");
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
-                    nowLiked.setOppLiked();
-                    viewModel.edit(nowLiked);
+//                    nowLiked.setOppLiked();
+//                    viewModel.edit(nowLiked);
                 } else {
-                    activeUser.getLikedPosts().remove(current.getPostId());
-                    Post nowLiked = current;
-                    nowLiked.setLikes(current.getLikes() - 1);
-                    holder.likes.setText(current.getLikes() + " Likes");
+                    viewModel.likePost(current);
+//                    activeUser.getLikedPosts().remove(current.getPostId());
+//                    Post nowLiked = current;
+//                    nowLiked.setLikes(current.getLikes() - 1);
+                    holder.likes.setText(current.getUsersWhoLiked().size() + " Likes");
                     if (FeedActivity.NIGHT_MODE == 0)
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
                     else
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_dark);
-                    nowLiked.setOppLiked();
-                    viewModel.edit(nowLiked);
+//                    nowLiked.setOppLiked();
+//                    viewModel.edit(nowLiked);
                 }
             });
             if (!holder.tvAuthor.getText().equals(activeUser.getUsername()))

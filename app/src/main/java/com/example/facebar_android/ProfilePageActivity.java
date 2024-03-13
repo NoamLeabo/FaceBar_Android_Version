@@ -83,7 +83,7 @@ public class ProfilePageActivity extends AppCompatActivity {
             //pending friend
             if (profileUser.getPending().contains(activeUser.getUsername())) {
                 friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
-                friendsBtn.setImageResource(R.drawable.add_friend_sign);
+                friendsBtn.setImageResource(R.drawable.add_friend_sign_b);
                 friendsBtn.setClickable(false);
             }
             // is friend of
@@ -96,7 +96,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                     startActivityForResult(i, ADD_POST_TEXT_ONLY);
                 });
             } else {
-                friendsBtn.setImageResource(R.drawable.add_friend_sign);
+                friendsBtn.setImageResource(R.drawable.add_friend_sign_b);
                 friendsBtn.setOnClickListener(v -> {
                     //send friends req
                     usersAPI.pendingFriend(activeUser.getUsername(), profileUser.getUsername(), new usersAPI.AddUserCallback() {
@@ -129,7 +129,16 @@ public class ProfilePageActivity extends AppCompatActivity {
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setPosts(viewModel.getUserPosts(profileUser.getUsername()).getValue());
+//        adapter.setPosts(viewModel.getUserPosts(profileUser.getUsername()).getValue());
+
+        viewModel.getPosts().observe(this, new Observer<List<Post>>() {
+            @Override
+            public void onChanged(List<Post> posts) {
+                adapter.setPosts(posts);
+                adapter.updatePosts();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         Button add_post_btn = findViewById(R.id.add_post_btn);
 
@@ -141,7 +150,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 startActivityForResult(i, ADD_POST_TEXT_ONLY);
             });
         }
-        viewModel.reloadUserPost();
+//        viewModel.reloadUserPost();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,16 +167,8 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         viewModel = new PostViewModel(profileUser.getUsername());
 
-        viewModel.getUserPosts(profileUser.getUsername()).observe(this, new Observer<List<Post>>() {
-            @Override
-            public void onChanged(List<Post> posts) {
-                adapter.setPosts(posts);
-                adapter.updatePosts();
-                refreshLayout.setRefreshing(false);
-            }
-        });
         initializeViews();
-        viewModel.reloadUserPost();
+//        viewModel.reloadUserPost();
 
     }
     @Override

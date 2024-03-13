@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.facebar_android.ActiveUser;
+import com.example.facebar_android.FriendsReqActivity;
 import com.example.facebar_android.MyApplication;
 import com.example.facebar_android.PostViewModel;
 import com.example.facebar_android.Posts.AddPostActivity;
@@ -129,6 +131,23 @@ public class FeedActivity extends AppCompatActivity {
         LinearLayout menu = findViewById(R.id.TOP_START);
         ImageButton logOutBtn = findViewById(R.id.log_out_btn);
         ImageButton profilePage = findViewById(R.id.profilePage);
+        ImageButton friendsBtn = findViewById(R.id.friends_btn);
+
+        friendsBtn.setOnClickListener(v -> {
+
+            usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
+                @Override
+                public void onSuccess() {
+                    Intent i = new Intent(getContext(), FriendsReqActivity.class);
+                    startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                }
+
+                @Override
+                public void onError(String message) {
+                    System.out.println("did not get user profile");
+                }
+            });
+        });
         profilePage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +237,6 @@ public class FeedActivity extends AppCompatActivity {
             startActivityForResult(i, ADD_POST_TEXT_ONLY);
         });
     }
-
 
     public String getWelcome(String username) {
         String time;

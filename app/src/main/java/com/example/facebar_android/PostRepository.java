@@ -123,11 +123,11 @@ public class PostRepository {
             super.onActive();
 
             new Thread(() -> {
-                  api.get();
-//                if (username.equals(""))
-//                    postsListDate.postValue(dao.index());
-//                else
-//                    postsListDate.postValue(dao.userPosts(username));
+//                  api.get();
+                if (username.equals(""))
+                    api.get();
+                else
+                    api.getUserPost(username);
             }).start();
         }
     }
@@ -185,11 +185,17 @@ public class PostRepository {
         new Thread(() -> {
             api.getUserPost(username);
         }).start();
+
     }
 
     public void reloadUserPost() {
         new Thread(() -> {
             api.getUserPost(username);
+        }).start();
+    }
+    public void likePost(Post post){
+        new Thread(() -> {
+            api.likePost(post);
         }).start();
     }
 

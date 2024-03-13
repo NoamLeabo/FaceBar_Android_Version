@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.facebar_android.PostAPI;
 import com.example.facebar_android.R;
 import com.example.facebar_android.usersAPI;
 
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         usersAPI usersAPI=new usersAPI();
-
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_login);
         else

@@ -42,4 +42,5 @@ public class PostViewModel extends ViewModel {
     public void reload() {
             mRepository.reload();
     }
+    public void likePost(Post post){mRepository.likePost(post);}
 }

@@ -8,7 +8,7 @@ import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.Commets.Comment;
 
 
-@Database(entities = {Post.class, Comment.class}, version = 10)
+@Database(entities = {Post.class, Comment.class}, version = 11)
 //@TypeConverters({Converters.class})
 
 public abstract class AppDB extends RoomDatabase {

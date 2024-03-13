@@ -26,4 +26,6 @@ public interface WebServiceAPI {
     @FormUrlEncoded
     @PATCH("api/users/{id}/posts/{pid}")
     Call<Void> updatePost(@Path("id") String id, @Path("pid") String pid, @Field("content") String content, @Field("imageView") String imageView, @Field("published") String published, @Header("authorization") String token);
+    @POST("api/users/{id}/posts/{pid}")
+    Call<Void> likePost(@Path("id") String id, @Path("pid") String pid, @Header("authorization") String token);
 }

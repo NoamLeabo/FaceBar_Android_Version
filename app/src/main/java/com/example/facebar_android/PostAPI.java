@@ -149,4 +149,24 @@ public class PostAPI {
             }
         });
     }
+    public void likePost(Post post) {
+        ActiveUser activeUser = ActiveUser.getInstance();
+        int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
+        String token = "bearer " + JWT.getInstance().getToken();
+        Call<Void> call = webServiceAPI.likePost(activeUser.getUsername(), post.get_id(), token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                // Assuming successful deletion, fetch updated data
+                if (response.isSuccessful()) {
+                    get();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("onFailure");
+            }
+        });
+    }
 }

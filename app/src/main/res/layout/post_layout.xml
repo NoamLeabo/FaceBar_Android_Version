@@ -66,6 +66,7 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="serif"
                     android:text="@string/name"
+                    android:textColor="@drawable/text_color_selector"
                     android:textSize="20sp" />
 
                 <TextView

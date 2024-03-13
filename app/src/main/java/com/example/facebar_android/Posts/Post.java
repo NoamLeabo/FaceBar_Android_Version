@@ -31,6 +31,8 @@ public class Post {
     private String published = "date";
     private int likes;
     private boolean liked = false;
+    @ColumnInfo(name = "usersWhoLiked")
+    private ArrayList<String> usersWhoLiked = new ArrayList<>();
     @ColumnInfo(name = "comments_int")
     private List<Integer> commentsInt = new ArrayList<>();
     private int numOfCommentsInt = commentsInt.size();
@@ -215,5 +217,13 @@ public class Post {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public ArrayList<String> getUsersWhoLiked() {
+        return usersWhoLiked;
+    }
+
+    public void setUsersWhoLiked(ArrayList<String> usersWhoLiked) {
+        this.usersWhoLiked = usersWhoLiked;
     }
 }
