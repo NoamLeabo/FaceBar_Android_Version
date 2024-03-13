@@ -38,7 +38,7 @@ public class UsersAPI {
                     Log.d(TAG, "onResponse: "+token);
                     callback.onSuccess();
                 } else {
-                    String errorMessage = null;
+                    String errorMessage;
                     try {
                         errorMessage = response.errorBody().string();
                         callback.onError(errorMessage);

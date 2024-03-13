@@ -43,4 +43,8 @@
     <string name="_12_comments">12 comments</string>
     <string name="share_you_thoughts">Share your thoughts!</string>
     <string name="BaseUrl">http://10.0.2.2:12345/</string>
+    <string name="update_values">Update Values</string>
+    <string name="likes">" Likes"</string>
+    <string name="commentss">" Comments"</string>
+    <string name="edited">" edited"</string>
 </resources>

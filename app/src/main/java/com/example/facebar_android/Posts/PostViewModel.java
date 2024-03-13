@@ -20,10 +20,6 @@ public class PostViewModel extends ViewModel {
     public LiveData<List<Post>> getPosts() {
         return posts;
     }
-    public LiveData<List<Post>> getUserPosts(String username) {
-        mRepository.getUserPost(username);
-        return posts;
-    }
     public void reloadUserPost() {
         mRepository.reloadUserPost();
     }

@@ -14,6 +14,7 @@ import com.example.facebar_android.Users.ActiveUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,7 +90,6 @@ public class PostsAPI {
 
     public void delete(Post post) {
         String token = "bearer " + JWT.getInstance().getToken();
-        String postId = post.get_id(); // Assuming Post has getId() method to retrieve post ID
         Call<Void> call = postAPI.deletePost(post.getAuthor(), post.get_id(), token);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -108,7 +108,6 @@ public class PostsAPI {
     }
 
     public void update(Post post) {
-        int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
         String token = "bearer " + JWT.getInstance().getToken();
         Call<Void> call = postAPI.updatePost(post.getAuthor(), post.get_id(), post.getContent(), post.getImageView(), post.getPublished(), token);
         call.enqueue(new Callback<Void>() {
@@ -155,7 +154,6 @@ public class PostsAPI {
     }
     public void likePost(Post post, String username) {
         ActiveUser activeUser = ActiveUser.getInstance();
-        int postId = post.getPostId(); // Assuming Post has getId() method to retrieve post ID
         String token = "bearer " + JWT.getInstance().getToken();
         Call<Void> call = postAPI.likePost(activeUser.getUsername(), post.get_id(), token);
         call.enqueue(new Callback<Void>() {
@@ -163,7 +161,7 @@ public class PostsAPI {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 // Assuming successful deletion, fetch updated data
                 if (response.isSuccessful()) {
-                    if (username == "")
+                    if (Objects.equals(username, ""))
                         get();
                     else
                         getUserPost(username);

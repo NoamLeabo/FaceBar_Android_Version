@@ -32,16 +32,12 @@ public class DoubleArray {
         return values.get(keys.indexOf(key));
     }
     public boolean ifKeyExists(String key){
-        if (!keys.contains(key))
-            return false;
-        else return true;
+        return keys.contains(key);
     }
     public boolean ifValueOfKeyExists(String key){
         if (!ifKeyExists(key))
             return false;
         int indexOfValue = keys.indexOf(key);
-        if (values.size() > indexOfValue + 1)
-            return false;
-        else return true;
+        return values.size() <= indexOfValue + 1;
     }
 }

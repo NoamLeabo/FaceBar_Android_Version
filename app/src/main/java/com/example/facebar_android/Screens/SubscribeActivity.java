@@ -67,7 +67,7 @@ public class SubscribeActivity extends AppCompatActivity {
             lName.setEnabled(false);
             fName.setText(activeUser.getfName());
             fName.setEnabled(false);
-            subscribeBtn.setText("Update Values");
+            subscribeBtn.setText(R.string.update_values);
             password.setText(activeUser.getPassword());
             passwordCheck.setText(activeUser.getPassword());
             byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);

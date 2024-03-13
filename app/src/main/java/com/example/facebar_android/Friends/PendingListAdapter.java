@@ -22,6 +22,7 @@ import com.example.facebar_android.API.UsersAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.PendingViewHolder> {
 
@@ -63,14 +64,14 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     @Override
     public PendingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView;
         if (FeedActivity.NIGHT_MODE == 0) {
-            View itemView = mInflater.inflate(R.layout.friend_req_layout, parent, false);
-            return new PendingViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.friend_req_layout, parent, false);
         }
         else {
-            View itemView = mInflater.inflate(R.layout.friend_req_layout_dark, parent, false);
-            return new PendingViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.friend_req_layout_dark, parent, false);
         }
+        return new PendingViewHolder(itemView);
     }
 
     @Override
@@ -90,7 +91,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     ProfileUser profileUser = ProfileUser.getInstance();
                     holder.tvAuthor.setText(current);
 
-                    if (images.getValueOfKey(current) == "") {
+                    if (Objects.equals(images.getValueOfKey(current), "")) {
                         images.insertValueToKey(current, profileUser.getProfileImage());
                     }
                     byte[] bytes= Base64.decode(images.getValueOfKey(current),Base64.DEFAULT);
@@ -135,7 +136,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
                     @Override
                     public void onError(String message) {
-                        System.out.println("failed to accepte friend");
+                        System.out.println("failed to accept friend");
                     }
                 });
             });
@@ -148,15 +149,11 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
     }
 
     public void deletePendings(int position){
-        String toDelete = pendings.remove(position);
+        pendings.remove(position);
         updatePendings();
     }
     @Override
     public int getItemCount() {
         return pendings != null ? pendings.size() : 0;
-    }
-
-    public List<String> getPendings() {
-        return pendings;
     }
 }

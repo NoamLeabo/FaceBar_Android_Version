@@ -7,7 +7,7 @@ public class ProfileUser {
     private String lName;
     private String username;
     private String password;
-    private String profileImg =" R.drawable.pic3";
+    private String profileImg;
     private ArrayList<Integer> posts = new ArrayList<>();
     private ArrayList<Integer> likedPosts = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();

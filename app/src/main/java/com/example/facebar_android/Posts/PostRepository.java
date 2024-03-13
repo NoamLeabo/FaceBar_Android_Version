@@ -40,6 +40,7 @@ public class PostRepository {
 
     class PostListData extends MutableLiveData<List<Post>> {
         private String username;
+
         public PostListData(String username) {
             super();
             this.username = username;
@@ -69,19 +70,11 @@ public class PostRepository {
                     //JSONArray commentsArray = jsonObject.getJSONArray("comments");
 
                     // Parse comments array
-//                    ArrayList<Comment> commentsList = new ArrayList<>();
-//                    for (int j = 0; j < commentsArray.length(); j++) {
-//                        JSONObject commentObject = commentsArray.getJSONObject(j);
-//                        String commentAuthor = commentObject.getString("author");
-//                        String commentContent = commentObject.getString("content");
-//                        Comment comment = new Comment(commentAuthor, commentContent);
-//                        commentsList.add(comment);
-//                    }
 
                     Post post = new Post(author, content, path, numlikes, pathPost);
 //                    post.setComments(commentsList);
                     post.setPublished(FeedActivity.getCurrentTime());
-                   // posts.add(post);
+                    // posts.add(post);
                 }
 
             } catch (IOException | JSONException e) {
@@ -97,26 +90,8 @@ public class PostRepository {
                 }
             }
 
-             //setting the posts' images
-//            for (int i = 0; i < posts.size(); i++) {
-//                Post post = posts.get(i);
-//                try {
-//                    InputStream stream = assetManager.open(post.getPath());
-//                    Drawable drawable = Drawable.createFromStream(stream, null);
-//                    post.setProfPic(drawable);
-//
-//                    stream = assetManager.open(post.getPathPostPic());
-//                    Drawable drawablePost = Drawable.createFromStream(stream, null);
-//                    post.setPostPic(drawablePost);
-//                    post.setContainsPostPic();
-//                    stream.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-            new Thread(() -> {
-                dao.index();
-            }).start();
+            //setting the posts' images
+            new Thread(() -> dao.index()).start();
             this.setValue(posts);
         }
 
@@ -170,35 +145,20 @@ public class PostRepository {
     }
 
     public void reload() {
-        new Thread(() -> {
-//            if (username.equals(""))
-//                postsListDate.postValue(dao.index());
-//            else
-//                postsListDate.postValue(dao.userPosts(username));
-//
-////            if (username.equals(""))
-////                api.get();
-////            else
-////                api.getUserPosts(username);
-            api.get();
-        }).start();
+        new Thread(() -> api.get()).start();
     }
-    public void getUserPost(String username){
-        new Thread(() -> {
-            api.getUserPost(username);
-        }).start();
+
+    public void getUserPost(String username) {
+        new Thread(() -> api.getUserPost(username)).start();
 
     }
 
     public void reloadUserPost() {
-        new Thread(() -> {
-            api.getUserPost(username);
-        }).start();
+        new Thread(() -> api.getUserPost(username)).start();
     }
-    public void likePost(Post post, String username){
-        new Thread(() -> {
-            api.likePost(post, username);
-        }).start();
+
+    public void likePost(Post post, String username) {
+        new Thread(() -> api.likePost(post, username)).start();
     }
 
 }

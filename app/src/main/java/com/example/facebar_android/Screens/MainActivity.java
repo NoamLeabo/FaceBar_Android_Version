@@ -15,7 +15,6 @@ import com.example.facebar_android.API.UsersAPI;
 public class MainActivity extends AppCompatActivity {
     Button loginBtn, createAccBtn;
     EditText userName, password;
-    boolean layoutSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         userName = findViewById(R.id.userName);
         password = findViewById(R.id.password);
         loginBtn = findViewById(R.id.loginBtn);
-
-        final String[] curPass = new String[1];
-        final String[] curName = new String[1];
 
         // logging in
         loginBtn.setOnClickListener(view -> {
@@ -65,18 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
-//            curName[0] = userName.getText().toString();
-//            curPass[0] = password.getText().toString();
-//            if ((curName[0].equals("Mark_Z") && curPass[0].equals("123456Mm")) || true) {
-//                password.getText().clear();
-//                userName.getText().clear();
-//                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(this, FeedActivity.class);
-//                startActivityForResult(intent, 999);
-//            } else {
-//                Toast.makeText(this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
-//            }
 
         });
         // create new account => send to subscribe page

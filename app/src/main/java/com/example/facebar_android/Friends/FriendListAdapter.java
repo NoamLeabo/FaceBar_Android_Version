@@ -21,6 +21,7 @@ import com.example.facebar_android.API.UsersAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
 
@@ -59,14 +60,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     @Override
     public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView;
         if (FeedActivity.NIGHT_MODE == 0) {
-            View itemView = mInflater.inflate(R.layout.friend_layout, parent, false);
-            return new FriendViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.friend_layout, parent, false);
         }
         else {
-            View itemView = mInflater.inflate(R.layout.friend_layout_dark, parent, false);
-            return new FriendViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.friend_layout_dark, parent, false);
         }
+        return new FriendViewHolder(itemView);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                     ProfileUser profileUser = ProfileUser.getInstance();
                     holder.tvAuthor.setText(current);
 
-                    if (images.getValueOfKey(current) == "") {
+                    if (Objects.equals(images.getValueOfKey(current), "")) {
                         images.insertValueToKey(current, profileUser.getProfileImage());
                     }
                     byte[] bytes= Base64.decode(images.getValueOfKey(current),Base64.DEFAULT);
@@ -135,15 +136,11 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     }
 
     public void deleteFriend(int position){
-        String toDelete = friends.remove(position);
+        friends.remove(position);
         updateFriends();
     }
     @Override
     public int getItemCount() {
         return friends != null ? friends.size() : 0;
-    }
-
-    public List<String> getFriends() {
-        return friends;
     }
 }

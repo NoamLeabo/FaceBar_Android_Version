@@ -42,9 +42,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     public static final int ADD_POST_URI = 333;
     public static final int ADD_POST_TEXT = 444;
     private PostViewModel viewModel;
-    private PostsListAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
-    private List<Post> posts = new ArrayList<>();
     public Context getContext() {
         return this;
     }
@@ -126,25 +124,19 @@ public class ProfilePageActivity extends AppCompatActivity {
             }
         }
 
-        refreshLayout.setOnRefreshListener(() -> {
-            viewModel.reloadUserPost();
-        });
+        refreshLayout.setOnRefreshListener(() -> viewModel.reloadUserPost());
 
         // we create a new adapter for the RecyclerView
         final PostsListAdapter adapter = new PostsListAdapter(this, viewModel);
-        this.adapter = adapter;
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
 //        adapter.setPosts(viewModel.getUserPosts(profileUser.getUsername()).getValue());
 
-        viewModel.getPosts().observe(this, new Observer<List<Post>>() {
-            @Override
-            public void onChanged(List<Post> posts) {
-                adapter.setPosts(posts);
-                adapter.updatePosts();
-                refreshLayout.setRefreshing(false);
-            }
+        viewModel.getPosts().observe(this, posts -> {
+            adapter.setPosts(posts);
+            adapter.updatePosts();
+            refreshLayout.setRefreshing(false);
         });
 
         Button add_post_btn = findViewById(R.id.add_post_btn);
@@ -289,14 +281,10 @@ public class ProfilePageActivity extends AppCompatActivity {
     }
 
     public void addPostToDB(Post post) {
-        new Thread(() -> {
-            viewModel.add(post);
-        }).start();
+        new Thread(() -> viewModel.add(post)).start();
     }
     public void updatePostInDB(Post post) {
-        new Thread(() -> {
-            viewModel.edit(post);
-        }).start();
+        new Thread(() -> viewModel.edit(post)).start();
     }
 
     @Override

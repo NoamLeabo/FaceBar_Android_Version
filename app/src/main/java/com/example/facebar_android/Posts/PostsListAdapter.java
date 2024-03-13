@@ -89,14 +89,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     @Override
     public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView;
         if (FeedActivity.NIGHT_MODE == 0) {
-            View itemView = mInflater.inflate(R.layout.post_layout, parent, false);
-            return new PostViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.post_layout, parent, false);
         }
         else {
-            View itemView = mInflater.inflate(R.layout.post_dark, parent, false);
-            return new PostViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.post_dark, parent, false);
         }
+        return new PostViewHolder(itemView);
     }
 
     @Override
@@ -109,24 +109,19 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             holder.profPic.setImageDrawable(current.getProfPic());
             holder.tvAuthor.setText(current.getAuthor());
-            holder.tvAuthor.setOnClickListener(new View.OnClickListener() {
+            holder.tvAuthor.setOnClickListener(v -> usersAPI.getProfileUser((String) holder.tvAuthor.getText(), new UsersAPI.AddUserCallback() {
                 @Override
-                public void onClick(View v) {
-                    usersAPI.getProfileUser((String) holder.tvAuthor.getText(), new UsersAPI.AddUserCallback() {
-                        @Override
-                        public void onSuccess() {
-                            System.out.println("got user profile");
-                            Intent i = new Intent(MyApplication.context, ProfilePageActivity.class);
-                            mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
-                        }
-
-                        @Override
-                        public void onError(String message) {
-                            System.out.println("did not get user profile");
-                        }
-                    });
+                public void onSuccess() {
+                    System.out.println("got user profile");
+                    Intent i = new Intent(MyApplication.context, ProfilePageActivity.class);
+                    mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
                 }
-            });
+
+                @Override
+                public void onError(String message) {
+                    System.out.println("did not get user profile");
+                }
+            }));
 
             holder.tvContent.setText(current.getContent());
             if (current.getPublished().equals("date")) {
@@ -163,38 +158,26 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
             // set bitmap on imageView
             holder.profPic.setImageBitmap(bitmap);
+            holder.likes.setText(current.getUsersWhoLiked().size() + mActivity.getString(R.string.likes));
+            holder.comments.setText(current.getNumOfCommentsInt() + mActivity.getString(R.string.commentss));
 
-            holder.likes.setText(current.getUsersWhoLiked().size() + " Likes");
-            holder.comments.setText(current.getNumOfCommentsInt() + " Comments");
 
             holder.shareMode = false;
 
 
             // Set OnClickListener for like button
             holder.likeBtn.setOnClickListener(v -> {
+                viewModel.likePost(current);
                 if (!liked) {
-                    viewModel.likePost(current);
-//                    activeUser.getLikedPosts().add(current.getPostId());
-//                    Post nowLiked = current;
-//                    nowLiked.setLikes(current.getLikes() + 1);
-                    // Increase the number of likes by 1
-                    // Update the TextView to display the updated number of likes
-                    holder.likes.setText(current.getUsersWhoLiked().size() + " Likes");
+                    holder.likes.setText(current.getUsersWhoLiked().size() +  mActivity.getString(R.string.likes));
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
-//                    nowLiked.setOppLiked();
-//                    viewModel.edit(nowLiked);
                 } else {
-                    viewModel.likePost(current);
-//                    activeUser.getLikedPosts().remove(current.getPostId());
-//                    Post nowLiked = current;
-//                    nowLiked.setLikes(current.getLikes() - 1);
-                    holder.likes.setText(current.getUsersWhoLiked().size() + " Likes");
+                    holder.likes.setText(current.getUsersWhoLiked().size() + R.string.commentss);
                     if (FeedActivity.NIGHT_MODE == 0)
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
                     else
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_dark);
-//                    nowLiked.setOppLiked();
-//                    viewModel.edit(nowLiked);
+
                 }
             });
             if (!holder.tvAuthor.getText().equals(activeUser.getUsername()))
@@ -215,13 +198,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     i.putExtra("content", current.getContent());
                     mActivity.startActivityForResult(i, ADD_POST_TEXT_ONLY);
                     System.out.println("got user profile");
-
-//
-//                    holder.teContent.setText(holder.tvContent.getText());
-//                    holder.teContent.setVisibility(View.VISIBLE);
-//                    holder.tvContent.setVisibility(View.GONE);
-//                    holder.editBtn.setImageResource(R.drawable.done_sign);
-//                    holder.editTMode = true;
                 } else {
                     Post edited = current;
                     edited.setContent(String.valueOf(holder.teContent.getText()));
@@ -232,7 +208,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
                     holder.tvContent.setVisibility(View.VISIBLE);
                     holder.editTMode = false;
                     holder.editBtn.setImageResource(android.R.drawable.ic_menu_edit);
-                    holder.tvDate.setText(FeedActivity.getCurrentTime() + " edited");
+                    holder.tvDate.setText(FeedActivity.getCurrentTime() + mActivity.getString(R.string.edited));
                 }
             });
 
@@ -267,24 +243,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void moveToComments(int position){
         Intent intent = new Intent(this.mActivity, CommentsActivity.class);
         // get the comments associated with the current post
-        ArrayList<Integer> comments = new ArrayList<>();
-        comments.add(0);
-        if (posts.get(position).getLikes() == 358) {
-            comments.add(1);
-            comments.add(2);
-            comments.add(3);
-            comments.add(4);
-        } else {
-            comments.add(20);
-            comments.add(22);
-            comments.add(23);
-            comments.add(24);
-            comments.add(25);
-            comments.add(26);
-            comments.add(27);
-
-
-        }
         // pass the reference of the original list of comments
         intent.putExtra("comments",(ArrayList<Integer>) posts.get(position).getCommentsInt());
         //intent.putExtra("comments", comments);
@@ -304,7 +262,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     public void onViewRecycled(PostViewHolder holder) {
         super.onViewRecycled(holder);
         // perform cleanup or release resources associated with the view holder
-        
+
         holder.teContent.getText().clear();
         holder.teContent.setVisibility(View.GONE);
         holder.tvContent.setVisibility(View.VISIBLE);

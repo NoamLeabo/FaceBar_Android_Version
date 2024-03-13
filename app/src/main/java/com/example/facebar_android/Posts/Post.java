@@ -35,7 +35,6 @@ public class Post {
     private ArrayList<String> usersWhoLiked = new ArrayList<>();
     @ColumnInfo(name = "comments_int")
     private List<Integer> commentsInt = new ArrayList<>();
-    private int numOfCommentsInt = commentsInt.size();
     @Ignore
     private ArrayList<Comment> comments;
     private int numOfComments;
@@ -198,10 +197,6 @@ public class Post {
     }
     public int getNumOfCommentsInt() {
         return commentsInt.size();
-    }
-
-    public void setNumOfCommentsInt(int numOfCommentsInt) {
-        this.numOfCommentsInt = numOfCommentsInt;
     }
     public String getImageView() {
         return imageView;
