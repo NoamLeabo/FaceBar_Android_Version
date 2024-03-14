@@ -158,7 +158,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
             // set bitmap on imageView
             holder.profPic.setImageBitmap(bitmap);
-            holder.likes.setText(current.getUsersWhoLiked().size() + mActivity.getString(R.string.likes));
+            String likesStr = current.getUsersWhoLiked().size() + " likes";
+            holder.likes.setText(likesStr);
             holder.comments.setText(current.getNumOfCommentsInt() + mActivity.getString(R.string.commentss));
 
 
@@ -169,10 +170,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             holder.likeBtn.setOnClickListener(v -> {
                 viewModel.likePost(current);
                 if (!liked) {
-                    holder.likes.setText(current.getUsersWhoLiked().size() +  mActivity.getString(R.string.likes));
+                    String likesStr2 = current.getUsersWhoLiked().size() + " likes";
+                    holder.likes.setText(likesStr2);
                     holder.likeBtn.setBackgroundResource(R.drawable.rounded_button_pressed);
                 } else {
-                    holder.likes.setText(current.getUsersWhoLiked().size() + R.string.commentss);
+                    holder.likes.setText(current.getUsersWhoLiked().size() + " likes");
                     if (FeedActivity.NIGHT_MODE == 0)
                         holder.likeBtn.setBackgroundResource(R.drawable.rounded_button);
                     else

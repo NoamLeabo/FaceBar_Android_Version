@@ -195,7 +195,7 @@
                 android:layout_weight="1"
                 android:fontFamily="serif"
                 android:textColor="@color/white"
-                android:text="@string/_45_likes"
+                android:text="@string/liking"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 

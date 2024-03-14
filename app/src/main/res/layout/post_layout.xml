@@ -188,7 +188,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:fontFamily="serif"
-                android:text="@string/_45_likes"
+                android:text="@string/liking"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
