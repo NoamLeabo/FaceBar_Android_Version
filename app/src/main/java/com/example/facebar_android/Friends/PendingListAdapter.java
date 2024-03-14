@@ -131,11 +131,21 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     @Override
                     public void onSuccess() {
                         System.out.println("accepted friend");
-                        friendsReqActivity.updateFList();
                         deletePendings(position);
                         updatePendings();
-                    }
 
+                        usersAPI.getProfileUser(username, new UsersAPI.AddUserCallback() {
+                            @Override
+                            public void onSuccess() {
+                                friendsReqActivity.updateFList();
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                System.out.println("failed to accept friend");
+                            }
+                        });
+                    }
                     @Override
                     public void onError(String message) {
                         System.out.println("failed to accept friend");

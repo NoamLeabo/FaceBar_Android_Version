@@ -56,20 +56,19 @@ public class FriendsReqActivity extends AppCompatActivity {
 
         adapterF.setFriends(profileUser.getFriends());
         refreshLayoutF.setOnRefreshListener(() -> {
-//            activeUser = ActiveUser.getInstance();
             usersAPI.getFriends(username, new UsersAPI.AddUserCallback() {
-                @Override
-                public void onSuccess() {
-                    profileUser =  ProfileUser.getInstance();
-                    adapterF.setFriends(profileUser.getFriends());
-                    refreshLayoutF.setRefreshing(false);
-                }
+            @Override
+            public void onSuccess() {
+                profileUser =  ProfileUser.getInstance();
+                adapterF.setFriends(profileUser.getFriends());
+                refreshLayoutF.setRefreshing(false);
+            }
 
-                @Override
-                public void onError(String message) {
-                    System.out.println("bad");
-                }
-            });
+            @Override
+            public void onError(String message) {
+                System.out.println("bad");
+            }
+        });
         });
 
         // initialize PENDINGS RecyclerView
@@ -94,7 +93,7 @@ public class FriendsReqActivity extends AppCompatActivity {
 
     }
     public void updateFList() {
-        usersAPI.getFriends(profileUser.getUsername(), new UsersAPI.AddUserCallback() {
+        usersAPI.getFriends(username, new UsersAPI.AddUserCallback() {
             @Override
             public void onSuccess() {
                 profileUser =  ProfileUser.getInstance();

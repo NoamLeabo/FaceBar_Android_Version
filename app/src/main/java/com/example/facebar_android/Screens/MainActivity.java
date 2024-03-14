@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                     usersAPI.getToken(userName.getText().toString(), password.getText().toString(), new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess(){
-                            Toast.makeText(MainActivity.this, "Token got", Toast.LENGTH_SHORT).show();
                             userName.getText().clear();
                             password.getText().clear();
                             Intent intent = new Intent(MainActivity.this, FeedActivity.class);
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(String message) {
-                            Toast.makeText(MainActivity.this, "Error getting token", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
