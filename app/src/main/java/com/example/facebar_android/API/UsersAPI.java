@@ -189,7 +189,7 @@ public class UsersAPI {
 
     public void pendingFriend(String userName, String friendName, final AddUserCallback callback) {
         String token="bearer "+JWT.getInstance().getToken();
-        Call<Void> call = userAPI.pendingFriend(userName, friendName,token);
+        Call<Void> call = userAPI.pendingFriend(friendName,userName,token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
