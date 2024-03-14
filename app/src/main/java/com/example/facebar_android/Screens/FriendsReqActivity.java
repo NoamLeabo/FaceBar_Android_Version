@@ -90,7 +90,7 @@ public class FriendsReqActivity extends AppCompatActivity {
             adapterR.setPendings(activeUser.getPendings());
             refreshLayoutR.setRefreshing(false);
         });
-
+        updateFList();
     }
     public void updateFList() {
         usersAPI.getFriends(username, new UsersAPI.AddUserCallback() {
