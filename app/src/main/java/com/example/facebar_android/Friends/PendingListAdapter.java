@@ -49,7 +49,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
     class PendingViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvAuthor;
         private final FloatingActionButton deleteBtn;
-        private final FloatingActionButton editBtn;
+        private final FloatingActionButton acceptBtn;
 
         private ImageView profile;
         // constructor
@@ -58,7 +58,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             profile = itemView.findViewById(R.id.profile_img);
-            editBtn = itemView.findViewById(R.id.editBtn);
+            acceptBtn = itemView.findViewById(R.id.editBtn);
         }
     }
 
@@ -124,7 +124,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                 updatePendings();
             });
 
-            holder.editBtn.setOnClickListener(v -> {
+            holder.acceptBtn.setOnClickListener(v -> {
                 usersAPI.acceptFriend(activeUser.getUsername(), current, new UsersAPI.AddUserCallback() {
                     @Override
                     public void onSuccess() {
