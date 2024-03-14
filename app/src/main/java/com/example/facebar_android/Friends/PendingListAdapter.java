@@ -31,6 +31,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
     private ActiveUser activeUser;
     private DoubleArray images = new DoubleArray();
     private UsersAPI usersAPI;
+    private String username;
     private FriendsReqActivity friendsReqActivity;
 
     // an adapter that put the comment's content into a comment layout
@@ -40,6 +41,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         this.pendings = activeUser.getPendings();
         this.usersAPI = new UsersAPI();
         this.friendsReqActivity = friendsReqActivity;
+        this.username = ProfileUser.getInstance().getUsername();
     }
 
     public void updatePendings() {
@@ -140,6 +142,19 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     }
                 });
             });
+
+            usersAPI.getProfileUser(username, new UsersAPI.AddUserCallback() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("good");
+                }
+
+                @Override
+                public void onError(String message) {
+                    System.out.println("did not get user profile");
+                }
+            });
+
         }
     }
 

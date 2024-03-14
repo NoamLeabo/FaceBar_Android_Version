@@ -78,6 +78,7 @@ public class ProfilePageActivity extends AppCompatActivity {
             private_msg.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
             friendsBtn.setOnClickListener(v -> {
+                ProfileUser.updateInstance(this.profileUser);
                 Intent i = new Intent(this, FriendsReqActivity.class);
                 startActivityForResult(i, ADD_POST_TEXT_ONLY);
             });
@@ -88,7 +89,12 @@ public class ProfilePageActivity extends AppCompatActivity {
                     friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
                 else
                     friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed_dark);
-                friendsBtn.setImageResource(R.drawable.add_friend_sign);
+
+                if (FeedActivity.NIGHT_MODE == 0)
+                    friendsBtn.setImageResource(R.drawable.add_friend_sign);
+                else
+                    friendsBtn.setImageResource(R.drawable.add_friend_sign_b);
+
                 friendsBtn.setClickable(false);
             }
             // is friend of
@@ -101,13 +107,19 @@ public class ProfilePageActivity extends AppCompatActivity {
                     startActivityForResult(i, ADD_POST_TEXT_ONLY);
                 });
             } else {
-                friendsBtn.setImageResource(R.drawable.add_friend_sign);
-                friendsBtn.setOnClickListener(v -> {
+                if (FeedActivity.NIGHT_MODE == 0)
+                    friendsBtn.setImageResource(R.drawable.add_friend_sign);
+                else
+                    friendsBtn.setImageResource(R.drawable.add_friend_sign_b);                friendsBtn.setOnClickListener(v -> {
                     //send friends req
                     usersAPI.pendingFriend(activeUser.getUsername(), profileUser.getUsername(), new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess() {
-                            friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
+                            if (FeedActivity.NIGHT_MODE == 0)
+                                friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
+                            else
+                                friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed_dark);
+
                             if (friendsBtn.isClickable())
                                 Toast.makeText(MyApplication.context, "Friend request was sent!", Toast.LENGTH_SHORT).show();
                             friendsBtn.setClickable(false);

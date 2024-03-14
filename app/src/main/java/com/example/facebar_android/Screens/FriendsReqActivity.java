@@ -58,13 +58,14 @@ public class FriendsReqActivity extends AppCompatActivity {
             usersAPI.getFriends(profileUser.getUsername(), new UsersAPI.AddUserCallback() {
                 @Override
                 public void onSuccess() {
+                    profileUser =  ProfileUser.getInstance();
                     adapterF.setFriends(profileUser.getFriends());
                     refreshLayoutF.setRefreshing(false);
                 }
 
                 @Override
                 public void onError(String message) {
-
+                    System.out.println("bad");
                 }
             });
         });

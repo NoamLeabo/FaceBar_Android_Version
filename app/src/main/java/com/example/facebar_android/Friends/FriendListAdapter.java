@@ -29,6 +29,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     private List<String> friends;
     private DoubleArray images = new DoubleArray();
     private ActiveUser activeUser;
+    private String username;
     private UsersAPI usersAPI;
     private boolean friend;
 
@@ -39,6 +40,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         this.friends = activeUser.getFriends();
         this.usersAPI = new UsersAPI();
         this.friend = friend;
+        this.username = ProfileUser.getInstance().getUsername();
     }
 
     public void updateFriends() {
@@ -127,6 +129,19 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                 deleteFriend(position);
                 updateFriends();
             });
+
+            usersAPI.getProfileUser(username, new UsersAPI.AddUserCallback() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("good");
+                }
+
+                @Override
+                public void onError(String message) {
+                    System.out.println("did not get user profile");
+                }
+            });
+
         }
     }
 
