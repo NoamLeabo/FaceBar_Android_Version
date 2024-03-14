@@ -126,21 +126,21 @@ public class PostRepository {
     public void add(final Post post) {
         new Thread(() -> {
 //            dao.insert(post);
-            api.add(post);
+            api.add(post, username);
         }).start();
     }
 
     public void delete(final Post post) {
         new Thread(() -> {
 //            dao.delete(post);
-            api.delete(post);
+            api.delete(post, username);
         }).start();
     }
 
     public void edit(final Post post) {
         new Thread(() -> {
 //            dao.update(post);
-            api.update(post);
+            api.update(post, username);
         }).start();
     }
 

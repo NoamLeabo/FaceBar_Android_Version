@@ -66,7 +66,7 @@ public class PostsAPI {
         });
     }
 
-    public void add(Post post) {
+    public void add(Post post, String username) {
         ActiveUser activeUser = ActiveUser.getInstance();
         String token = "bearer " + JWT.getInstance().getToken();
         Log.d(TAG, "add: " + post.getContent());
@@ -77,7 +77,10 @@ public class PostsAPI {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 // Assuming successful addition, fetch updated data
                 if (response.isSuccessful()) {
-                    System.out.println("200 OK");
+                    if (Objects.equals(username, ""))
+                        get();
+                    else
+                        getUserPost(username);
                 }
             }
 
@@ -88,7 +91,7 @@ public class PostsAPI {
         });
     }
 
-    public void delete(Post post) {
+    public void delete(Post post, String username) {
         String token = "bearer " + JWT.getInstance().getToken();
         Call<Void> call = postAPI.deletePost(post.getAuthor(), post.get_id(), token);
         call.enqueue(new Callback<Void>() {
@@ -96,7 +99,10 @@ public class PostsAPI {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 // Assuming successful deletion, fetch updated data
                 if (response.isSuccessful()) {
-                    get();
+                    if (Objects.equals(username, ""))
+                        get();
+                    else
+                        getUserPost(username);
                 }
             }
 
@@ -107,7 +113,7 @@ public class PostsAPI {
         });
     }
 
-    public void update(Post post) {
+    public void update(Post post, String username) {
         String token = "bearer " + JWT.getInstance().getToken();
         Call<Void> call = postAPI.updatePost(post.getAuthor(), post.get_id(), post.getContent(), post.getImageView(), post.getPublished(), token);
         call.enqueue(new Callback<Void>() {
@@ -115,7 +121,10 @@ public class PostsAPI {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 // Assuming successful deletion, fetch updated data
                 if (response.isSuccessful()) {
-                    get();
+                    if (Objects.equals(username, ""))
+                        get();
+                    else
+                        getUserPost(username);
                 }
             }
 

@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
+import com.example.facebar_android.APP_Utilities.MyApplication;
+import com.example.facebar_android.R;
 import com.example.facebar_android.Users.ActiveUser;
 import com.example.facebar_android.Users.ProfileUser;
 
@@ -21,7 +23,7 @@ public class UsersAPI {
     Retrofit retrofit;
     UserAPI userAPI;
     public UsersAPI() {
-        retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:12345/").addConverterFactory(GsonConverterFactory.create())
+        retrofit = new Retrofit.Builder().baseUrl(MyApplication.context.getString(R.string.BaseUrl)).addConverterFactory(GsonConverterFactory.create())
                 .build();
         userAPI = retrofit.create(UserAPI.class);
     }
