@@ -23,6 +23,7 @@ public class FriendsReqActivity extends AppCompatActivity {
     private FriendListAdapter adapterF;
     private boolean friend = false;
     private SwipeRefreshLayout refreshLayoutF;
+    private String username;
 
     private UsersAPI usersAPI = new UsersAPI();
 
@@ -37,6 +38,7 @@ public class FriendsReqActivity extends AppCompatActivity {
 
         activeUser = ActiveUser.getInstance();
         profileUser = ProfileUser.getInstance();
+        this.username = profileUser.getUsername();
 
         if(getIntent().getStringExtra("friend") != null) {
             friend = true;
@@ -55,7 +57,7 @@ public class FriendsReqActivity extends AppCompatActivity {
         adapterF.setFriends(profileUser.getFriends());
         refreshLayoutF.setOnRefreshListener(() -> {
 //            activeUser = ActiveUser.getInstance();
-            usersAPI.getFriends(profileUser.getUsername(), new UsersAPI.AddUserCallback() {
+            usersAPI.getFriends(username, new UsersAPI.AddUserCallback() {
                 @Override
                 public void onSuccess() {
                     profileUser =  ProfileUser.getInstance();
@@ -95,15 +97,14 @@ public class FriendsReqActivity extends AppCompatActivity {
         usersAPI.getFriends(profileUser.getUsername(), new UsersAPI.AddUserCallback() {
             @Override
             public void onSuccess() {
-                profileUser = ProfileUser.getInstance();
+                profileUser =  ProfileUser.getInstance();
                 adapterF.setFriends(profileUser.getFriends());
-                adapterF.notifyDataSetChanged();
                 refreshLayoutF.setRefreshing(false);
             }
 
             @Override
             public void onError(String message) {
-
+                System.out.println("bad");
             }
         });
     }
