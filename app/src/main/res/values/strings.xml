@@ -39,8 +39,12 @@
     <string name="content">Content</string>
     <string name="comments">Comments</string>
     <string name="share_us_your_thoughts">Tell us what do you think about</string>
-    <string name="_45_likes">45 likes</string>
+    <string name="liking">likes</string>
     <string name="_12_comments">12 comments</string>
     <string name="share_you_thoughts">Share your thoughts!</string>
-    <string name="BaseUrl">http://10.0.2.2:12345/</string>
+    <string name="BaseUrl">http://10.0.2.2:12345/api/</string>
+    <string name="update_values">Update Values</string>
+    <string name="likes">" Likes"</string>
+    <string name="commentss">" Comments"</string>
+    <string name="edited">" edited"</string>
 </resources>

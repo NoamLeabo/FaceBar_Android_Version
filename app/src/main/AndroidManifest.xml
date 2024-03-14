@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".APP_Utilities.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,10 +17,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ProfilePageActivity"
+            android:name=".Screens.ProfilePageActivity"
             android:exported="false" />
         <activity
-            android:name=".FriendsReqActivity"
+            android:name=".Screens.FriendsReqActivity"
             android:exported="false" />
         <activity
             android:name=".Screens.FeedActivity"
@@ -29,10 +29,10 @@
             android:name=".Screens.SubscribeActivity"
             android:exported="false" />
         <activity
-            android:name=".Commets.CommentsActivity"
+            android:name=".Screens.CommentsActivity"
             android:exported="false" />
         <activity
-            android:name=".Posts.AddPostActivity"
+            android:name=".Screens.AddPostActivity"
             android:exported="false" />
         <activity
             android:name=".Screens.MainActivity"

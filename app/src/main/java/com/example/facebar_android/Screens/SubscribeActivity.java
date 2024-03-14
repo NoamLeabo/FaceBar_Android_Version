@@ -16,9 +16,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.facebar_android.ActiveUser;
+import com.example.facebar_android.Users.ActiveUser;
 import com.example.facebar_android.R;
-import com.example.facebar_android.usersAPI;
+import com.example.facebar_android.API.UsersAPI;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
@@ -29,7 +29,7 @@ public class SubscribeActivity extends AppCompatActivity {
 
     final int EMPTY=0;
     private int status;
-    private usersAPI usersAPI;
+    private UsersAPI usersAPI;
     private ActiveUser activeUser;
     EditText fName,lName,password,userName,passwordCheck;
     Button openCameraBtn,subscribeBtn,galleryBtn;
@@ -40,7 +40,7 @@ public class SubscribeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        usersAPI=new usersAPI();
+        usersAPI=new UsersAPI();
 
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_subscribe);
@@ -67,7 +67,7 @@ public class SubscribeActivity extends AppCompatActivity {
             lName.setEnabled(false);
             fName.setText(activeUser.getfName());
             fName.setEnabled(false);
-            subscribeBtn.setText("Update Values");
+            subscribeBtn.setText(R.string.update_values);
             password.setText(activeUser.getPassword());
             passwordCheck.setText(activeUser.getPassword());
             byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
@@ -103,10 +103,10 @@ public class SubscribeActivity extends AppCompatActivity {
                 String image = Base64.getEncoder().encodeToString(bytes);
                 if (status == 404) {
 
-                    usersAPI.updateUser(activeUser.getUsername(), password.getText().toString(), image, new usersAPI.AddUserCallback() {
+                    usersAPI.updateUser(activeUser.getUsername(), password.getText().toString(), image, new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess() {
-                            usersAPI.getUser(userName.getText().toString(), password.getText().toString(), new usersAPI.AddUserCallback() {
+                            usersAPI.getUser(userName.getText().toString(), password.getText().toString(), new UsersAPI.AddUserCallback() {
                                 @Override
                                 public void onSuccess() {
                                     Toast.makeText(SubscribeActivity.this, "Values were updated!", Toast.LENGTH_SHORT).show();
@@ -129,7 +129,7 @@ public class SubscribeActivity extends AppCompatActivity {
                     });
 
                 } else {
-                    usersAPI.addUser(fName.getText().toString(), lName.getText().toString(), userName.getText().toString(), password.getText().toString(), image, new usersAPI.AddUserCallback() {
+                    usersAPI.addUser(fName.getText().toString(), lName.getText().toString(), userName.getText().toString(), password.getText().toString(), image, new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess() {
                             Toast.makeText(SubscribeActivity.this, "User added successfully", Toast.LENGTH_SHORT).show();

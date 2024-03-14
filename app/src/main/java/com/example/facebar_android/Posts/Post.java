@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.example.facebar_android.Commets.Comment;
-import com.example.facebar_android.Converters;
+import com.example.facebar_android.APP_Utilities.Converters;
 import com.example.facebar_android.R;
 
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import java.util.List;
 public class Post {
     @PrimaryKey(autoGenerate = true)
     private int postId;
+    private String _id;
     private String author;
 
     private String profilePic;
@@ -30,9 +31,10 @@ public class Post {
     private String published = "date";
     private int likes;
     private boolean liked = false;
+    @ColumnInfo(name = "usersWhoLiked")
+    private ArrayList<String> usersWhoLiked = new ArrayList<>();
     @ColumnInfo(name = "comments_int")
     private List<Integer> commentsInt = new ArrayList<>();
-    private int numOfCommentsInt = commentsInt.size();
     @Ignore
     private ArrayList<Comment> comments;
     private int numOfComments;
@@ -196,10 +198,6 @@ public class Post {
     public int getNumOfCommentsInt() {
         return commentsInt.size();
     }
-
-    public void setNumOfCommentsInt(int numOfCommentsInt) {
-        this.numOfCommentsInt = numOfCommentsInt;
-    }
     public String getImageView() {
         return imageView;
     }
@@ -208,4 +206,19 @@ public class Post {
         this.imageView = imageView;
     }
 
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public ArrayList<String> getUsersWhoLiked() {
+        return usersWhoLiked;
+    }
+
+    public void setUsersWhoLiked(ArrayList<String> usersWhoLiked) {
+        this.usersWhoLiked = usersWhoLiked;
+    }
 }

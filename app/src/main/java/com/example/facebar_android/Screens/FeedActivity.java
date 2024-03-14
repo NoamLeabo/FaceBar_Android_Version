@@ -20,15 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.facebar_android.ActiveUser;
-import com.example.facebar_android.MyApplication;
-import com.example.facebar_android.PostViewModel;
-import com.example.facebar_android.Posts.AddPostActivity;
+import com.example.facebar_android.Users.ActiveUser;
+import com.example.facebar_android.APP_Utilities.MyApplication;
+import com.example.facebar_android.Posts.PostViewModel;
 import com.example.facebar_android.Posts.Post;
 import com.example.facebar_android.Posts.PostsListAdapter;
-import com.example.facebar_android.ProfilePageActivity;
 import com.example.facebar_android.R;
-import com.example.facebar_android.usersAPI;
+import com.example.facebar_android.API.UsersAPI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,24 +50,13 @@ public class FeedActivity extends AppCompatActivity {
     private PostViewModel viewModel;
     private PostsListAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
-    private List<Post> posts = new ArrayList<>();
     private ActiveUser activeUser;
     private boolean menuOpen = false;
-    private usersAPI usersAPI;
+    private UsersAPI usersAPI;
 
 
     public Context getContext() {
         return this;
-    }
-
-    private String inputStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            stringBuilder.append(new String(buffer, 0, bytesRead));
-        }
-        return stringBuilder.toString();
     }
 
     public static String getCurrentTime() {
@@ -84,19 +71,6 @@ public class FeedActivity extends AppCompatActivity {
         return String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
     }
 
-    public static int getTimeInt() {
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        int sec = calendar.get(Calendar.SECOND);
-
-        // Get the current date
-        int timeInt = hourOfDay + minute + calendar.getTime().getDay() + calendar.getTime().getMonth() +sec;
-
-        // Construct the time string
-        return timeInt;
-    }
-
     private void initializeViews() {
         activeUser = ActiveUser.getInstance();
         // we get the RecyclerView
@@ -105,29 +79,70 @@ public class FeedActivity extends AppCompatActivity {
         // we append the welcome msg
         TextView textView = findViewById(R.id.con_user);
         textView.append(getWelcome(activeUser.getUsername()));
-        textView.setOnClickListener(new View.OnClickListener() {
+        textView.setOnClickListener(v -> usersAPI.getProfileUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
             @Override
-            public void onClick(View v) {
-                usersAPI.getProfileUser(activeUser.getUsername(), new usersAPI.AddUserCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Intent i = new Intent(getContext(), ProfilePageActivity.class);
-                        startActivityForResult(i, ADD_POST_TEXT_ONLY);
-                        System.out.println("got user profile");
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        System.out.println("did not get user profile");
-                    }
-                });
+            public void onSuccess() {
+                Intent i = new Intent(getContext(), ProfilePageActivity.class);
+                startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                System.out.println("got user profile");
             }
-        });
+
+            @Override
+            public void onError(String message) {
+                System.out.println("did not get user profile");
+            }
+        }));
 
         ImageButton menuBtn = findViewById(R.id.menu_btn);
         ImageButton editBtn = findViewById(R.id.editBtn);
         LinearLayout menu = findViewById(R.id.TOP_START);
         ImageButton logOutBtn = findViewById(R.id.log_out_btn);
+        ImageButton profilePage = findViewById(R.id.profilePage);
+        ImageButton friendsBtn = findViewById(R.id.friends_btn);
+
+        friendsBtn.setOnClickListener(v -> {
+
+            usersAPI.getProfileUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
+                @Override
+                public void onSuccess() {
+                    Intent i = new Intent(getContext(), FriendsReqActivity.class);
+                    startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                }
+
+                @Override
+                public void onError(String message) {
+                    System.out.println("did not get user profile");
+                }
+            });
+        });
+        profilePage.setOnClickListener(v -> usersAPI.getProfileUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
+            @Override
+            public void onSuccess() {
+                Intent i = new Intent(getContext(), ProfilePageActivity.class);
+                startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                System.out.println("got user profile");
+            }
+
+            @Override
+            public void onError(String message) {
+                System.out.println("did not get user profile");
+            }
+        }));
+
+        ImageButton deleteBtn = findViewById(R.id.delete_btn);
+        deleteBtn.setOnClickListener(v -> usersAPI.deleteUser(activeUser.getUsername(), new UsersAPI.AddUserCallback() {
+            @Override
+            public void onSuccess() {
+                System.out.println("got user profile");
+                finish();
+            }
+
+            @Override
+            public void onError(String message) {
+                System.out.println("did not get user profile");
+            }
+        }));
+
         ImageButton nightModeBtn = findViewById(R.id.night_mode_btn);
         ImageView profileImg = findViewById(R.id.profile_img);
 
@@ -205,18 +220,15 @@ public class FeedActivity extends AppCompatActivity {
             setContentView(R.layout.scrolled_feed);
         else
             setContentView(R.layout.scrolled_feed_dark);
-        usersAPI = new usersAPI();
+        usersAPI = new UsersAPI();
         //loadFromJson();
         viewModel = new PostViewModel("");
 
-        viewModel.getPosts().observe(this, new Observer<List<Post>>() {
-            @Override
-            public void onChanged(List<Post> posts) {
-                adapter.setPosts(posts);
-                adapter.updatePosts();
-                refreshLayout.setRefreshing(false);
-                System.out.println("onChanged\n");
-            }
+        viewModel.getPosts().observe(this, posts -> {
+            adapter.setPosts(posts);
+            adapter.updatePosts();
+            refreshLayout.setRefreshing(false);
+            System.out.println("onChanged\n");
         });
         initializeViews();
 
@@ -229,15 +241,13 @@ public class FeedActivity extends AppCompatActivity {
             // Switch to day mode layout
             setContentView(R.layout.scrolled_feed);
             NIGHT_MODE = 0;
-            menuOpen = false;
-            initializeViews();
         } else {
             // Switch to night mode layout
             setContentView(R.layout.scrolled_feed_dark);
             NIGHT_MODE = 1;
-            menuOpen = false;
-            initializeViews();
         }
+        menuOpen = false;
+        initializeViews();
     }
 
     @Override
@@ -272,7 +282,14 @@ public class FeedActivity extends AppCompatActivity {
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);//                adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);//                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -307,8 +324,14 @@ public class FeedActivity extends AppCompatActivity {
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);//
-                // adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);//                 // adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -320,8 +343,14 @@ public class FeedActivity extends AppCompatActivity {
 
                 Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
                 post.setPublished(FeedActivity.getCurrentTime());
-                addPostToDB(post);
-//                adapter.updatePosts();
+                if (data.getStringExtra("edit") != null) {
+                    String _id = data.getStringExtra("edit");
+                    post.set_id(_id);
+                    post.setPublished(FeedActivity.getCurrentTime() + " edited");
+                    updatePostInDB(post);
+                }
+                else
+                    addPostToDB(post);// //                adapter.updatePosts();
                 // Use the content and the bitmap as needed
                 // For example, display the content in a TextView
                 // and set the bitmap to an ImageView
@@ -333,9 +362,10 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void addPostToDB(Post post) {
-        new Thread(() -> {
-            viewModel.add(post);
-        }).start();
+        new Thread(() -> viewModel.add(post)).start();
+    }
+    public void updatePostInDB(Post post) {
+        new Thread(() -> viewModel.edit(post)).start();
     }
 
     @Override
