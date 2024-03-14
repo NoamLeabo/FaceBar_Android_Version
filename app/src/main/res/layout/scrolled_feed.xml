@@ -108,9 +108,10 @@
                         android:layout_marginLeft="0dp">
 
                         <TextView
-
+                            android:clickable="true"
                             android:id="@+id/con_user"
                             android:textStyle="bold"
+                            android:textColor="@drawable/text_color_selector"
                             android:fontFamily="serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -159,26 +160,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/lay_logo"
                 app:layout_constraintVertical_bias="0.0"
                 tools:layout_editor_absoluteX="1dp">
-
                 <ImageButton
-                    android:id="@+id/night_mode_btn"
+                    android:id="@+id/profilePage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/night_sign" />
+                    android:src="@drawable/person_sign_bl" />
 
                 <ImageButton
-                    android:id="@+id/notifications_btn"
+                    android:id="@+id/editBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/notifications_sign" />
+                    android:src="@drawable/edit_sign" />
 
                 <ImageButton
                     android:id="@+id/friends_btn"
@@ -191,24 +191,24 @@
                     android:src="@drawable/friends_sign" />
 
                 <ImageButton
-                    android:id="@+id/videos_btn"
+                    android:id="@+id/night_mode_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/videos_sign" />
+                    android:src="@drawable/night_sign" />
 
                 <ImageButton
-                    android:id="@+id/home_btn"
+                    android:id="@+id/delete_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/color_button_selector"
                     android:clickable="true"
-                    android:src="@drawable/home_sign" />
+                    android:src="@drawable/delete_post_sign" />
             </LinearLayout>
         </LinearLayout>
 

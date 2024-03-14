@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="13dp"
-    android:background="@color/white"
+    android:background="@drawable/img_border_background"
     >
 
     <LinearLayout
@@ -44,7 +44,7 @@
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/person_sign_black" />
+                    app:srcCompat="@drawable/person_sign" />
 
             </LinearLayout>
 

@@ -153,7 +153,7 @@
             android:layout_height="320dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:background="@drawable/img_border_background"
+            android:background="@drawable/another_border_night"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/BOTTOM_END"
             app:layout_constraintTop_toBottomOf="@+id/tvContent" />
@@ -180,7 +180,7 @@
             android:layout_margin="12dp"
             android:layout_weight="1"
             android:background="@drawable/color_button_selector_dark"
-            android:src="@drawable/delete_post_sign" />
+            android:src="@drawable/delete_post_sign_b" />
 
         <ImageButton
             android:id="@+id/post_post_btn"
@@ -189,7 +189,7 @@
             android:layout_margin="12dp"
             android:layout_weight="1"
             android:background="@drawable/color_button_selector_dark"
-            android:src="@drawable/add_post_sign" />
+            android:src="@drawable/add_post_sign_b" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
