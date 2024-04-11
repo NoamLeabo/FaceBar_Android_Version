@@ -29,7 +29,9 @@ A few updates from last version and things to keep in mind in order to perfect y
   7)  If you would like to delete your FaceBar account (but Y would U like to do that?!),
       you can do so by clicking the "Delete btn".
 
-  8)  Designe was updated as well, we hope you'll find it artistic.
+  8)  Edit a users information is now available by clicking the "Edit User" btn.  
+
+  9)  Designe was updated as well, we hope you'll find it artistic.
 
 How to run the app?
 
