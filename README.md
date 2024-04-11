@@ -66,7 +66,7 @@ Quick basic guide:
     7. Night mode.
     8. Delete user.
   
-![פיד](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/375d2596-4093-42c9-ba1b-70fa527d1406)
+![פיד](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/3443c9b1-1af3-4beb-98aa-816e5e3e96cb)
 
 4) Add post Page - Keep in mind you can upload a new post without photo, you **can not** upload a post without any text though.
 
