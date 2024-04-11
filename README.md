@@ -1,26 +1,35 @@
 # FaceBar Android version
-Welcome to the android (beta) version of FaceBar!
+Welcome to the android (release candidate) version of FaceBar!
 
-A few things to keep in mind in order to perfect your experience using FaceBar - 
+A few updates from last version and things to keep in mind in order to perfect your experience using FaceBar - 
 
-  1) At the moment there is a limited number of people who have been given early
-     access to an active account in order to get opinions on the preview version
-     of the app. One of these people is Mr. Mark Zuckerberg who definitely has 
-     "some" experience in this type of platforms. 
-     In order to enter the application, enter his user information -
-     
-     **Username: Mark_Z**
-     
-     **Password: 123456Mm**
-  
-  3)  In the beta version, our app supports the English language only.
+  1)  Now everyone can have a personal account in FaceBar! 
+      All you need to do is click on the "create an account" btn, and create your 
+      very own uniq FaceBar account.
+      
+  2)  Same as pre. versions, our app supports the English language only.
       Using the app on a phone configured in a different language may have
       a bad effect on the app's design and user experience.
 
-  4)  The app is yet to be synchronized with any database therefore any changes 
-      that you do will be saved **locally** and will not be saved by rerunning 
-      the app logics.
+  3)  The app is now synchronized with the app database therefore every changes 
+      that you do will be saved and uploaded to the server. Keep that in mind!
 
+  4)  In this new version you can have a friendship connection with others!
+      A friendship connection must be agreed by both users. Everyone can send friends
+      request to any other user.
+
+  5)  In the new feed page a user will see only his friends' posts, in addition
+      to another five latest posts. Of course that user can only edit his own posts. 
+
+  6)  One more feature is the profile page. Now you can see your posts, your friends,
+      and your friends request all in one place. You can also see your friends' profile page,
+      you cannot see a non-friend user's profile page though. If you wish to see a user's posts
+      and profile page, you can send him a friendship req. and hope that he'll agree :)
+
+  7)  If you would like to delete your FaceBar account (but Y would U like to do that?!),
+      you can do so by clicking the "Delete btn".
+
+  8)  Designe was updated as well, we hope you'll find it artistic.
 
 How to run the app?
 
@@ -31,9 +40,10 @@ We highly recommend running the app on a REAL PHONE so you could enjoy the full
 design experience of the app. If that is not possible, you can run the app on an 
 emulator.
 
-In general, the work was done by all group members. 2 of the members wrote the most of the code (basiclly onw wrote the feed and the other wrote the register and login), but we all
-helped one each other a lot with bugs and coding ideas, including implication of conclusions from writing the Web app. First we connected the login and register screen, then we connected
-them both with the feed page, and magde sure that the entire app functions properly.
+In general, this part of the work was done by all group members. Like pre. part same 2 of the members did the most of the code
+(one did the fullstack changes in the feed, pro-page, login-page etc, and the other wrote the connection and all the "server logic"), yet we all
+helped one each other a lot with bugs and coding ideas, including implication of conclusions from writing the previous part. The main idea was 
+first to make the server running, and then do the adaptations to the andriod app. 
 
 Quick basic guide:
 
