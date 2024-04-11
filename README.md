@@ -76,4 +76,13 @@ Quick basic guide:
 
 ![WhatsApp Image 2024-02-22 at 19 26 26 (3)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/940534f9-60ca-4ef2-bd99-b5e45e7bfe0c)
 
+7) Profile Page - In the Prof. Page a user can watch, edit, and delete its post, and of course publish a new post. In addition there is a button that leads to
+   the Friends screen, where the user can see its friends and accept/reject new requests.
+
+   ![תמונה של WhatsApp_ 2024-04-12 בשעה 02 04 55_b5c2bf9c](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/c4d9c722-ec20-4953-9e46-69c21a3add8a)
+
+8) Friends Page -
+
+   ![תמונה של WhatsApp_ 2024-04-12 בשעה 02 04 55_8602debf](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/a8188f55-17ce-46be-90ca-7907c1639a2c)
+
 **ENJOY FACEBAR!**
