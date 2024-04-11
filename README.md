@@ -57,25 +57,22 @@ Quick basic guide:
 ![WhatsApp Image 2024-02-22 at 19 26 26](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/42cd3c3d-e136-429b-99e6-87df7bb45150)
 
 3) Feed Page - 
-    1. Log out button.
-    2. Open Main Menu button.
-    3. Edit post's text button.
-    4. Delete post from Feed Page button.
-    5. Create a new post button.
-   
-![FEED (2)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/907e51a6-cc9e-4313-91fc-fdd12b1ea60a)
+    1. Log out.
+    2. Open Main Menu.
+    3. Create a new post.
+    4. Open profile Page.
+    5. Edit user information.
+    6. Open user's friends list.
+    7. Night mode.
+    8. Delete user.
+  
+   ![פיד](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/fc7b2379-1839-432d-9312-d0b7cee69926)
 
 4) Add post Page - Keep in mind you can upload a new post without photo, you **can not** upload a post without any text though.
 
 ![WhatsApp Image 2024-02-22 at 19 26 27 (1)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/05ba25a7-9d6f-492b-9e18-4aaddbe635ab)
 
-5) Comments Page - clicking on a post's comments button will open the post's comments feed.
-
-![WhatsApp Image 2024-02-22 at 19 26 26 (1)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/97970372-e5e4-4a58-841d-bcd4768d2236)
-
-6) Dark Mode - In order to enjoy our amazing dark mode simply change to 'Dark Mode' on your phone.
-
-![תמונה2 (1)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/b3801811-ebb9-4ccf-b1b1-19bdc64f963b)
+6) Dark Mode - Now in order to enjoy our amazing dark mode simply click the 'Dark Mode' btn.
 
 ![WhatsApp Image 2024-02-22 at 19 26 26 (3)](https://github.com/NoamLeabo/FaceBar_Android/assets/155389867/940534f9-60ca-4ef2-bd99-b5e45e7bfe0c)
 
