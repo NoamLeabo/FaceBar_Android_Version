@@ -3,6 +3,7 @@ package com.example.facebar_android.API;
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -81,6 +82,8 @@ public class PostsAPI {
                         get();
                     else
                         getUserPost(username);
+                } else if (response.code() == 403) {
+                    Toast.makeText(MyApplication.context, "Post wasn't uploaded due to inclusion of illegal links!", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -125,6 +128,8 @@ public class PostsAPI {
                         get();
                     else
                         getUserPost(username);
+                } else if (response.code() == 403) {
+                    Toast.makeText(MyApplication.context, "Values weren't updated due to inclusion of illegal links!", Toast.LENGTH_LONG).show();
                 }
             }
 
