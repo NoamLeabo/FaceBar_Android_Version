@@ -22,10 +22,12 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     private List<Comment> comments;
     private FloatingActionButton btnAdd;
     private EditText newComment;
+    private CommentViewModel viewModel;
 
     // an adapter that put the comment's content into a comment layout
-    public CommentListAdapter(Context context, FloatingActionButton addButton, EditText commentEditText) {
+    public CommentListAdapter(Context context, FloatingActionButton addButton, EditText commentEditText, CommentViewModel viewModel) {
         mInflater = LayoutInflater.from(context);
+        this.viewModel = viewModel;
         btnAdd = addButton;
         newComment = commentEditText;
         btnAdd.setOnClickListener(v -> {
@@ -33,11 +35,17 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             if (!commentText.isEmpty()) {
                 // Create a new comment and add it to the list
                 Comment newCommentObj = new Comment("Mark Z.", commentText);
-                comments.add(newCommentObj);
+                System.out.println(newCommentObj.getCommentId() +" fir");
+
+                this.viewModel.add(newCommentObj);
                 newComment.getText().clear();
                 notifyDataSetChanged();
             }
         });
+    }
+
+    public void updateComments() {
+        notifyDataSetChanged();
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -65,8 +73,14 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.comment_layout, parent, false);
-        return new CommentViewHolder(itemView);
+        if (FeedActivity.NIGHT_MODE == 0) {
+            View itemView = mInflater.inflate(R.layout.comment_layout, parent, false);
+            return new CommentViewHolder(itemView);
+        }
+        else {
+            View itemView = mInflater.inflate(R.layout.comment_dark, parent, false);
+            return new CommentViewHolder(itemView);
+        }
     }
 
     @Override
@@ -81,7 +95,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             if (current.getAuthor().equals("Mark Z."))
                 holder.profile.setImageResource(R.drawable.zukiprofile);
             else
-                holder.profile.setImageResource(R.drawable.person_sign);
+                holder.profile.setImageResource(R.drawable.person_sign_b);
             holder.tvContent.setText(current.getContent());
             if (current.getDate().equals("date"))
                 current.setDate(FeedActivity.getCurrentTime());
@@ -96,9 +110,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     holder.editBtn.setImageResource(R.drawable.done_sign);
                     holder.editTMode = true;
                 } else {
+                    Comment edited = current;
                     holder.tvContent.setText(holder.teContent.getText());
-                    current.setContent(holder.teContent.getText().toString());
-                    current.setDate(FeedActivity.getCurrentTime() + " edited");
+                    edited.setContent(holder.teContent.getText().toString());
+                    edited.setDate(FeedActivity.getCurrentTime() + " edited");
+                    viewModel.edit(edited);
                     holder.teContent.setVisibility(View.GONE);
                     holder.tvContent.setVisibility(View.VISIBLE);
                     holder.editTMode = false;
@@ -121,7 +137,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     }
 
     public void deleteComment(int position){
-        this.comments.remove(position);
+        Comment toDelete = comments.remove(position);
+        viewModel.delete(toDelete);
+        viewModel.removeId(toDelete.getCommentId());
     }
     @Override
     public int getItemCount() {
