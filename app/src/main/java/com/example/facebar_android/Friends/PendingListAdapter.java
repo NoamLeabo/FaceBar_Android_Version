@@ -24,6 +24,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Adapter class for managing the pending friend requests in a RecyclerView.
+ */
 public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.PendingViewHolder> {
 
     private final LayoutInflater mInflater;
@@ -34,7 +37,12 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
     private String username;
     private FriendsReqActivity friendsReqActivity;
 
-    // an adapter that put the comment's content into a comment layout
+    /**
+     * Constructor for initializing the PendingListAdapter.
+     *
+     * @param context the context in which the adapter is used
+     * @param friendsReqActivity the activity managing the friend requests
+     */
     public PendingListAdapter(Context context, FriendsReqActivity friendsReqActivity) {
         mInflater = LayoutInflater.from(context);
         this.activeUser = ActiveUser.getInstance();
@@ -44,17 +52,27 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         this.username = ProfileUser.getInstance().getUsername();
     }
 
+    /**
+     * Updates the list of pending friend requests and notifies the adapter.
+     */
     public void updatePendings() {
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class for managing the views of each pending friend request item.
+     */
     class PendingViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvAuthor;
         private final FloatingActionButton deleteBtn;
         private final FloatingActionButton acceptBtn;
+        private final ImageView profile;
 
-        private ImageView profile;
-        // constructor
+        /**
+         * Constructor for initializing the PendingViewHolder.
+         *
+         * @param itemView the view of the pending friend request item
+         */
         private PendingViewHolder(View itemView) {
             super(itemView);
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
@@ -69,8 +87,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         View itemView;
         if (FeedActivity.NIGHT_MODE == 0) {
             itemView = mInflater.inflate(R.layout.friend_req_layout, parent, false);
-        }
-        else {
+        } else {
             itemView = mInflater.inflate(R.layout.friend_req_layout_dark, parent, false);
         }
         return new PendingViewHolder(itemView);
@@ -78,10 +95,6 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     @Override
     public void onBindViewHolder(PendingViewHolder holder, int position) {
-        // if the comments ain't null we shall bind them with layouts
-
-        /*attaching all comments fields */
-
         if (pendings != null) {
             final String current = pendings.get(position);
             if (!images.ifKeyExists(current))
@@ -96,10 +109,8 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     if (Objects.equals(images.getValueOfKey(current), "")) {
                         images.insertValueToKey(current, profileUser.getProfileImage());
                     }
-                    byte[] bytes= Base64.decode(images.getValueOfKey(current),Base64.DEFAULT);
-                    // Initialize bitmap
-                    Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                    // set bitmap on imageView
+                    byte[] bytes = Base64.decode(images.getValueOfKey(current), Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     holder.profile.setImageBitmap(bitmap);
                 }
 
@@ -108,7 +119,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     System.out.println("did not get user profile");
                 }
             });
-            // the delete comment btn
+
             holder.deleteBtn.setOnClickListener(v -> {
                 usersAPI.rejectFriend(activeUser.getUsername(), current, new UsersAPI.AddUserCallback() {
                     @Override
@@ -146,6 +157,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                             }
                         });
                     }
+
                     @Override
                     public void onError(String message) {
                         System.out.println("failed to accept friend");
@@ -164,19 +176,29 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                     System.out.println("did not get user profile");
                 }
             });
-
         }
     }
 
+    /**
+     * Sets the list of pending friend requests and notifies the adapter.
+     *
+     * @param p the list of pending friend requests
+     */
     public void setPendings(List<String> p) {
         this.pendings = p;
         notifyDataSetChanged();
     }
 
-    public void deletePendings(int position){
+    /**
+     * Deletes a pending friend request at the specified position and updates the list.
+     *
+     * @param position the position of the pending friend request to delete
+     */
+    public void deletePendings(int position) {
         pendings.remove(position);
         updatePendings();
     }
+
     @Override
     public int getItemCount() {
         return pendings != null ? pendings.size() : 0;

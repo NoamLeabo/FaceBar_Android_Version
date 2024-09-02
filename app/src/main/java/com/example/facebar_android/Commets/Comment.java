@@ -1,15 +1,13 @@
 package com.example.facebar_android.Commets;
 
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+/**
+ * Entity class representing a Comment in the Room database.
+ */
 @Entity
-public class Comment  {
+public class Comment {
 
     @PrimaryKey(autoGenerate = true)
     private int commentId;
@@ -17,73 +15,77 @@ public class Comment  {
     private String content;
     private String date = "date";
 
-
-    // constructor
+    /**
+     * Constructor for creating a new Comment.
+     *
+     * @param author the author of the comment
+     * @param content the content of the comment
+     */
     public Comment(String author, String content) {
         this.author = author;
         this.content = content;
     }
-//    @Ignore
-//    public Comment(String author, String content, int id) {
-//        this.author = author;
-//        this.content = content;
-//        this.commentId = id;
-//    }
-//@Ignore
-//protected Comment(Parcel in) {
-//        commentId = in.readInt();
-//        author = in.readString();
-//        content = in.readString();
-//    }
+
+    /**
+     * Sets the date of the comment.
+     *
+     * @param date the date to set
+     */
     public void setDate(String date) {
         this.date = date;
     }
 
+    /**
+     * Gets the date of the comment.
+     *
+     * @return the date of the comment
+     */
     public String getDate() {
         return date;
     }
 
-//    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
-//        @Override
-//        public Comment createFromParcel(Parcel in) {
-//            return new Comment(in);
-//        }
-//
-//        @Override
-//        public Comment[] newArray(int size) {
-//            return new Comment[size];
-//        }
-//    };
-
+    /**
+     * Gets the ID of the comment.
+     *
+     * @return the comment ID
+     */
     public int getCommentId() {
         return commentId;
     }
 
+    /**
+     * Sets the ID of the comment.
+     *
+     * @param id the ID to set
+     */
     public void setCommentId(int id) {
         this.commentId = id;
     }
 
+    /**
+     * Gets the author of the comment.
+     *
+     * @return the author of the comment
+     */
     public String getAuthor() {
         return author;
     }
 
+    /**
+     * Gets the content of the comment.
+     *
+     * @return the content of the comment
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Sets the content of the comment.
+     *
+     * @param content the content to set
+     */
     public void setContent(String content) {
         this.content = content;
     }
-
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeInt(commentId);
-//        dest.writeString(author);
-//        dest.writeString(content);
-//    }
 }

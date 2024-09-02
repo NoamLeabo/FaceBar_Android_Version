@@ -118,7 +118,8 @@ public class PostsAPI {
 
     public void update(Post post, String username) {
         String token = "bearer " + JWT.getInstance().getToken();
-        Call<Void> call = postAPI.updatePost(post.getAuthor(), post.get_id(), post.getContent(), post.getImageView(), post.getPublished(), token);
+        Call<Void> call = postAPI.updatePost(post.getAuthor(), post.get_id(), post.getContent(), post.getImageView(),
+                                             post.getPublished(), token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -129,7 +130,8 @@ public class PostsAPI {
                     else
                         getUserPost(username);
                 } else if (response.code() == 403) {
-                    Toast.makeText(MyApplication.context, "Values weren't updated due to inclusion of illegal links!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.context, "Values weren't updated due to inclusion of illegal" +
+                                    " links!", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -139,7 +141,8 @@ public class PostsAPI {
             }
         });
     }
-    public void getUserPost(String username){
+
+    public void getUserPost(String username) {
 
         String token = "bearer " + JWT.getInstance().getToken();
         Call<List<Post>> call = postAPI.getUserPosts(username, token);
@@ -166,6 +169,7 @@ public class PostsAPI {
             }
         });
     }
+
     public void likePost(Post post, String username) {
         ActiveUser activeUser = ActiveUser.getInstance();
         String token = "bearer " + JWT.getInstance().getToken();

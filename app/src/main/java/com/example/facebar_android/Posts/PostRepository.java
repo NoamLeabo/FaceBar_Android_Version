@@ -21,14 +21,22 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for managing Post data.
+ * Provides methods for accessing and manipulating Post data from the database and API.
+ */
 public class PostRepository {
     private PostDao dao;
     private AppDB db;
     private String username;
     private PostListData postsListDate;
-
     private PostsAPI api;
 
+    /**
+     * Constructor for initializing the PostRepository.
+     *
+     * @param username the username of the current user
+     */
     public PostRepository(String username) {
         this.username = username;
         db = Room.databaseBuilder(MyApplication.context, AppDB.class, "PostsDB").fallbackToDestructiveMigration().build();
@@ -37,10 +45,18 @@ public class PostRepository {
         api = new PostsAPI(postsListDate, dao);
     }
 
-
+    /**
+     * LiveData class for managing the list of posts.
+     * Loads posts from a JSON file and the database.
+     */
     class PostListData extends MutableLiveData<List<Post>> {
         private String username;
 
+        /**
+         * Constructor for initializing the PostListData.
+         *
+         * @param username the username of the current user
+         */
         public PostListData(String username) {
             super();
             this.username = username;
@@ -67,14 +83,8 @@ public class PostRepository {
                     String likes = jsonObject.getString("likes");
                     int numlikes = Integer.parseInt(likes);
                     String pathPost = jsonObject.getString("pathPost");
-                    //JSONArray commentsArray = jsonObject.getJSONArray("comments");
-
-                    // Parse comments array
-
                     Post post = new Post(author, content, path, numlikes, pathPost);
-//                    post.setComments(commentsList);
                     post.setPublished(FeedActivity.getCurrentTime());
-                    // posts.add(post);
                 }
 
             } catch (IOException | JSONException e) {
@@ -90,7 +100,7 @@ public class PostRepository {
                 }
             }
 
-            //setting the posts' images
+            // Setting the posts' images
             new Thread(() -> dao.index()).start();
             this.setValue(posts);
         }
@@ -100,7 +110,6 @@ public class PostRepository {
             super.onActive();
 
             new Thread(() -> {
-//                  api.get();
                 if (username.equals(""))
                     api.get();
                 else
@@ -109,6 +118,13 @@ public class PostRepository {
         }
     }
 
+    /**
+     * Converts an InputStream to a String.
+     *
+     * @param inputStream the InputStream to convert
+     * @return the resulting String
+     * @throws IOException if an I/O error occurs
+     */
     private String inputStreamToString(InputStream inputStream) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         byte[] buffer = new byte[1024];
@@ -119,46 +135,78 @@ public class PostRepository {
         return stringBuilder.toString();
     }
 
+    /**
+     * Retrieves all posts as LiveData.
+     *
+     * @return LiveData containing the list of posts
+     */
     public LiveData<List<Post>> getAll() {
         return postsListDate;
     }
 
+    /**
+     * Adds a new post.
+     *
+     * @param post the post to add
+     */
     public void add(final Post post) {
         new Thread(() -> {
-//            dao.insert(post);
             api.add(post, username);
         }).start();
     }
 
+    /**
+     * Deletes a post.
+     *
+     * @param post the post to delete
+     */
     public void delete(final Post post) {
         new Thread(() -> {
-//            dao.delete(post);
             api.delete(post, username);
         }).start();
     }
 
+    /**
+     * Edits an existing post.
+     *
+     * @param post the post to edit
+     */
     public void edit(final Post post) {
         new Thread(() -> {
-//            dao.update(post);
             api.update(post, username);
         }).start();
     }
 
+    /**
+     * Reloads all posts.
+     */
     public void reload() {
         new Thread(() -> api.get()).start();
     }
 
+    /**
+     * Retrieves posts for a specific user.
+     *
+     * @param username the username of the user whose posts to retrieve
+     */
     public void getUserPost(String username) {
         new Thread(() -> api.getUserPost(username)).start();
-
     }
 
+    /**
+     * Reloads posts for the current user.
+     */
     public void reloadUserPost() {
         new Thread(() -> api.getUserPost(username)).start();
     }
 
+    /**
+     * Likes a post.
+     *
+     * @param post the post to like
+     * @param username the username of the user liking the post
+     */
     public void likePost(Post post, String username) {
         new Thread(() -> api.likePost(post, username)).start();
     }
-
 }

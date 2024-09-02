@@ -23,6 +23,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Adapter class for managing the friend list in a RecyclerView.
+ */
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
 
     private final LayoutInflater mInflater;
@@ -33,7 +36,12 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     private UsersAPI usersAPI;
     private boolean friend;
 
-    // an adapter that put the comment's content into a comment layout
+    /**
+     * Constructor for initializing the FriendListAdapter.
+     *
+     * @param context the context in which the adapter is used
+     * @param friend a boolean indicating if the user is a friend
+     */
     public FriendListAdapter(Context context, boolean friend) {
         mInflater = LayoutInflater.from(context);
         this.activeUser = ActiveUser.getInstance();
@@ -43,15 +51,26 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         this.username = ProfileUser.getInstance().getUsername();
     }
 
+    /**
+     * Updates the list of friends and notifies the adapter.
+     */
     public void updateFriends() {
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class for managing the views of each friend item.
+     */
     class FriendViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvAuthor;
         private final FloatingActionButton deleteBtn;
         private ImageView profile;
-        // constructor
+
+        /**
+         * Constructor for initializing the FriendViewHolder.
+         *
+         * @param itemView the view of the friend item
+         */
         private FriendViewHolder(View itemView) {
             super(itemView);
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
@@ -65,8 +84,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         View itemView;
         if (FeedActivity.NIGHT_MODE == 0) {
             itemView = mInflater.inflate(R.layout.friend_layout, parent, false);
-        }
-        else {
+        } else {
             itemView = mInflater.inflate(R.layout.friend_layout_dark, parent, false);
         }
         return new FriendViewHolder(itemView);
@@ -74,10 +92,6 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     @Override
     public void onBindViewHolder(FriendViewHolder holder, int position) {
-        // if the comments ain't null we shall bind them with layouts
-
-        /*attaching all comments fields */
-
         if (friends != null) {
             final String current = friends.get(position);
             if (!images.ifKeyExists(current))
@@ -92,10 +106,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                     if (Objects.equals(images.getValueOfKey(current), "")) {
                         images.insertValueToKey(current, profileUser.getProfileImage());
                     }
-                    byte[] bytes= Base64.decode(images.getValueOfKey(current),Base64.DEFAULT);
-                    // Initialize bitmap
-                    Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                    // set bitmap on imageView
+                    byte[] bytes = Base64.decode(images.getValueOfKey(current), Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     holder.profile.setImageBitmap(bitmap);
                 }
 
@@ -105,14 +117,10 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                 }
             });
 
-
-
-
-            if (friend){
+            if (friend) {
                 holder.deleteBtn.setVisibility(View.GONE);
             }
 
-            // the delete comment btn
             holder.deleteBtn.setOnClickListener(v -> {
                 usersAPI.rejectFriend(activeUser.getUsername(), current, new UsersAPI.AddUserCallback() {
                     @Override
@@ -141,19 +149,29 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                     System.out.println("did not get user profile");
                 }
             });
-
         }
     }
 
+    /**
+     * Sets the list of friends and notifies the adapter.
+     *
+     * @param f the list of friends
+     */
     public void setFriends(List<String> f) {
         this.friends = f;
         notifyDataSetChanged();
     }
 
-    public void deleteFriend(int position){
+    /**
+     * Deletes a friend at the specified position and updates the list.
+     *
+     * @param position the position of the friend to delete
+     */
+    public void deleteFriend(int position) {
         friends.remove(position);
         updateFriends();
     }
+
     @Override
     public int getItemCount() {
         return friends != null ? friends.size() : 0;
