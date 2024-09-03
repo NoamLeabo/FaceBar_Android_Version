@@ -41,17 +41,19 @@ public class ProfilePageActivity extends AppCompatActivity {
     public static final int ADD_POST_BITMAP = 222;
     public static final int ADD_POST_URI = 333;
     public static final int ADD_POST_TEXT = 444;
+    private final UsersAPI usersAPI = new UsersAPI();
+    ImageButton friendsBtn;
     private PostViewModel viewModel;
     private SwipeRefreshLayout refreshLayout;
-    public Context getContext() {
-        return this;
-    }
     private ActiveUser activeUser = ActiveUser.getInstance();
     private ProfileUser profileUser;
     private TextView private_msg;
     private boolean me;
-    ImageButton friendsBtn;
-    private UsersAPI usersAPI = new UsersAPI();
+
+    public Context getContext() {
+        return this;
+    }
+
     private void initializeViews() {
 
         // we get the RecyclerView
@@ -62,9 +64,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         textView.append(profileUser.getUsername());
         ImageView profileImg = findViewById(R.id.profile_img);
 
-        byte[] bytes= android.util.Base64.decode(profileUser.getProfileImage(), android.util.Base64.DEFAULT);
+        byte[] bytes = android.util.Base64.decode(profileUser.getProfileImage(), android.util.Base64.DEFAULT);
         // Initialize bitmap
-        Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         // set bitmap on imageView
         profileImg.setImageBitmap(bitmap);
 
@@ -103,14 +105,15 @@ public class ProfilePageActivity extends AppCompatActivity {
                 refreshLayout.setVisibility(View.VISIBLE);
                 friendsBtn.setOnClickListener(v -> {
                     Intent i = new Intent(this, FriendsReqActivity.class);
-                    i.putExtra("friend","friend");
+                    i.putExtra("friend", "friend");
                     startActivityForResult(i, ADD_POST_TEXT_ONLY);
                 });
             } else {
                 if (FeedActivity.NIGHT_MODE == 0)
                     friendsBtn.setImageResource(R.drawable.add_friend_sign);
                 else
-                    friendsBtn.setImageResource(R.drawable.add_friend_sign_b);                friendsBtn.setOnClickListener(v -> {
+                    friendsBtn.setImageResource(R.drawable.add_friend_sign_b);
+                friendsBtn.setOnClickListener(v -> {
                     //send friends req
                     usersAPI.pendingFriend(activeUser.getUsername(), profileUser.getUsername(), new UsersAPI.AddUserCallback() {
                         @Override
@@ -163,6 +166,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         }
 //        viewModel.reloadUserPost();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,6 +185,7 @@ public class ProfilePageActivity extends AppCompatActivity {
 //        viewModel.reloadUserPost();
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -192,48 +197,49 @@ public class ProfilePageActivity extends AppCompatActivity {
                 Post commentsChanged = viewModel.getPosts().getValue().get(position);
                 commentsChanged.setCommentsInt(newIds);
                 viewModel.edit(commentsChanged);
-//                adapter.updatePosts();
             }
-        } else if (resultCode == ADD_POST_BITMAP) {
-            // Check if data contains the content and the bitmap
+        }
+        // we returned to the feed screen after adding a post with an image save in Bitmap format
+        else if (resultCode == ADD_POST_BITMAP) {
+            // check if data contains the content and the bitmap
             if (data != null && data.hasExtra("content") && data.hasExtra("newPic")) {
-                // Retrieve the content and the bitmap
+                // retrieve the content and the bitmap
                 String content = data.getStringExtra("content");
                 Bitmap bitmap = data.getParcelableExtra("newPic");
-
+                // saves the image as a BitmapDrawable
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
-                ByteArrayOutputStream stream=new ByteArrayOutputStream();
-
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-                byte[] bytes=stream.toByteArray();
+                // converting the image to Base64
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bytes = stream.toByteArray();
                 String base = Base64.getEncoder().encodeToString(bytes);
 
-                // Create a new Post object
+                // create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
+                // if this is an edited post we its date and then update the post in the DB
                 if (data.getStringExtra("edit") != null) {
                     String _id = data.getStringExtra("edit");
                     post.set_id(_id);
                     post.setPublished(FeedActivity.getCurrentTime() + " edited");
                     updatePostInDB(post);
                 }
+                // we add the post to the DB
                 else
-                    addPostToDB(post);//                adapter.updatePosts();
-                // Use the content and the bitmap as needed
-                // For example, display the content in a TextView
-                // and set the bitmap to an ImageView
+                    addPostToDB(post);
             }
-        } else if (resultCode == ADD_POST_URI) {
-            // Check if data contains the content and the bitmap
+        }
+        // we returned to the feed screen after adding a post with an image save in URI format
+        else if (resultCode == ADD_POST_URI) {
+            // check if data contains the content and the URI
             if (data != null && data.hasExtra("content") && data.hasExtra("newPic")) {
-                // Retrieve the content and the bitmap
+                // retrieve the content and the URI
                 String content = data.getStringExtra("content");
                 Uri uri = data.getParcelableExtra("newPic");
 
-
-                // Load the image from the URI into a Bitmap
+                // covert the image from the URI into a Bitmap
                 Bitmap bitmap = null;
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(uri);
@@ -243,50 +249,55 @@ public class ProfilePageActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                ByteArrayOutputStream stream=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-                byte[] bytes=stream.toByteArray();
+                // converting the image to Base64
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bytes = stream.toByteArray();
                 String base = Base64.getEncoder().encodeToString(bytes);
 
-                // Create a BitmapDrawable from the Bitmap
+                // create a BitmapDrawable from the Bitmap
                 BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 
-                // Create a new Post object
+                // create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, drawable, 0, this.getContext(), base);
                 post.setContainsPostPic(true);
                 post.setPublished(FeedActivity.getCurrentTime());
+                // if this is an edited post we its date and then update the post in the DB
                 if (data.getStringExtra("edit") != null) {
                     String _id = data.getStringExtra("edit");
                     post.set_id(_id);
                     post.setPublished(FeedActivity.getCurrentTime() + " edited");
                     updatePostInDB(post);
                 }
+                // we add the post to the DB
                 else
-                    addPostToDB(post);//                 // adapter.updatePosts();
-                // Use the content and the bitmap as needed
-                // For example, display the content in a TextView
-                // and set the bitmap to an ImageView
+                    addPostToDB(post);
             }
-        } else if (resultCode == ADD_POST_TEXT) {
+        }
+        // we returned to the feed screen after adding a post with text only
+        else if (resultCode == ADD_POST_TEXT) {
+            // check if data contains the content
             if (data != null && data.hasExtra("content")) {
-                // Retrieve the content and the bitmap
+                // retrieve the content
                 String content = data.getStringExtra("content");
 
+                // create a new Post object
                 Post post = new Post(activeUser.getUsername(), content, 0, this.getContext());
                 post.setPublished(FeedActivity.getCurrentTime());
+                // if this is an edited post we its date and then update the post in the DB
                 if (data.getStringExtra("edit") != null) {
                     String _id = data.getStringExtra("edit");
                     post.set_id(_id);
                     post.setPublished(FeedActivity.getCurrentTime() + " edited");
                     updatePostInDB(post);
                 }
+                // we add the post to the DB
                 else
-                    addPostToDB(post);// //                adapter.updatePosts();
-                // Use the content and the bitmap as needed
-                // For example, display the content in a TextView
-                // and set the bitmap to an ImageView
+                    addPostToDB(post);
             }
-        } else if (resultCode == 404) {
+        }
+        // user's information might has been changed - recreate the screen frame
+        else if (resultCode == 404) {
             activeUser = ActiveUser.getInstance();
             recreate();
         }
@@ -295,6 +306,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     public void addPostToDB(Post post) {
         new Thread(() -> viewModel.add(post)).start();
     }
+
     public void updatePostInDB(Post post) {
         new Thread(() -> viewModel.edit(post)).start();
     }

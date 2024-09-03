@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // we create an api variable (of Users type) so we could do actions with the server
         UsersAPI usersAPI = new UsersAPI();
 
-        // we determine with which theme to load the login screen
+        // determine with which theme to load the login screen
         if (FeedActivity.NIGHT_MODE == 0)
             setContentView(R.layout.activity_login);
         else
