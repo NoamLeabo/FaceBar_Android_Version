@@ -380,7 +380,7 @@ public class ProfilePageActivity extends AppCompatActivity {
      * Sends the result back to the previous activity.
      */
     private void sendResult() {
-        // we send the updated comments list back to the feed screen
+        // send the updated results back
         Intent resultIntent = new Intent();
         setResult(999, resultIntent);
     }

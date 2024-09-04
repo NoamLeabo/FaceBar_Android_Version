@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentsActivity extends AppCompatActivity {
+    int position;
     private ArrayList<Integer> comments;
     private CommentViewModel viewModel;
     private SwipeRefreshLayout refreshLayout;
-    private ArrayList<Integer> ids;
     //private CommentViewModel viewModel;
+    private ArrayList<Integer> ids;
 
-    int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,7 @@ public class CommentsActivity extends AppCompatActivity {
         // retrieve the comments passed from the previous activity
         this.comments = getIntent().getIntegerArrayListExtra("comments");
 
-        this.position = getIntent().getIntExtra("position",0);
+        this.position = getIntent().getIntExtra("position", 0);
 
         // initialize RecyclerView
         RecyclerView lstComments = findViewById(R.id.lstComments);
@@ -69,6 +69,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         // Set comments to the adapter
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -132,20 +132,20 @@ public class AddPostActivity extends AppCompatActivity {
         tvAuthor.setText(activeUser.getUsername());
 
         /* display active user profPic at the top of the post */
-        byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+        byte[] bytes = android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
         // Initialize bitmap
-        Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         // set bitmap on imageView
         profileImg.setImageBitmap(bitmap);
 
         // retrieving all necessary fields from xml
-        editText.setHint("What's on your mind " +activeUser.getUsername() +"?");
+        editText.setHint("What's on your mind " + activeUser.getUsername() + "?");
 
         // if we edit a post we wish to present the current post's image and content if those have been given as extras
         if (editMode && !base.equals("")) {
             bytes = android.util.Base64.decode(base, android.util.Base64.DEFAULT);
             // Initialize bitmap
-            this.bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            this.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             // set bitmap on imageView
             pic.setImageBitmap(this.bitmap);
             // indicating the post includes an image
@@ -163,7 +163,7 @@ public class AddPostActivity extends AppCompatActivity {
      *
      * @return the context of the activity
      */
-    private Context getContext(){
+    private Context getContext() {
         return this;
     }
 

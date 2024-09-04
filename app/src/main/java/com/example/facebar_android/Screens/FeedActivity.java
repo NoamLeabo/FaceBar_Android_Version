@@ -70,6 +70,23 @@ public class FeedActivity extends AppCompatActivity {
     private UsersAPI usersAPI;
 
     /**
+     * Returns the current time formatted as HH:mm, dd/MM.
+     *
+     * @return the current time as a string
+     */
+    public static String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        // get the current date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM", Locale.getDefault());
+        String date = dateFormat.format(calendar.getTime());
+
+        // construct the time string
+        return String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
+    }
+
+    /**
      * Returns the context of the activity.
      *
      * @return the context of the activity
@@ -237,9 +254,9 @@ public class FeedActivity extends AppCompatActivity {
         });
 
         // we set the active-user's profPic in its place at the top of the feed
-        byte[] bytes= android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
+        byte[] bytes = android.util.Base64.decode(activeUser.getProfileImage(), android.util.Base64.DEFAULT);
         // Initialize bitmap
-        Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         // set bitmap on imageView
         profileImg.setImageBitmap(bitmap);
 
@@ -278,23 +295,6 @@ public class FeedActivity extends AppCompatActivity {
             time = "Good evening";
         }
         return time + ", " + username + "!";
-    }
-
-    /**
-     * Returns the current time formatted as HH:mm, dd/MM.
-     *
-     * @return the current time as a string
-     */
-    public static String getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        // get the current date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM", Locale.getDefault());
-        String date = dateFormat.format(calendar.getTime());
-
-        // construct the time string
-        return String.format(Locale.getDefault(), "%02d:%02d, %s", hourOfDay, minute, date);
     }
 
     /**
