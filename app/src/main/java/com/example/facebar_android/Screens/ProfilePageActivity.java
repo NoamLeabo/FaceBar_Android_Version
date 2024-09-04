@@ -36,154 +36,197 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+/**
+ * Activity class for displaying the profile page.
+ * Handles the UI and interactions for the profile screen.
+ */
 public class ProfilePageActivity extends AppCompatActivity {
-    public static final int ADD_POST_TEXT_ONLY = 111;
+    // default code
+    public static final int DEF = 111;
+    // adding a post with image that is saved in Bitmap format
     public static final int ADD_POST_BITMAP = 222;
+    // adding a post with image that is saved in URI format
     public static final int ADD_POST_URI = 333;
+    // adding a post with text only
     public static final int ADD_POST_TEXT = 444;
+    // user-API variable
     private final UsersAPI usersAPI = new UsersAPI();
+    // user's friends list btn
     ImageButton friendsBtn;
+    // user's post list
     private PostViewModel viewModel;
+    // list layout
     private SwipeRefreshLayout refreshLayout;
+    // current active user
     private ActiveUser activeUser = ActiveUser.getInstance();
+    // current user's profile viewed
     private ProfileUser profileUser;
+    // string to present whether the profile is private and can be seen
     private TextView private_msg;
+    // whether the profile viewed the the active user's
     private boolean me;
 
+    /**
+     * Returns the context of the activity.
+     *
+     * @return the context of the activity
+     */
     public Context getContext() {
         return this;
     }
 
-    private void initializeViews() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        // we get the RecyclerView
+        // determine with which theme to load the feed screen
+        if (FeedActivity.NIGHT_MODE == 0)
+            setContentView(R.layout.activity_profile_page);
+        else
+            setContentView(R.layout.activity_profile_page_dark);
+
+        // set the active user and the user's profile that's being viewed
+        activeUser = ActiveUser.getInstance();
+        profileUser = ProfileUser.getInstance();
+
+        // check whether the active user views his own profile
+        me = profileUser.getUsername().equals(activeUser.getUsername());
+
+        // set the viewModel
+        viewModel = new PostViewModel(profileUser.getUsername());
+
+        // initiate UI
+        initializeViews();
+    }
+
+    /**
+     * Initializes the views and sets up the UI components.
+     */
+    private void initializeViews() {
+        // we set the RecyclerView for displaying  feed's post
         RecyclerView lstPosts = findViewById(R.id.lstPosts);
 
-        // we append the welcome msg
+        // we append the welcome msg and setting it at the main log
         TextView textView = findViewById(R.id.con_user);
         textView.append(profileUser.getUsername());
-        ImageView profileImg = findViewById(R.id.profile_img);
 
+        // we attach the main menu btns to vars
+        friendsBtn = findViewById(R.id.friends_btn);
+        private_msg = findViewById(R.id.private_msg);
+        refreshLayout = findViewById(R.id.refreshLayout);
+        ImageView profileImg = findViewById(R.id.profile_img);
+        Button add_post_btn = findViewById(R.id.add_post_btn);
+
+        // we set the active-user's profPic in its place at the top of the feed
         byte[] bytes = android.util.Base64.decode(profileUser.getProfileImage(), android.util.Base64.DEFAULT);
         // Initialize bitmap
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         // set bitmap on imageView
         profileImg.setImageBitmap(bitmap);
 
-        //profileImg.setImageResource(activeUser.getProfileImage());
-        friendsBtn = findViewById(R.id.friends_btn);
-        private_msg = findViewById(R.id.private_msg);
-        refreshLayout = findViewById(R.id.refreshLayout);
-
-
+        // in case of self-view of the profile
         if (me) {
+            // we allow full view of the profile
             private_msg.setVisibility(View.GONE);
+            // display user's posts
             refreshLayout.setVisibility(View.VISIBLE);
+            // activation of friends btn - to see the user's friends
             friendsBtn.setOnClickListener(v -> {
                 ProfileUser.updateInstance(this.profileUser);
                 Intent i = new Intent(this, FriendsReqActivity.class);
-                startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                startActivityForResult(i, DEF);
             });
-        } else {
-            //pending friend
+        }
+        // in case the viewed user is not friend of active user
+        else {
+            // in case the viewed user is not friend of active user but the latter has already sent a friends req
             if (profileUser.getPending().contains(activeUser.getUsername())) {
-                if (FeedActivity.NIGHT_MODE == 0)
+                // since the active user's request is pending we do not allow sending more requests
+                if (FeedActivity.NIGHT_MODE == 0) {
                     friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
-                else
-                    friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed_dark);
-
-                if (FeedActivity.NIGHT_MODE == 0)
                     friendsBtn.setImageResource(R.drawable.add_friend_sign);
-                else
+                } else {
+                    friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed_dark);
                     friendsBtn.setImageResource(R.drawable.add_friend_sign_b);
-
+                }
+                // sending requests btn is off
                 friendsBtn.setClickable(false);
             }
-            // is friend of
+            // in case the viewed user is friend of active user
             else if (profileUser.getFriends().contains(activeUser.getUsername())) {
+                // we allow full view of the profile
                 private_msg.setVisibility(View.GONE);
+                // display user's posts
                 refreshLayout.setVisibility(View.VISIBLE);
+                // activation of friends btn - to see the user's friends
                 friendsBtn.setOnClickListener(v -> {
                     Intent i = new Intent(this, FriendsReqActivity.class);
                     i.putExtra("friend", "friend");
-                    startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                    startActivityForResult(i, DEF);
                 });
-            } else {
+            }
+            // in case the viewed user is not friend of active user and the latter yet has not sent a friends req
+            else {
+                // we turn on the btn ti send a friends request
                 if (FeedActivity.NIGHT_MODE == 0)
                     friendsBtn.setImageResource(R.drawable.add_friend_sign);
                 else
                     friendsBtn.setImageResource(R.drawable.add_friend_sign_b);
+
+                // when the btn is pressed a friends req is sent
                 friendsBtn.setOnClickListener(v -> {
-                    //send friends req
+                    // a request from the server to add the active user to the pending list of the viewed user
                     usersAPI.pendingFriend(activeUser.getUsername(), profileUser.getUsername(), new UsersAPI.AddUserCallback() {
                         @Override
                         public void onSuccess() {
+                            // we shall now turn off the btn since it is not possible to send more than one request
                             if (FeedActivity.NIGHT_MODE == 0)
                                 friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed);
                             else
                                 friendsBtn.setBackgroundResource(R.drawable.rec_button_pressed_dark);
-
-                            if (friendsBtn.isClickable())
-                                Toast.makeText(MyApplication.context, "Friend request was sent!", Toast.LENGTH_SHORT).show();
                             friendsBtn.setClickable(false);
 
+                            // we display that the request has been sent
+                            if (friendsBtn.isClickable())
+                                Toast.makeText(MyApplication.context, "Friend request was sent!", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onError(String message) {
+                            // handle error with the server req
                             Toast.makeText(MyApplication.context, "Friend request was not sent!", Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 });
             }
         }
 
+        // on refresh action we set a post refresh
         refreshLayout.setOnRefreshListener(() -> viewModel.reloadUserPost());
 
-        // we create a new adapter for the RecyclerView
+        /* we shall create an adapter for the RecyclerView in order to display to posts */
+
         final PostsListAdapter adapter = new PostsListAdapter(this, viewModel);
+        // we set this adapter as the feed-post-list's adapter
         lstPosts.setAdapter(adapter);
         lstPosts.setLayoutManager(new LinearLayoutManager(this));
 
-//        adapter.setPosts(viewModel.getUserPosts(profileUser.getUsername()).getValue());
-
+        // set the auto update of the post in the feed
         viewModel.getPosts().observe(this, posts -> {
             adapter.setPosts(posts);
             adapter.updatePosts();
             refreshLayout.setRefreshing(false);
         });
 
-        Button add_post_btn = findViewById(R.id.add_post_btn);
-
+        // in case of self-view of the profile we add a btn for the user to add post from his profile page
         if (!me) {
             add_post_btn.setVisibility(View.GONE);
         } else {
             add_post_btn.setOnClickListener(v -> {
                 Intent i = new Intent(this, AddPostActivity.class);
-                startActivityForResult(i, ADD_POST_TEXT_ONLY);
+                startActivityForResult(i, DEF);
             });
         }
-//        viewModel.reloadUserPost();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (FeedActivity.NIGHT_MODE == 0)
-            setContentView(R.layout.activity_profile_page);
-        else
-            setContentView(R.layout.activity_profile_page_dark);
-
-        activeUser = ActiveUser.getInstance();
-        profileUser = ProfileUser.getInstance();
-        me = profileUser.getUsername().equals(activeUser.getUsername());
-
-        viewModel = new PostViewModel(profileUser.getUsername());
-
-        initializeViews();
-//        viewModel.reloadUserPost();
-
     }
 
     @Override
@@ -303,10 +346,20 @@ public class ProfilePageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adds a post to the database.
+     *
+     * @param post the post to add
+     */
     public void addPostToDB(Post post) {
         new Thread(() -> viewModel.add(post)).start();
     }
 
+    /**
+     * Updates a post in the database.
+     *
+     * @param post the post to update
+     */
     public void updatePostInDB(Post post) {
         new Thread(() -> viewModel.edit(post)).start();
     }
@@ -323,6 +376,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         super.finish();
     }
 
+    /**
+     * Sends the result back to the previous activity.
+     */
     private void sendResult() {
         // we send the updated comments list back to the feed screen
         Intent resultIntent = new Intent();

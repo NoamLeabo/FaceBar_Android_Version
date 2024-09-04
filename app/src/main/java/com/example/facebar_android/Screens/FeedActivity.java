@@ -88,15 +88,19 @@ public class FeedActivity extends AppCompatActivity {
         else
             setContentView(R.layout.scrolled_feed_dark);
         usersAPI = new UsersAPI();
-        //loadFromJson();
+
+        // set the viewModel
         viewModel = new PostViewModel("");
 
+        // set the auto update of the post in the feed
         viewModel.getPosts().observe(this, posts -> {
             adapter.setPosts(posts);
             adapter.updatePosts();
             refreshLayout.setRefreshing(false);
             System.out.println("onChanged\n");
         });
+
+        // initiate UI
         initializeViews();
     }
 
