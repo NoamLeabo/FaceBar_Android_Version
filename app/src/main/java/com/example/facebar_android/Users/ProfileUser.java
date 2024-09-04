@@ -3,6 +3,7 @@ package com.example.facebar_android.Users;
 import java.util.ArrayList;
 
 public class ProfileUser {
+    private static ProfileUser instance;
     private String fName;
     private String lName;
     private String username;
@@ -12,12 +13,18 @@ public class ProfileUser {
     private ArrayList<Integer> likedPosts = new ArrayList<>();
     private ArrayList<String> friends = new ArrayList<>();
     private ArrayList<String> pending = new ArrayList<>();
-
     private ArrayList<String> req = new ArrayList<>();
-    private static ProfileUser instance;
+
+    public ProfileUser(String username, String password, String profileImage) {
+        this.username = username;
+        this.password = password;
+        this.profileImg = profileImage;
+    }
+
     public static void updateInstance(ProfileUser user) {
         instance = user;
     }
+
     public static ProfileUser getInstance() {
         if (instance == null) {
             // You may throw an IllegalStateException here or return null depending on your requirement
@@ -25,11 +32,7 @@ public class ProfileUser {
         }
         return instance;
     }
-    public ProfileUser(String username, String password, String profileImage) {
-        this.username = username;
-        this.password = password;
-        this.profileImg = profileImage;
-    }
+
     public String getfName() {
         return fName;
     }

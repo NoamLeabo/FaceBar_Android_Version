@@ -47,14 +47,6 @@ public class Post {
     private String pathPostPic;
     private boolean containsPostPic;
 
-    public String getProfilePic() {
-        return profilePic;
-    }
-
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
-    }
-
     // constructor from json
     public Post(String author, String content, String path, int likes, String pathPostPic) {
         this.author = author;
@@ -85,6 +77,14 @@ public class Post {
         this.comments = new ArrayList<>();
     }
 
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
     public String getPathPostPic() {
         return this.pathPostPic;
     }
@@ -109,17 +109,12 @@ public class Post {
         this.liked = !liked;
     }
 
-    public void setPublished(String published) {
-        this.published = published;
-    }
-
     public String getPublished() {
         return this.published;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-        this.numOfComments = comments.size();
+    public void setPublished(String published) {
+        this.published = published;
     }
 
     public Drawable getProfPic() {
@@ -149,6 +144,11 @@ public class Post {
 
     public ArrayList<Comment> getComments() {
         return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+        this.numOfComments = comments.size();
     }
 
     public int getNumOfComments() {
@@ -195,9 +195,11 @@ public class Post {
     public void setCommentsInt(List<Integer> commentsInt) {
         this.commentsInt = commentsInt;
     }
+
     public int getNumOfCommentsInt() {
         return commentsInt.size();
     }
+
     public String getImageView() {
         return imageView;
     }
